@@ -7,6 +7,7 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
+    overflow: hidden; /* Prevents scrolling on small screens */
 }
 
 .login-container {
@@ -25,23 +26,27 @@ body {
     max-width: 400px;
 }
 
+/* Title styling */
 h1 {
     margin-bottom: 24px;
     text-align: center;
     color: #333;
 }
 
+/* Input field group */
 .input-group {
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
 }
 
+/* Labels */
 .input-group label {
     margin-bottom: 6px;
     color: #555;
 }
 
+/* Input fields */
 .input-group input {
     padding: 10px;
     border: 1px solid #ccc;
@@ -49,6 +54,7 @@ h1 {
     font-size: 1rem;
 }
 
+/* Login button */
 .login-btn {
     width: 100%;
     padding: 12px;
@@ -65,6 +71,7 @@ h1 {
     background-color: #0056b3;
 }
 
+/* Signup redirect link */
 .signup-redirect {
     text-align: center;
     margin-top: 15px;
@@ -80,11 +87,12 @@ h1 {
     text-decoration: underline;
 }
 
-/* Style for the password input container */
+/* Password input container */
 .password-container {
     position: relative;
 }
 
+/* Adjust password input */
 .password-container input {
     width: 100%;
     max-width: 350px;
@@ -94,7 +102,7 @@ h1 {
     font-size: 1rem;
 }
 
-/* Icon size and position fix */
+/* Icon styling for password visibility */
 .password-container i {
     position: absolute;
     top: 65%;
@@ -102,10 +110,97 @@ h1 {
     transform: translateY(-50%);
     cursor: pointer;
     color: #3553cd;
-    font-size: 0.9rem; /* Slightly larger icon */
+    font-size: 0.9rem;
 }
 
-/* Fix the spacing issue for password container */
+/* Adjust password input to fit the icon */
 .password-container input {
     padding-right: 35px; /* Space for the eye icon */
+}
+
+/* Snackbar container */
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+/* Show snackbar */
+#snackbar.show {
+    visibility: visible;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Snackbar fade-in and fade-out animation */
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadeout {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+/* Success and error styles for snackbar */
+#snackbar.success {
+    background-color: #4CAF50;
+}
+
+#snackbar.error {
+    background-color: #f44336;
+}
+
+/* Responsive breakpoints */
+
+/* For devices smaller than 768px (tablets, larger phones) */
+@media (max-width: 768px) {
+    .login-box {
+        padding: 20px;
+        max-width: 90%; /* Make the login box take 90% of the screen width */
+    }
+
+    .input-group input {
+        font-size: 0.9rem;
+    }
+
+    .login-btn {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}
+
+/* For devices smaller than 480px (small phones) */
+@media (max-width: 480px) {
+    .login-box {
+        padding: 15px;
+        max-width: 90%; /* Take 90% width */
+    }
+
+    .input-group input {
+        font-size: 0.8rem;
+    }
+
+    .login-btn {
+        font-size: 0.8rem;
+        padding: 8px;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    .signup-redirect {
+        font-size: 12px;
+    }
 }

@@ -1,0 +1,173 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: url('../images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding: 2rem;
+  }
+  
+  
+  .form-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 900px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 80px; /* Add this line to create space between the navbar and the form */
+  }
+  
+  h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #111827;
+  }
+  
+  label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  input[type="file"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 0.4rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: #1f2937;
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .input-row {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .input-row input,
+  .input-row select {
+    flex: 1;
+  }
+  
+  /* General Button Styling */
+  button {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #1d4ed8;
+  }
+  
+  /* Submit and Edit buttons side-by-side */
+  .button-row {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  /* Navbar Styling */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .logo-img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  /* Navigation Icon Buttons */
+  .nav-icon-btn {
+    background: none;
+    color: #111827;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+  }
+  
+  .nav-icon-btn:hover {
+    background-color: #e5e7eb;
+    border-radius: 0.4rem;
+  }
+  
+  /* Ensure Back Button is Visible */
+  .back-button {
+    display: block; /* Ensure it's a block element if it's a button */
+    position: relative; /* Ensure it's in the correct place */
+    margin-top: 20px; /* Add some space if necessary */
+    z-index: 999; /* Ensure it doesn't get hidden by other elements */
+  }
+  /* Illustration Section at the Bottom of Form */
+  .illustration-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 2rem;
+    position: relative;
+  }
+    
+  .left-img {
+    position: absolute;
+    bottom: 50;
+    left: -600px; /* Adjust as needed */
+  }
+  
+  .right-img {
+    position: absolute;
+    bottom: -40px;
+    right: -389px; /* Adjust as needed */
+  }
+  
+  .illustration-img {
+    width: 220px;
+    height: auto;
+    object-fit: contain;
+  }
+  
