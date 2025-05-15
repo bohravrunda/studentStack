@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>StudentStack</title>
   <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
 </head>
 <body>
 
@@ -21,6 +23,26 @@
       <div class="menu-icon">&#9776;</div>
     </div>
   </nav>
+
+  <!-- Sidebar Menu -->
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <img src="../images/avatar.jpg" alt="Avatar" class="avatar" />
+    <h3>John Doe</h3>
+  </div>
+  <ul class="sidebar-menu">
+    <li><i class="fas fa-user"></i> Profile</li>
+    <li><i class="fas fa-eye"></i> View Services</li>
+    <li><i class="fas fa-plus-circle"></i> Create Service</li>
+    <li><i class="fas fa-briefcase"></i> My Services</li>
+    <li><i class="fas fa-book"></i> My Bookings</li>
+    <li><i class="fas fa-sign-out-alt"></i> Logout</li>
+  </ul>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" class="overlay"></div>
+
 
   <!-- image Section -->
   <div class="image">
@@ -39,7 +61,7 @@
     <div class="service-box">
       <h3>View Services</h3>
       <p>Explore a variety of services offered by others.</p>
-      <button>View</button>
+      <button id="view-btn">View</button>
     </div>
   </div>
 
@@ -62,6 +84,27 @@
     createServiceBtn.addEventListener('click', () => {
       window.location.href = 'createService.html';
     });
+
+    const viewBtn = document.getElementById('view-btn');
+    viewBtn.addEventListener('click', () => {
+      window.location.href = 'view.html';
+    });
+    const menuIcon = document.querySelector('.menu-icon');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+
+// Open sidebar
+menuIcon.addEventListener('click', () => {
+  sidebar.classList.add('open');
+  overlay.classList.add('show');
+});
+
+// Close on outside click
+overlay.addEventListener('click', () => {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('show');
+});
+
   </script>
 
 </body>

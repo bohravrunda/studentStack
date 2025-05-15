@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Services - StudentStack</title>
+  <link rel="stylesheet" href="../styles/style.css">
+  <script defer src="../scripts/viewServices.js"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">
+      <img src="../images/logo.jpg" class="logo-img">
+      <span>StudentStack</span>
+    </div>
+
+    <div class="nav-buttons">
+      <button id="login-btn" style="font-weight: bold">Login</button>
+      <button id="signup-btn" class="signup-btn" style="font-weight: bold">Sign Up</button>
+      <div class="menu-icon" id="menu-icon">&#9776;</div>
+    </div>
+  </nav>
+
+  <!-- Sidebar (Slider) -->
+  <div class="overlay" id="overlay"></div>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="../images/default-avatar.png" class="avatar" id="user-avatar" alt="User Avatar">
+      <strong id="user-name">Guest User</strong>
+    </div>
+    <ul class="sidebar-menu">
+      <li><i class="fas fa-user"></i> Profile</li>
+      <li><i class="fas fa-eye"></i> View Services</li>
+      <li><i class="fas fa-plus-circle"></i> Create Service</li>
+      <li><i class="fas fa-folder"></i> My Services</li>
+      <li><i class="fas fa-calendar-check"></i> My Bookings</li>
+      <li><i class="fas fa-sign-out-alt"></i> Logout</li>
+    </ul>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-bar" style="text-align: center; margin: 2rem auto;">
+    <input type="text" id="search-input" placeholder="Search services..." style="padding: 10px; width: 80%; max-width: 500px; border: 1px solid #ccc; border-radius: 6px;">
+  </div>
+
+  <!-- Services Grid -->
+  <div id="services-list" class="services-grid"></div>
+
+  <!-- JavaScript to load services dynamically -->
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/services');
+        const services = await response.json();
+
+        const servicesContainer = document.getElementById('services-list');
+        servicesContainer.innerHTML = '';
+
+        services.forEach(service => {
+          const serviceCard = document.createElement('div');
+          serviceCard.classList.add('service-card');
+
+          serviceCard.innerHTML = `
+            <h3>${service.title}</h3>
+            <p>${service.description}</p>
+            <span class="badge">${service.category}</span>
+          `;
+          servicesContainer.appendChild(serviceCard);
+        });
+      } catch (error) {
+        console.error('Error loading services:', error);
+      }
+
+      // Menu icon toggle
+      document.getElementById('menu-icon').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('show');
+      });
+
+      document.getElementById('overlay').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+      });
+    });
+  </script>
+
+  <!-- Font Awesome for icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -8,118 +8,117 @@
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav>
-    <div class="logo">
-      <img src="../images/logo.jpg" class="logo-img">
-      <span>StudentStack</span>
+  <div class="background-image">
+    <!-- Navbar -->
+    <nav>
+      <div class="logo">
+        <span class="back-arrow" id="back-btn">&#8592;</span>
+        <img src="../images/logo.jpg" class="logo-img" />
+        <span>StudentStack</span>
+      </div>
+      <!-- Removed second back arrow button -->
+    </nav>
+
+    <!-- Form -->
+    <div class="form-container">
+  <h2>Create Service</h2>
+
+  <form id="service-form">
+    <label class="required">User Name</label>
+    <input type="text" id="username" placeholder="Enter your name" required />
+
+    <label class="required">Service Name</label>
+    <input type="text" id="serviceName" placeholder="Service Description" required />
+
+    <label class="required">Category (Type of Service)</label>
+    <select id="category" required>
+      <option>Select category</option>
+      <option>Education</option>
+      <option>Health</option>
+      <option>Extracurricular</option>
+    </select>
+
+    <label class="required">Provider Info</label>
+    <div class="input-row">
+      <input type="text" id="providerName" placeholder="Name" required />
+      <input type="email" id="providerEmail" placeholder="Email" required />
     </div>
-    <div class="nav-buttons">
-      <button id="back-btn" class="nav-icon-btn">&#8592;</button>
+
+    <input type="text" id="location" placeholder="Location" required />
+
+    <label class="required">Availability</label>
+    <div class="input-row">
+      <input type="date" id="fromDate" required />
+      <input type="date" id="toDate" required />
     </div>
-  </nav>
 
-  <!-- Form -->
-  <div class="form-container">
-    <h2>Create Service</h2>
+    <input type="text" id="days" placeholder="Available Days (e.g, Mon-Fri)" required />
 
-    <form id="service-form">
-      <label>User Name</label>
-      <input type="text" id="username" placeholder="Enter your name" required />
+    <label class="required">Cost</label>
+    <div class="input-row">
+      <input type="text" id="price" placeholder="Price" required />
+    </div>
 
-      <label>Service Name</label>
-      <input type="text" id="serviceName" placeholder="Service Description" required />
+    <label class="required">Payment Methods</label>
+    <div class="input-row">
+      <label><input type="checkbox" name="paymentMethod" value="UPI" required /> UPI</label>
+      <label><input type="checkbox" name="paymentMethod" value="Bank Transfer" /> Bank Transfer</label>
+      <label><input type="checkbox" name="paymentMethod" value="Cash" /> Cash</label>
+      <label><input type="checkbox" name="paymentMethod" value="Credit Card" /> Credit Card</label>
+    </div>
 
-      <label>Category (Type of Service)</label>
-      <select id="category" required>
-        <option>Select category</option>
-        <option>Education</option>
-        <option>Health</option>
-        <option>Extracurricular</option>
-      </select>
+    <label class="required">Level</label>
+    <select id="level" required>
+      <option>Select Level</option>
+      <option>Beginner</option>
+      <option>Intermediate</option>
+      <option>Advanced</option>
+    </select>
 
-      <label>Provider Info</label>
-      <div class="input-row">
-        <input type="text" id="providerName" placeholder="Name" required />
-        <input type="email" id="providerEmail" placeholder="Email" required />
-      </div>
-      <input type="text" id="location" placeholder="Location" required />
+    <label class="required">Language</label>
+    <input type="text" id="language" placeholder="e.g., English, Hindi" required />
 
-      <label>Availability</label>
-      <div class="input-row">
-        <input type="date" id="fromDate" required />
-        <input type="date" id="toDate" required />
-      </div>
-      <input type="text" id="days" placeholder="Available Days (e.g, Mon-Fri)" required />
+    <label class="required">Proof / Portfolio Upload</label>
+    <input type="file" id="portfolio" name="proof[]" multiple />
+        <label>Additional Notes</label>
+        <textarea id="notes" placeholder="Any additional details…"></textarea>
 
-      <label>Cost</label>
-      <div class="input-row">
-        <input type="text" id="price" placeholder="Price" required />
-        <select id="paymentMethod" required>
-          <option>Select Payment Method</option>
-          <option>UPI</option>
-          <option>Bank Transfer</option>
-          <option>Cash</option>
-        </select>
-      </div>
-
-      <label>Level</label>
-      <select id="level" required>
-        <option>Select Level</option>
-        <option>Beginner</option>
-        <option>Intermediate</option>
-        <option>Advanced</option>
-      </select>
-
-      <label>Language</label>
-      <input type="text" id="language" placeholder="e.g., English, Hindi" required />
-
-      <label>Proof / Portfolio Upload</label>
-      <input type="file" id="portfolio" multiple />
-
-      <label>Additional Notes</label>
-      <textarea id="notes" placeholder="Any additional details…"></textarea>
-
-      <!-- Buttons -->
-      <div class="button-row">
-        <button type="submit">Submit</button>
-        <button type="button" id="edit-btn">✏ Edit</button>
-      </div>
-
-      <!-- Get Services Button -->
-      <div class="button-row">
-        <button type="button" id="fetch-btn">📋 Get My Services</button>
-      </div>
-
-      <!-- Service Results Table -->
-      <div id="service-results" style="margin-top: 2rem;"></div>
-
-      <!-- Illustrations -->
-      <div class="illustration-row">
-        <img src="../images/st1e.png" alt="Left Illustration" class="illustration-img left-img">
-        <img src="../images/st2.png" alt="Right Illustration" class="illustration-img right-img">
-      </div>
-    </form>
+        <!-- Buttons -->
+        <div class="button-row">
+          <button type="submit">Submit</button>
+          <button type="button" id="edit-btn">✏ Edit</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <!-- JavaScript -->
   <script>
-    // Back button
+    // Back button behavior
     document.getElementById('back-btn').addEventListener('click', () => {
       window.history.back();
     });
 
-    // Edit button
+    // Edit button alert
     document.getElementById('edit-btn').addEventListener('click', () => {
       alert("Edit mode enabled! You can now change your details.");
     });
 
-    // Submit handler
+    // Form submission logic
     document.getElementById('service-form').addEventListener('submit', async function (e) {
       e.preventDefault();
 
-      const formData = new FormData();
+      const userResponse = await fetch("http://localhost:5000/get_user", {
+        method: "GET",
+        credentials: "include"
+      });
 
+      if (!userResponse.ok) {
+        alert("❌ Please log in before submitting the service.");
+        return;
+      }
+
+      const formData = new FormData();
       formData.append("username", document.getElementById('username').value);
       formData.append("service_name", document.getElementById('serviceName').value);
       formData.append("category", document.getElementById('category').value);
@@ -137,7 +136,13 @@
       });
 
       formData.append("price", document.getElementById('price').value);
-      formData.append("payment_method", document.getElementById('paymentMethod').value);
+
+      // Get selected payment methods
+      const selectedPayments = document.querySelectorAll('input[name="paymentMethod"]:checked');
+      selectedPayments.forEach(method => {
+        formData.append("payment_method[]", method.value);
+      });
+
       formData.append("level", document.getElementById('level').value);
 
       const languages = document.getElementById('language').value.split(/[, ]+/);
@@ -151,7 +156,7 @@
 
       const fileInput = document.getElementById('portfolio');
       for (let i = 0; i < fileInput.files.length; i++) {
-        formData.append("proof", fileInput.files[i]);
+        formData.append("proof[]", fileInput.files[i]);
       }
 
       try {
@@ -172,64 +177,6 @@
       } catch (err) {
         console.error("Error submitting service:", err);
         alert("⚠ Something went wrong while submitting.");
-      }
-    });
-
-    // Fetch services handler
-    document.getElementById("fetch-btn").addEventListener("click", async function () {
-      try {
-        const response = await fetch("http://localhost:5000/get-services", {
-          method: "GET",
-          credentials: "include"
-        });
-
-        const resultsContainer = document.getElementById("service-results");
-        resultsContainer.innerHTML = ""; // Clear previous results
-
-        if (response.ok) {
-          const services = await response.json();
-
-          if (services.length === 0) {
-            resultsContainer.innerHTML = "<p>No services found.</p>";
-            return;
-          }
-
-          const table = document.createElement("table");
-          table.border = "1";
-          table.style.borderCollapse = "collapse";
-          table.style.width = "100%";
-          table.innerHTML = `
-            <thead>
-              <tr>
-                <th>Service Name</th>
-                <th>Category</th>
-                <th>Level</th>
-                <th>Price</th>
-                <th>Languages</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${services.map(service => `
-                <tr>
-                  <td>${service.service_name}</td>
-                  <td>${service.category}</td>
-                  <td>${service.level}</td>
-                  <td>${service.cost?.price || 'N/A'}</td>
-                  <td>${(service.language || []).join(", ")}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          `;
-
-          resultsContainer.appendChild(table);
-
-        } else {
-          const error = await response.json();
-          resultsContainer.innerHTML = `<p style="color:red;">❌ ${error.message}</p>`;
-        }
-      } catch (err) {
-        console.error("Error fetching services:", err);
-        document.getElementById("service-results").innerHTML = `<p style="color:red;">⚠ Failed to load services.</p>`;
       }
     });
   </script>
