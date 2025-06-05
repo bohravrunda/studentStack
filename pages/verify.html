@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Email Verification</title>
+  <style>
+    body { font-family: Arial; text-align:center; margin-top:100px; }
+    #login-btn { margin-top: 20px; padding: 10px 20px; font-size:16px; cursor:pointer; display:none;}
+  </style>
+</head>
+<body>
+  <h1 id="status">Verifying your email...</h1>
+  <button id="login-btn" onclick="location.href='login.html'">Go to Login</button>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    if (!token) {
+      document.getElementById('status').innerText = 'No verification token provided.';
+    } else {
+      fetch(`http://localhost:5000/verify-email?token=${token}`)
+
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('status').innerText = data.message || data.error;
+          if (data.message && data.message.toLowerCase().includes('success')) {
+            document.getElementById('login-btn').style.display = 'inline-block';
+          }
+        })
+        .catch(() => {
+          document.getElementById('status').innerText = 'Verification failed, please try again.';
+        });
+    }
+  </script>
+</body>
+</html>
