@@ -1,8 +1,8 @@
+
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: url('../images/back.jpg') no-repeat center center fixed;
-  background-color: rgba(255, 255, 255, 0.8);
+  background: linear-gradient(to right, #e0f0ff, #fff8ee);  background-color: rgba(255, 255, 255, 0.8);
   background-size: cover;
   display: flex;
   justify-content: center;
