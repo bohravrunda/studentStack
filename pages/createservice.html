@@ -4,62 +4,68 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Create Service</title>
-  <link rel="stylesheet" href="../styles/createService.css"/>
+  <link rel="stylesheet" href="../styles/createservice.css"/>
 </head>
 <body>
 
-  <div class="background-image">
-    <!-- Navbar -->
-    <nav>
-      <div class="logo">
-        <span class="back-arrow" id="back-btn">&#8592;</span>
-        <img src="../images/logo.jpg" class="logo-img" />
-        <span>StudentStack</span>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">
+      <img src="../images/logo.jpg" class="logo-img">
+      <span>StudentStack</span>
+    </div>
+    <div class="nav-buttons">
+      <button id="back-btn" class="nav-icon-btn">&#8592;</button>
+    </div>
+  </nav>
+
+  <!-- Form -->
+   <style>
+  .required-star {
+    color: red;
+    font-weight: bold;
+    margin-left: 4px;
+  }
+</style>
+
+  <div class="form-container">
+    <h2>Create Service</h2>
+
+    <form id="service-form">
+      <label>User Name<span class="required-star">*</span></label>
+      <input type="text" id="username" placeholder="Enter your name" required />
+
+      <label>Service Name <span class="required-star">*</span></label>
+      <input type="text" id="serviceName" placeholder="Service Description" required />
+
+      <label>Category (Type of Service) <span class="required-star">*</span></label>
+      <select id="category" required>
+        <option value="" disabled selected>Select category</option>
+        <option>Education</option>
+        <option>Health</option>
+        <option>Extracurricular</option>
+      </select>
+
+      <label>Provider Info <span class="required-star">*</span></label>
+      <div class="input-row">
+        <input type="text" id="providerName" placeholder="Name" required />
+        <input type="email" id="providerEmail" placeholder="Email" required />
       </div>
-      <!-- Removed second back arrow button -->
-    </nav>
+      <input type="text" id="location" placeholder="Location" required />
 
-    <!-- Form -->
-    <div class="form-container">
-  <h2>Create Service</h2>
+      <label>Availability<span class="required-star">*</span></label>
+      <div class="input-row">
+        <input type="date" id="fromDate" required />
+        <input type="date" id="toDate" required />
+      </div>
+      <input type="text" id="days" placeholder="Available Days (e.g, Mon-Fri)" required />
 
-  <form id="service-form">
-    <label class="required">User Name</label>
-    <input type="text" id="username" placeholder="Enter your name" required />
-
-    <label class="required">Service Name</label>
-    <input type="text" id="serviceName" placeholder="Service Description" required />
-
-    <label class="required">Category (Type of Service)</label>
-    <select id="category" required>
-      <option>Select category</option>
-      <option>Education</option>
-      <option>Health</option>
-      <option>Extracurricular</option>
-    </select>
-
-    <label class="required">Provider Info</label>
-    <div class="input-row">
-      <input type="text" id="providerName" placeholder="Name" required />
-      <input type="email" id="providerEmail" placeholder="Email" required />
-    </div>
-
-    <input type="text" id="location" placeholder="Location" required />
-
-    <label class="required">Availability</label>
-    <div class="input-row">
-      <input type="date" id="fromDate" required />
-      <input type="date" id="toDate" required />
-    </div>
-
-    <input type="text" id="days" placeholder="Available Days (e.g, Mon-Fri)" required />
-
-    <label class="required">Cost</label>
+    <label>Cost <span class="required-star">*</span></label>
     <div class="input-row">
       <input type="text" id="price" placeholder="Price" required />
     </div>
 
-    <label class="required">Payment Methods</label>
+           <label>Payment Methods <span class="required-star">*</span></label>
     <div class="input-row">
       <label><input type="checkbox" name="paymentMethod" value="UPI" required /> UPI</label>
       <label><input type="checkbox" name="paymentMethod" value="Bank Transfer" /> Bank Transfer</label>
@@ -67,58 +73,56 @@
       <label><input type="checkbox" name="paymentMethod" value="Credit Card" /> Credit Card</label>
     </div>
 
-    <label class="required">Level</label>
-    <select id="level" required>
-      <option>Select Level</option>
-      <option>Beginner</option>
-      <option>Intermediate</option>
-      <option>Advanced</option>
-    </select>
+      <label>Level <span class="required-star">*</span></label>
+      <select id="level" required>
+        <option value="" disabled selected>Select Level</option>
+        <option>Beginner</option>
+        <option>Intermediate</option>
+        <option>Advanced</option>
+      </select>
 
-    <label class="required">Language</label>
-    <input type="text" id="language" placeholder="e.g., English, Hindi" required />
+      <label>Language <span class="required-star">*</span></label>
+      <input type="text" id="language" placeholder="e.g., English, Hindi" required />
 
-    <label class="required">Proof / Portfolio Upload</label>
-    <input type="file" id="portfolio" name="proof[]" multiple />
-        <label>Additional Notes</label>
-        <textarea id="notes" placeholder="Any additional details…"></textarea>
+      <label>Proof / Portfolio Upload <span class="required-star">*</span></label>
+      <input type="file" id="portfolio" name="proof[]" multiple required />
 
-        <!-- Buttons -->
-        <div class="button-row">
-          <button type="submit">Submit</button>
-          <button type="button" id="edit-btn">✏ Edit</button>
-        </div>
-      </form>
-    </div>
+      <label>Additional Notes <span class="required-star">*</span></label>
+      <textarea id="notes" placeholder="Any additional details…" required></textarea>
+
+      <!-- Buttons -->
+      <div class="button-row">
+        <button type="submit">Submit</button>
+        <button type="button" id="edit-btn">✏ Edit</button>
+      </div>
+    </form>
   </div>
 
   <!-- JavaScript -->
   <script>
-    // Back button behavior
+    document.addEventListener('DOMContentLoaded', () => {
+      const username = localStorage.getItem('username');
+      if (username) {
+        document.getElementById('username').value = username;
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
     document.getElementById('back-btn').addEventListener('click', () => {
       window.history.back();
     });
 
-    // Edit button alert
     document.getElementById('edit-btn').addEventListener('click', () => {
       alert("Edit mode enabled! You can now change your details.");
     });
 
-    // Form submission logic
     document.getElementById('service-form').addEventListener('submit', async function (e) {
       e.preventDefault();
 
-      const userResponse = await fetch("http://localhost:5000/get_user", {
-        method: "GET",
-        credentials: "include"
-      });
-
-      if (!userResponse.ok) {
-        alert("❌ Please log in before submitting the service.");
-        return;
-      }
-
       const formData = new FormData();
+
+      formData.append("userId", localStorage.getItem('userId'));
       formData.append("username", document.getElementById('username').value);
       formData.append("service_name", document.getElementById('serviceName').value);
       formData.append("category", document.getElementById('category').value);
@@ -136,12 +140,13 @@
       });
 
       formData.append("price", document.getElementById('price').value);
-
-      // Get selected payment methods
-      const selectedPayments = document.querySelectorAll('input[name="paymentMethod"]:checked');
-      selectedPayments.forEach(method => {
-        formData.append("payment_method[]", method.value);
-      });
+      const paymentMethods = [];
+document.querySelectorAll('input[name="paymentMethod"]:checked').forEach(cb => {
+  paymentMethods.push(cb.value);
+});
+paymentMethods.forEach(method => {
+  formData.append("payment_method", method); // or use payment_method[] if handling array
+});
 
       formData.append("level", document.getElementById('level').value);
 
