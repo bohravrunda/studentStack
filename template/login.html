@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - StudentStack</title>
+  <link rel="stylesheet" href="../styles/login.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="../styles/snackbar.css"> <!-- Link to the snackbar CSS -->
+  <style>
+    .input-feedback {
+      font-size: 0.9rem;
+      color: red;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-box">
+      <h1>Login</h1>
+      <form id="login-form">
+        <div class="input-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required />
+          <div id="email-feedback" class="input-feedback"></div>
+        </div>
+
+        <div class="input-group password-container">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required />
+          <i id="toggle-password" class="fas fa-eye"></i>
+          <div id="password-feedback" class="input-feedback"></div>
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+        <p class="signup-redirect">Don't have an account? <a href="signup.html">Sign up</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Snackbar element -->
+  <div id="snackbar"></div>
+
+  <script>
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordField = document.getElementById('password');
+    const emailField = document.getElementById('email');
+    const passwordFeedback = document.getElementById('password-feedback');
+    const emailFeedback = document.getElementById('email-feedback');
+    const snackbar = document.getElementById('snackbar'); // Snackbar reference
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Toggle password visibility
+    togglePassword.addEventListener('click', () => {
+      const type = passwordField.type === 'password' ? 'text' : 'password';
+      passwordField.type = type;
+      togglePassword.classList.toggle('fa-eye');
+      togglePassword.classList.toggle('fa-eye-slash');
+    });
+
+    // Real-time password feedback
+    passwordField.addEventListener('input', () => {
+  const password = passwordField.value;
+
+  // Check if the password matches the requirements
+  if (passwordRegex.test(password)) {
+    // If the password is valid, enable the submit button
+    submitButton.disabled = false;
+  } else {
+    // If the password is invalid, disable the submit button
+    submitButton.disabled = true;
+  }
+});
+
+    // Real-time email feedback
+    emailField.addEventListener('input', () => {
+      const email = emailField.value;
+      emailFeedback.textContent = !emailRegex.test(email)
+        ? "Please enter a valid email address."
+        : "";
+    });
+
+    // Snackbar display function
+    function showSnackbar(message, isError) {
+      snackbar.textContent = message;
+      snackbar.className = isError ? 'show error' : 'show success';
+      setTimeout(() => {
+        snackbar.className = '';
+      }, 3000); // Hide snackbar after 3 seconds
+    }
+
+    // Form submission
+    // Form submission
+document.querySelector('#login-form').addEventListener('submit', async function(event) {
+  event.preventDefault();
+
+  const email = emailField.value;
+  const password = passwordField.value;
+
+  // Validate email and password format
+  if (!emailRegex.test(email) || !passwordRegex.test(password)) {
+    showSnackbar("Invalid email or password.", true); // Generic error snackbar
+    return;
+  }
+
+  // Clear feedback
+  emailFeedback.textContent = "";
+  passwordFeedback.textContent = "";
+
+  try {
+    const response = await fetch('http://localhost:5000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      showSnackbar('Login successful!', false); // Success snackbar
+      window.location.href = 'index.html';
+    } else {
+      showSnackbar(data.message || 'Login failed', true); // Error snackbar
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    showSnackbar('Something went wrong. Try again.', true); // Error snackbar
+  }
+});
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Created Services</title>
+  <link rel="stylesheet" href="../styles/createdservices.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">
+      <img src="../images/logo.jpg" class="logo-img">
+      <span>StudentStack</span>
+    </div>
+  </nav>
+
+  <!-- Service Display Section -->
+  <div class="services-container">
+    <h1>My Created Services</h1>
+    <div id="services-list">
+      <!-- Services will be dynamically added here -->
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+  window.addEventListener('DOMContentLoaded', async () => {
+    const username = localStorage.getItem('username');
+    if (!username) {
+      window.location.href = 'login.html';  // Redirect if not logged in
+      return;
+    }
+
+    try {
+      const userId = localStorage.getItem('userId');
+      const response = await fetch(`http://localhost:5000/get-services-by-userid?userId=${userId}`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      
+
+      if (!response.ok) {
+        // Handle errors (401 Unauthorized, etc.)
+        alert('You need to be logged in to see your services.');
+        return;
+      }
+
+      const services = await response.json();
+      if (services.length === 0) {
+        document.getElementById("services-list").innerHTML = "<p>No services found.</p>";
+      } else {
+        let serviceHTML = services.map(service => `
+          <div class="service-item">
+            <h3>${service.service_name}</h3>
+            <p>${service.category}</p>
+            <p>Price: ${service.cost.price}</p>
+            <button class="view-details" onclick="viewDetails('${service._id}')">View Details</button>
+          </div>
+        `).join('');
+        document.getElementById("services-list").innerHTML = serviceHTML;
+      }
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    }
+  });
+
+  function viewDetails(serviceId) {
+    // Redirect to a service details page
+   alert(`Service ID: ${serviceId}\nDetails feature coming soon!`);
+  }
+</script>
+
+</body>
+</html>
