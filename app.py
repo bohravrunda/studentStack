@@ -34,10 +34,11 @@ CORS(app, supports_credentials=True, origins="*")
 
 MONGO_URI = os.getenv('MONGO_URI')
 client = MongoClient(MONGO_URI)
-db = client['flask_auth']
+db = client['test']
 
 users = db.users
 services = db.services
+profile=db.profile
 
 UPLOAD_FOLDER = 'uploads/'
 if not os.path.exists(UPLOAD_FOLDER):
@@ -52,6 +53,11 @@ def signup():
     email = data.get('email')
     password = data.get('password')
     confirm = data.get('confirm_password')
+    print("🛠 DEBUG INFO")
+    print("Email being checked:", email)
+    print("Database name:", db.name)
+    print("Collection name:", users.name)
+    print("All users currently in DB:", list(users.find()))
 
     if users.find_one({'email': email}):
         return jsonify({'error': 'Email already exists'}), 400
@@ -69,7 +75,7 @@ def signup():
     })
 
     token = s.dumps(email, salt='email-confirm')
-    verify_url = f"http://localhost:5500/verify.html?token={token}"  # Update frontend URL if needed
+    verify_url = f"http://localhost:5500/templates/verify.html?token={token}"  # Update frontend URL if needed
 
     msg = Message(subject="Verify your email",
                   sender=app.config['MAIL_USERNAME'],
@@ -88,9 +94,8 @@ def signup():
 
     return jsonify({'message': 'Signup successful, check your email to verify.'}), 201
 
-@app.route('/verify-page')
-def verify_page():
-    return render_template('verify.html')
+
+
 
 
 @app.route('/verify-email', methods=['GET'])
@@ -124,7 +129,7 @@ def get_all_services():
         services_list = []
         for service in services_cursor:
             service['_id'] = str(service['_id'])  # Convert ObjectId to string
-            service['user_id'] = str(service['user_id'])  # Optional: convert user_id too
+            service['user_id'] = str(service.get('user_id', ''))  # Safe conversion
             services_list.append(service)
 
         return jsonify(services_list), 200
@@ -132,6 +137,35 @@ def get_all_services():
     except Exception as e:
         print("Error in /get-all-services:", str(e))
         return jsonify({'error': 'Failed to fetch all services', 'message': str(e)}), 500
+    
+@app.route('/search-services', methods=['GET'])
+def search_services():
+    try:
+        query = request.args.get('q', '').strip()
+        if not query:
+            return jsonify({'error': 'Search query is required'}), 400
+
+        regex_query = {'$regex': query, '$options': 'i'}
+
+        services_cursor = services.find({
+            '$or': [
+                {'service_name': regex_query},
+                {'provider.name': regex_query},
+                {'category': regex_query}
+            ]
+        })
+
+        services_list = []
+        for service in services_cursor:
+            service['_id'] = str(service['_id'])
+            service['user_id'] = str(service.get('user_id', ''))
+            services_list.append(service)
+
+        return jsonify(services_list), 200
+
+    except Exception as e:
+        print("Error in /search-services:", str(e))
+        return jsonify({'error': 'Search failed', 'message': str(e)}), 500
 
 # Login Route
 @app.route('/login', methods=['POST'])
@@ -248,9 +282,96 @@ def create_service():
         print("Error in /create-service:", str(e))
         return jsonify({'error': 'Service creation failed', 'message': str(e)}), 500
     
+
+@app.route('/save-profile', methods=['POST'])
+def save_profile():
+    try:
+        print("Save profile route hit!")  # ✅ Add this
+
+        data = request.get_json()
+        user_id = data.get('userId')
+
+        if not user_id:
+            return jsonify({'error': 'User ID is required'}), 400
+
+        profile_data = {
+            'userId': user_id,
+            'fullName': data.get('fullName', ''),
+            'username': data.get('username', ''),
+            'collegeName': data.get('collegeName', ''),
+            'department': data.get('department', ''),
+            'semester': data.get('semester', ''),
+            'gender': data.get('gender', ''),
+            'country': data.get('country', ''),
+            'language': data.get('language', ''),
+            'bio': data.get('bio', ''),
+            'email': data.get('email', ''),
+            'profilePicUrl': data.get('profilePicUrl', ''),
+            'created_at': datetime.utcnow(),
+            'updated_at': datetime.utcnow()
+        }
+
+        profile.insert_one(profile_data)
+        return jsonify({'message': 'Profile saved successfully'}), 201
+
+    except Exception as e:
+        print("Error in /save-profile:", str(e))
+        return jsonify({'error': 'Failed to save profile', 'message': str(e)}), 500
     
 
+@app.route('/edit-profile', methods=['PUT'])
+def edit_profile():
+    try:
+        data = request.get_json()
+        user_id = data.get('userId')
+
+        if not user_id:
+            return jsonify({'error': 'User ID is required'}), 400
+
+        update_data = {
+            'fullName': data.get('fullName', ''),
+            'username': data.get('username', ''),
+            'collegeName': data.get('collegeName', ''),
+            'department': data.get('department', ''),
+            'semester': data.get('semester', ''),
+            'gender': data.get('gender', ''),
+            'country': data.get('country', ''),
+            'language': data.get('language', ''),
+            'bio': data.get('bio', ''),
+            'email': data.get('email', ''),
+            'profilePicUrl': data.get('profilePicUrl', ''),
+            'updated_at': datetime.utcnow()
+        }
+
+        result = profile.update_one({'userId': user_id}, {'$set': update_data})
+        if result.matched_count == 0:
+            return jsonify({'error': 'Profile not found'}), 404
+
+        return jsonify({'message': 'Profile updated successfully'}), 200
+
+    except Exception as e:
+        print("Error in /edit-profile:", str(e))
+        return jsonify({'error': 'Failed to edit profile', 'message': str(e)}), 500
+
+
+@app.route('/get-profile', methods=['GET'])
+def get_profile():
+    try:
+        user_id = request.args.get('userId')
+
+        if not user_id:
+            return jsonify({'error': 'User ID is required'}), 400
+
+        user_profile = profile.find_one({'userId': user_id})  # ✅ use a different name
+        if not user_profile:
+            return jsonify({'error': 'Profile not found'}), 404
+
+        user_profile['_id'] = str(user_profile['_id'])  # convert ObjectId to string
+        return jsonify(user_profile), 200
+
+    except Exception as e:
+        print("Error in /get-profile:", str(e))
+        return jsonify({'error': 'Failed to get profile', 'message': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
-
