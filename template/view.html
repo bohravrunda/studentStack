@@ -2,76 +2,277 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>View Services - StudentStack</title>
   <link rel="stylesheet" href="../styles/style.css">
-  <script defer src="../scripts/viewServices.js"></script>
+  <style>
+    /* (same styles as you gave before) */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    nav {
+      background-color: #24292e;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+
+    .nav-buttons button {
+      background-color: #2ea44f;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin-left: 10px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .hero-section {
+      text-align: center;
+      padding: 3rem 1rem 1rem;
+    }
+
+    .hero-section h1 {
+      font-size: 2.5rem;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-section p {
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    .search-bar {
+      text-align: center;
+      margin: 1.5rem auto;
+    }
+
+    .search-bar input {
+      padding: 10px;
+      width: 80%;
+      max-width: 500px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .section-heading {
+      text-align: center;
+      font-size: 2rem;
+      color: #34495e;
+      margin-top: 2rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .service-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .service-card:hover {
+      transform: scale(1.02);
+    }
+
+    .service-img-placeholder {
+      background-color: #ddd;
+      height: 200px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .service-card h3 {
+      font-size: 22px;
+      margin: 10px 0 8px;
+      color: #333;
+    }
+
+    .service-card p {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .badge, .price {
+      display: inline-block;
+      background-color: #f0f0f0;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-right: 8px;
+    }
+
+    .price {
+      background-color: #e6f7ff;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      text-align: center;
+      margin: 3rem 0;
+    }
+
+    .cta-section h2 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+    }
+
+    .cta-section p {
+      color: #666;
+    }
+
+    .cta-section button {
+      padding: 12px 24px;
+      background-color: #2ea44f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 <body>
 
   <!-- Navbar -->
   <nav>
     <div class="logo">
-      <img src="../images/logo.jpg" class="logo-img">
-      <span>StudentStack</span>
+      <img src="../images/logo.jpg" alt="Logo">
+      <span style="font-size: 20px;">StudentStack</span>
     </div>
-
     <div class="nav-buttons">
-      <button id="login-btn" style="font-weight: bold">Login</button>
-      <button id="signup-btn" class="signup-btn" style="font-weight: bold">Sign Up</button>
-      <div class="menu-icon" id="menu-icon">&#9776;</div>
+      <button id="login-btn">Login</button>
+      <button id="signup-btn">Sign Up</button>
     </div>
   </nav>
 
-  
+  <!-- Hero Header -->
+  <section class="hero-section">
+    <h1>🎯 Find & Book Your Desired Service</h1>
+    <p>From tutoring to tech help, everything a student needs!</p>
+  </section>
+
   <!-- Search Bar -->
-  <div class="search-bar" style="text-align: center; margin: 2rem auto;">
-    <input type="text" id="search-input" placeholder="Search services..." style="padding: 10px; width: 80%; max-width: 500px; border: 1px solid #ccc; border-radius: 6px;">
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="Search services...">
   </div>
 
-  <!-- Services Grid -->
-  <div id="services-list" class="services-grid"></div>
+  <!-- Services Section -->
+  <section>
+    <h2 class="section-heading">🔥 Popular Services This Week</h2>
+    <div id="services-list" class="services-grid"></div>
+  </section>
 
-  <!-- JavaScript to load services dynamically -->
+  <!-- JavaScript -->
   <script>
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const response = await fetch('http://localhost:5000/get-all-services');
-    const services = await response.json();
-
     const servicesContainer = document.getElementById('services-list');
-    servicesContainer.innerHTML = '';
+    const searchInput = document.getElementById('search-input');
 
-    services.forEach(service => {
-      const serviceCard = document.createElement('div');
-      serviceCard.classList.add('service-card');
+    // Function to render services on page
+    function renderServices(services) {
+      servicesContainer.innerHTML = '';
+      if (services.length === 0) {
+        servicesContainer.innerHTML = '<p style="text-align:center; color:#888;">No services found.</p>';
+        return;
+      }
 
-      serviceCard.innerHTML = `
-        <h3>${service.service_name}</h3>
-        <p>${service.additional_note || 'No description available'}</p>
-        <span class="badge">${service.category}</span>
-      `;
-      servicesContainer.appendChild(serviceCard);
+      services.forEach(service => {
+        const serviceCard = document.createElement('div');
+        serviceCard.classList.add('service-card');
+
+        serviceCard.innerHTML = `
+          <div class="service-img-placeholder"></div>
+          <h3>${service.service_name}</h3>
+          <p>${service.additional_note || 'No description available'}</p>
+          <p><span class="price">₹${service.cost?.price || 'N/A'}</span> <span class="badge">${service.category}</span></p>
+          <p style="font-size: 13px; color: #777;">By: ${service.provider?.name || 'Unknown'}</p>
+        `;
+
+        servicesContainer.appendChild(serviceCard);
+      });
+    }
+
+    // Fetch all services initially
+    async function fetchAllServices() {
+      try {
+        const response = await fetch('http://localhost:5000/get-all-services');
+        const data = await response.json();
+        renderServices(data);
+      } catch (error) {
+        console.error('Error loading services:', error);
+        servicesContainer.innerHTML = '<p style="text-align:center; color:red;">Failed to load services.</p>';
+      }
+    }
+
+    // Search services by query
+    async function searchServices(query) {
+      if (!query) {
+        // If empty query, show all services
+        fetchAllServices();
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:5000/search-services?q=${encodeURIComponent(query)}`);
+        if (!response.ok) {
+          throw new Error('Search failed');
+        }
+        const data = await response.json();
+        renderServices(data);
+      } catch (error) {
+        console.error('Error searching services:', error);
+        servicesContainer.innerHTML = '<p style="text-align:center; color:red;">Search failed.</p>';
+      }
+    }
+
+    // Event listener on search input with debounce
+    let debounceTimeout = null;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(debounceTimeout);
+      debounceTimeout = setTimeout(() => {
+        searchServices(e.target.value.trim());
+      }, 300); // 300ms debounce
     });
-  } catch (error) {
-    console.error('Error loading services:', error);
-  }
 
-  // Sidebar toggle functionality
-  document.getElementById('menu-icon').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('show');
-  });
-
-  document.getElementById('overlay').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('overlay').classList.remove('show');
-  });
-});
+    // Load all services on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchAllServices();
+    });
   </script>
-
-  <!-- Font Awesome for icons -->
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 </body>
 </html>

@@ -15,6 +15,55 @@
     .form-group label span {
       color: red;
     }
+
+    .profile-image {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      cursor: pointer;
+      margin-right: 20px;
+    }
+
+    .upload-label {
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .initial-avatar, #preview {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      object-fit: cover;
+      transition: opacity 0.3s ease;
+    }
+
+    .upload-hint {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 6px 0;
+      text-align: center;
+      font-size: 12px;
+      background-color: rgba(0,0,0,0.6);
+      color: #fff;
+      opacity: 0;
+      border-radius: 0 0 50% 50%;
+      transition: opacity 0.3s ease;
+    }
+
+    .upload-label:hover .upload-hint {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -31,7 +80,6 @@
     </div>
   </nav>
 
-  <!-- Sidebar Menu -->
   <div id="sidebar" class="sidebar">
     <div class="sidebar-header">
       <img src="../images/avatar.jpg" alt="Avatar" class="avatar" />
@@ -61,72 +109,38 @@
       <div class="profile-card">
         <div class="top-section">
           <div class="profile-image">
-            <img id="preview" src="https://via.placeholder.com/100" alt="Profile Pic" />
-            <input type="file" id="pic-input" onchange="previewPic(event)" />
+            <label for="pic-input" class="upload-label">
+              <div id="initial-avatar" class="initial-avatar">A</div>
+              <img id="preview" style="display: none;" alt="Profile Pic" />
+              <div class="upload-hint">Click to upload</div>
+            </label>
+            <input type="file" id="pic-input" onchange="previewPic(event)" style="display: none;" />
           </div>
+
           <div>
             <h3 id="profile-name">Alexa Rawles</h3>
             <p id="profile-email">alexarawles@gmail.com</p>
           </div>
-          <button class="edit-btn">Edit</button>
+          <button class="edit-btn">Save</button>
         </div>
 
         <div class="form-grid">
-          <div class="form-group">
-            <label>Full Name <span>*</span></label>
-            <input type="text" id="full-name" placeholder="Your Full Name" />
-          </div>
-          <div class="form-group">
-            <label>Username <span>*</span></label>
-            <input type="text" placeholder="Username or Handle" />
-          </div>
-          <div class="form-group">
-            <label>College Name <span>*</span></label>
-            <input type="text" placeholder="College Name" />
-          </div>
-          <div class="form-group">
-            <label>Department <span>*</span></label>
-            <input type="text" placeholder="Department" />
-          </div>
-          <div class="form-group">
-            <label>Semester <span>*</span></label>
-            <input type="text" placeholder="Semester / Year" />
-          </div>
-          <div class="form-group">
-            <label>Gender <span>*</span></label>
-            <select>
-              <option>Select</option>
-              <option>Male</option>
-              <option>Female</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Country <span>*</span></label>
-            <input type="text" placeholder="Country" />
-          </div>
-          <div class="form-group">
-            <label>Language <span>*</span></label>
-            <select>
-              <option>Select</option>
-              <option>English</option>
-              <option>Hindi</option>
-            </select>
-          </div>
-          <div class="form-group" style="grid-column: span 2;">
-            <label>Bio / Description <span>*</span></label>
-            <textarea placeholder="Short bio or description about yourself"></textarea>
-          </div>
+          <div class="form-group"><label>Full Name <span>*</span></label><input type="text" id="full-name" placeholder="Your Full Name" /></div>
+          <div class="form-group"><label>Username <span>*</span></label><input type="text" id="username" placeholder="Username or Handle" /></div>
+          <div class="form-group"><label>College Name <span>*</span></label><input type="text" id="college-name" placeholder="College Name" /></div>
+          <div class="form-group"><label>Department <span>*</span></label><input type="text" id="department" placeholder="Department" /></div>
+          <div class="form-group"><label>Semester <span>*</span></label><input type="text" id="semester" placeholder="Semester / Year" /></div>
+          <div class="form-group"><label>Gender <span>*</span></label><select id="gender"><option>Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+          <div class="form-group"><label>Country <span>*</span></label><input type="text" id="country" placeholder="Country" /></div>
+          <div class="form-group"><label>Language <span>*</span></label><select id="language"><option>Select</option><option>English</option><option>Hindi</option></select></div>
+          <div class="form-group" style="grid-column: span 2;"><label>Bio / Description <span>*</span></label><textarea id="bio" placeholder="Short bio or description about yourself"></textarea></div>
         </div>
 
         <div class="email-section">
           <p class="email-title">My Email Address</p>
           <div class="email-box">
             <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" />
-            <div>
-              <p id="email-display">alexarawles@gmail.com</p>
-              <small>1 month ago</small>
-            </div>
+            <div><p id="email-display">alexarawles@gmail.com</p><small>1 month ago</small></div>
           </div>
           <button class="add-email" onclick="showEmailInput()">+ Add Email Address</button>
           <div id="new-email-section" style="display:none; margin-top: 10px;">
@@ -138,67 +152,126 @@
     </div>
   </div>
 
-  <script>
-    const user = {
-      name: "Alexa Rawles",
-      email: "alexarawles@gmail.com"
-    };
+<script>
+  let isEditing = true;
 
-    function previewPic(event) {
-      const output = document.getElementById('preview');
-      output.src = URL.createObjectURL(event.target.files[0]);
+  function previewPic(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const preview = document.getElementById('preview');
+      const initialAvatar = document.getElementById('initial-avatar');
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = 'block';
+      initialAvatar.style.display = 'none';
     }
+  }
 
-    function setReadOnlyState(readonly = true) {
-      const inputs = document.querySelectorAll('.form-group input, .form-group textarea');
-      const selects = document.querySelectorAll('.form-group select');
+  function setReadOnlyState(readonly = true) {
+    const inputs = document.querySelectorAll('.form-group input, .form-group textarea');
+    const selects = document.querySelectorAll('.form-group select');
+    inputs.forEach(input => input.readOnly = readonly);
+    selects.forEach(select => select.disabled = readonly);
+  }
 
-      inputs.forEach(input => input.readOnly = readonly);
-      selects.forEach(select => select.disabled = readonly);
+  function showEmailInput() {
+    document.getElementById("new-email-section").style.display = "block";
+  }
+
+  function saveNewEmail() {
+    const email = document.getElementById("new-email").value.trim();
+    if (email) {
+      document.getElementById("email-display").textContent = email;
+      document.getElementById("profile-email").textContent = email;
+      document.getElementById("new-email-section").style.display = "none";
+      document.getElementById("new-email").value = '';
     }
+  }
 
-    function showEmailInput() {
-      document.getElementById("new-email-section").style.display = "block";
-    }
+  function updateWelcomeMessage() {
+    const fullNameInput = document.getElementById("full-name");
+    const welcomeMessage = document.getElementById("welcome-message");
+    fullNameInput.addEventListener("input", () => {
+      const name = fullNameInput.value.trim();
+      welcomeMessage.textContent = name ? `Welcome, ${name}` : 'Welcome, Guest';
+      document.getElementById("profile-name").textContent = name;
+      document.getElementById("sidebar-name").textContent = name;
+    });
+  }
 
-    function saveNewEmail() {
-      const email = document.getElementById("new-email").value.trim();
-      if (email) {
-        document.getElementById("email-display").textContent = email;
-        document.getElementById("profile-email").textContent = email;
-        document.getElementById("new-email-section").style.display = "none";
-        document.getElementById("new-email").value = '';
-      }
-    }
+async function saveProfileToServer() {
+  const userId = localStorage.getItem("userId") || "demoUser123";
+  const fullName = document.getElementById("full-name").value;
+  const username = document.getElementById("username").value;
+  const collegeName = document.getElementById("college-name").value;
+  const department = document.getElementById("department").value;
+  const semester = document.getElementById("semester").value;
+  const gender = document.getElementById("gender").value;
+  const country = document.getElementById("country").value;
+  const language = document.getElementById("language").value;
+  const bio = document.getElementById("bio").value;
+  const email = document.getElementById("email-display").textContent;
+  const profilePicUrl = document.getElementById("preview").src || "";
 
-    function updateWelcomeMessage() {
-      const fullNameInput = document.getElementById("full-name");
-      const welcomeMessage = document.getElementById("welcome-message");
-      fullNameInput.addEventListener("input", () => {
-        const name = fullNameInput.value.trim();
-        welcomeMessage.textContent = name ? `Welcome, ${name}` : 'Welcome, Guest';
-        document.getElementById("profile-name").textContent = name;
-        document.getElementById("sidebar-name").textContent = name;
-      });
-    }
+  const profileData = {
+    userId,
+    fullName,
+    username,
+    collegeName,
+    department,
+    semester,
+    gender,
+    country,
+    language,
+    bio,
+    email,
+    profilePicUrl
+  };
 
-    document.querySelector(".edit-btn").addEventListener("click", function () {
-      const isReadOnly = document.querySelector(".form-group input").readOnly;
-      setReadOnlyState(!isReadOnly);
-      this.textContent = isReadOnly ? "Save" : "Edit";
+  try {
+    const res = await fetch('/edit-profile', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(profileData)
     });
 
-    window.onload = () => {
-      // Set user info on load
-      document.getElementById("profile-name").textContent = user.name;
-      document.getElementById("profile-email").textContent = user.email;
-      document.getElementById("email-display").textContent = user.email;
-      document.getElementById("welcome-message").textContent = `Welcome, ${user.name}`;
-      document.getElementById("sidebar-name").textContent = user.name;
-      setReadOnlyState(true);
-      updateWelcomeMessage();
-    };
-  </script>
+    const result = await res.json();
+    alert(result.message || result.error || "Unknown response");
 
+  } catch (err) {
+    alert("Error saving profile: " + err.message);
+  }
+}
+  document.querySelector(".edit-btn").addEventListener("click", async function () {
+    if (isEditing) {
+      // Save mode
+      await saveProfileToServer();
+      setReadOnlyState(true);
+      this.textContent = "Edit";
+    } else {
+      // Edit mode
+      setReadOnlyState(false);
+      this.textContent = "Save";
+    }
+    isEditing = !isEditing;
+  });
+
+  window.onload = () => {
+    const name = localStorage.getItem("username") || "Guest";
+    const email = localStorage.getItem("email") || "guest@example.com";
+    const avatar = email.charAt(0).toUpperCase();
+
+    document.getElementById("profile-name").textContent = name;
+    document.getElementById("profile-email").textContent = email;
+    document.getElementById("email-display").textContent = email;
+    document.getElementById("welcome-message").textContent = `Welcome, ${name}`;
+    document.getElementById("sidebar-name").textContent = name;
+    document.getElementById("initial-avatar").textContent = avatar;
+
+    setReadOnlyState(false); // Editable by default
+    updateWelcomeMessage();
+    document.querySelector(".edit-btn").textContent = "Save";
+    isEditing = true;
+  };
+</script>
 </body>
 </html>
