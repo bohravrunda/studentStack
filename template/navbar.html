@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="../styles/navbar.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">
+      <img src="../images/logo.jpg" class="logo-img" alt="Logo" />
+      <span class="logo-text">StudentStack</span>
+    </div>
+
+    <div class="nav-buttons">
+      <button id="login-btn">Login</button>
+      <button id="signup-btn" class="signup-btn">Sign Up</button>
+      <div class="menu-icon">&#9776;</div>
+    </div>
+  </nav>
+
+  <!-- Overlay -->
+  <div id="overlay"></div>
+
+  <!-- Right Drawer -->
+  <div id="right-drawer" class="drawer">
+    <ul>
+      <li id="avatar-item" class="avatar-item" style="display: none;">
+        <div id="user-avatar" class="user-avatar">RS</div>
+      </li>
+      <li>
+        <i class="fas fa-user"></i> <a href="profile.html">Profile</a>
+      </li>
+      <li>
+        <i class="fas fa-eye"></i> <a href="view.html">View Services</a>
+      </li>
+      <li>
+        <i class="fas fa-plus-circle"></i>
+        <a href="createservice.html">Create Service</a>
+      </li>
+      <li>
+        <i class="fas fa-briefcase"></i> <a href="createdservices.html">My Services</a>
+      </li>
+      <li>
+        <i class="fas fa-book"></i> <a href="bookedServices.html">My Bookings</a>
+      </li>
+      <li
+        id="logout-item"
+        style="color: red; font-weight: bold; display: none; cursor: pointer;"
+      >
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </li>
+    </ul>
+  </div>
+
+  <!-- TEMP: Button to simulate login for testing only -->
+  <button id="simulate-login" style="position: fixed; bottom: 10px; right: 10px;">
+    Simulate Login
+  </button>
+
+  <script>
+    // Zoom fix
+    document.body.style.zoom = "100%";
+
+    // Navigation buttons
+    document.getElementById("login-btn").onclick = () => {
+      window.location.href = "login.html";
+    };
+
+    document.getElementById("signup-btn").onclick = () => {
+      window.location.href = "signup.html";
+    };
+
+    // Drawer toggle
+    const menuIcon = document.querySelector(".menu-icon");
+    const drawer = document.getElementById("right-drawer");
+    const overlay = document.getElementById("overlay");
+
+    menuIcon.addEventListener("click", () => {
+      drawer.classList.toggle("open");
+      overlay.classList.toggle("show");
+    });
+
+    overlay.addEventListener("click", () => {
+      drawer.classList.remove("open");
+      overlay.classList.remove("show");
+    });
+
+    // Show avatar initials and logout if username exists
+    function updateUserUI() {
+      const username = localStorage.getItem("username");
+      const avatarItem = document.getElementById("avatar-item");
+      const logoutItem = document.getElementById("logout-item");
+
+      if (username && username.trim() !== "") {
+        const initials = username
+          .trim()
+          .split(" ")
+          .map((word) => word[0].toUpperCase())
+          .join("");
+        document.getElementById("user-avatar").textContent = initials;
+        avatarItem.style.display = "block";
+        logoutItem.style.display = "block";
+        console.log("User logged in as:", username);
+      } else {
+        avatarItem.style.display = "none";
+        logoutItem.style.display = "none";
+        console.log("No user logged in");
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", updateUserUI);
+
+    // Logout logic
+    document.getElementById("logout-item").addEventListener("click", async () => {
+      try {
+        // Call backend logout API (adjust URL if needed)
+        const response = await fetch("http://localhost:5000/logout", {
+          method: "POST",
+          credentials: "include",
+        });
+
+        if (response.ok) {
+          // Clear local storage
+          localStorage.removeItem("userId");
+          localStorage.removeItem("username");
+
+          // Update UI
+          updateUserUI();
+
+          // Close drawer and overlay if open
+          drawer.classList.remove("open");
+          overlay.classList.remove("show");
+
+          // Redirect to login page
+          window.location.href = "login.html";
+        } else {
+          alert("Logout failed.");
+        }
+      } catch (err) {
+        console.error("Logout error:", err);
+      }
+    });
+
+    // TEMP: Simulate login button for testing
+    document
+      .getElementById("simulate-login")
+      .addEventListener("click", () => {
+        localStorage.setItem("username", "John Doe");
+        localStorage.setItem("userId", "123");
+        updateUserUI();
+        alert("Simulated login as John Doe. Now open the menu.");
+      });
+  </script>
+</body>
+</html>

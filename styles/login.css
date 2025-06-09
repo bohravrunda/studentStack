@@ -9,6 +9,25 @@ body {
     height: 100vh;
     overflow: hidden; /* Prevents scrolling on small screens */
 }
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.brand-name {
+  margin-top: 10px;
+  font-size: 24px;
+  color: #5A827E;
+  font-weight: bold;
+  font-family: cursive;
+}
 
 .login-container {
     display: flex;
@@ -30,7 +49,7 @@ body {
 h1 {
     margin-bottom: 24px;
     text-align: center;
-    color: #333;
+    color:  #05407a;
 }
 
 /* Input field group */
@@ -43,7 +62,7 @@ h1 {
 /* Labels */
 .input-group label {
     margin-bottom: 6px;
-    color: #555;
+    color:  #05407a;
 }
 
 /* Input fields */
@@ -58,8 +77,8 @@ h1 {
 .login-btn {
     width: 100%;
     padding: 12px;
-    background-color: #007bff;
-    border: none;
+    background-color: #84AE92;
+    border: 1px solid #1e0202;
     color: white;
     border-radius: 8px;
     cursor: pointer;
@@ -68,7 +87,7 @@ h1 {
 }
 
 .login-btn:hover {
-    background-color: #0056b3;
+    background-color: #5A827E;
 }
 
 /* Signup redirect link */
@@ -76,6 +95,7 @@ h1 {
     text-align: center;
     margin-top: 15px;
     font-size: 14px;
+    color: #05407a;
 }
 
 .signup-redirect a {
@@ -109,7 +129,7 @@ h1 {
     right: 20px;
     transform: translateY(-50%);
     cursor: pointer;
-    color: #3553cd;
+    color:  #05407a;
     font-size: 0.9rem;
 }
 
@@ -203,4 +223,14 @@ h1 {
     .signup-redirect {
         font-size: 12px;
     }
+}
+/* Hide default browser eye icon */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-contacts-auto-fill-button {
+  display: none !important;
 }

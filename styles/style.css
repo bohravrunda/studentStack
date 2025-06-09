@@ -10,63 +10,8 @@
     color: #333;
   }
   
-  /* Navbar */
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  }
   
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .logo-img {
-    width: 40px;        /* smaller size */
-    height: 40px;
-    object-fit: contain;
-  }
-  
-  .logo-text {
-    font-size: 2%;
-    font-weight: bold;
-    color: #2c3e50;
-  }
-
-  
-  
-  .nav-buttons {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .nav-buttons button {
-    padding: 8px 16px;
-    border: none;
-    background-color: transparent;
-    color: #2c3e50;
-    font-weight: 500;
-    cursor: pointer;
-  }
-  
-  .signup-btn {
-    background-color: #4f9cff;
-    color: white;
-    border-radius: 6px;
-  }
-  
-  .menu-icon {
-    font-size: 22px;
-    /* display: none; */
-    cursor: pointer;
-  }
-  
+ 
   /* Hero Section */
   .image {
     text-align: center;
@@ -120,7 +65,7 @@
   .service-box button {
     padding: 10px 20px;
     margin-top: 20px;
-    background-color: #4f9cff;
+    background-color: #84AE92;
     color: white;
     border: none;
     border-radius: 6px;
@@ -129,7 +74,7 @@
   }
   
   .service-box button:hover {
-    background-color: #3a89e0;
+    background-color: #5A827E;
   }
   
   @media (max-width: 768px) {
@@ -150,75 +95,4 @@
       font-size: 2rem;
     }
   }
-  .drawer {
-    position: fixed;
-    right: -250px;
-    top: 0;
-    height: 100%;
-    width: 250px;
-    background-color: #f5f5f5;
-    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
-    transition: right 0.3s ease;
-    z-index: 1000;
-    padding-top: 60px;
-  }
-  
-  .drawer ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .drawer ul li {
-    padding: 15px 20px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .drawer ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-  }
-  
-  .drawer.open {
-    right: 0;
-  }
-  
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.3);
-    display: none;
-    z-index: 999;
-  }
-  
-  .overlay.show {
-    display: block;
-  }
-  
-  .user-avatar {
-    width: 90px;
-    height: 90px;
-    background-color: #5A67D8;
-    color: white;
-    border-radius: 50%;
-    display: flex;                 /* Use flex to center the text */
-    align-items: center;          /* Vertically center */
-    justify-content: center;      /* Horizontally center */
-    font-weight: bold;
-    font-size: 40px;              /* Adjust if needed */
-    margin: 10px auto 5px;       /* Push avatar slightly up */
-  }
-  
-  .avatar-item {
-    list-style: none;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  
-  #logout-item:hover {
-    background-color: #ffe5e5;
-  }
+ 
