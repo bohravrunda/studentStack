@@ -1,0 +1,122 @@
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f6f9ff, #f2f5ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      background: white;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+      padding: 40px 30px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .logo {
+      width: 80px;
+      margin-bottom: 15px;
+    }
+
+    .welcome-text {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #0e0234;
+    }
+
+    /* Gradient Circles */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(to right, #00c9a7, #92fe9d);
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .circle1 {
+      width: 100px;
+      height: 100px;
+      top: 10%;
+      left: 5%;
+    }
+
+    .circle2 {
+      width: 60px;
+      height: 60px;
+      top: 20%;
+      left: 40%;
+    }
+
+    .circle3 {
+      width: 80px;
+      height: 80px;
+      top: 40%;
+      left: 20%;
+    }
+
+    .circle4 {
+      width: 300px;
+      height: 300px;
+      bottom: -100px;
+      right: -100px;
+    }
+
+    .container h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .container p {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .login-btn {
+      padding: 12px 28px;
+      background-color: #84AE92;
+      color: #fff;
+      font-size: 16px;
+      border: 1px solid #1e0202;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      display: none;
+      z-index: 2;
+    }
+
+    .login-btn:hover {
+      background-color: #5A827E;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 12px;
+      color: #aaa;
+    }
+    .welcome-text {
+        font-size: 20px;
+      }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 30px 20px;
+      }
+      .container h1 {
+        font-size: 24px;
+      }
+    }

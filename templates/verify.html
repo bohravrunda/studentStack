@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Verified</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/verify.css') }}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Gradient Circles -->
+  <div class="circle circle1"></div>
+  <div class="circle circle2"></div>
+  <div class="circle circle3"></div>
+  <div class="circle circle4"></div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="StudentStack Logo" class="logo" />
+    <div class="welcome-text">Welcome to StudentStack</div>
+    <h1 id="status">Verifying your email...</h1>
+    <p id="subtext"></p>
+    <button class="login-btn" id="login-btn" onclick="location.href='login.html'">Go to Login</button>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+
+    const statusEl = document.getElementById('status');
+    const subtext = document.getElementById('subtext');
+    const loginBtn = document.getElementById('login-btn');
+
+    if (!token) {
+      statusEl.innerText = "No verification token provided.";
+      subtext.innerText = "Please check the link or try signing up again.";
+    } else {
+      fetch(`http://localhost:5000/verify-email?token=${token}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.message && (
+            data.message.toLowerCase().includes("verified") ||
+            data.message.toLowerCase().includes("success")
+          )) {
+            statusEl.innerHTML = `Welcome ✅`;
+            subtext.innerText = "Your account has been verified.";
+            loginBtn.style.display = "inline-block";
+          } else {
+            statusEl.innerText = "Verification failed.";
+            subtext.innerText = data.error || "Invalid or expired token.";
+          }
+        })
+        .catch(error => {
+          console.error("Verification error:", error);
+          statusEl.innerText = "Verification failed.";
+          subtext.innerText = "Something went wrong. Please try again.";
+        });
+    }
+  </script>
+</body>
+</html>

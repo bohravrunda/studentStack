@@ -1,0 +1,190 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f6fbff;
+    color: #333;
+  }
+  .logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.brand-name {
+  margin-top: 10px;
+  font-size: 24px;
+  color: #5A827E;
+  font-weight: bold;
+  font-family: cursive;
+}
+  
+  /* Sign Up Form Styling */
+  .signup-form {
+    width: 100%;
+    max-width: 500px;
+    margin: 30px auto;
+    background-color: #fff;
+    padding: 20px 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  }
+  
+  .signup-form h1 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #05407a;
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: #05407a;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  .signup-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #84AE92;
+    border: 1px solid #1e0202;
+    color: white;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .signup-btn:hover {
+    background-color: #5A827E;
+  }
+  
+  .signup-form p {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.95rem;
+  }
+  
+  .signup-form a {
+    color: #4f9cff;
+    text-decoration: none;
+  }
+  
+  .signup-form a:hover {
+    text-decoration: underline;
+  }
+
+  /* Styles for password visibility toggle */
+.password-container {
+    position: relative;
+  }
+  
+  .password-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  .password-container i {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #3553cd;
+    font-size: 0.9rem;
+  }
+  
+  /* Google Sign Up Button */
+#google-signup-btn {
+  background-color: #84AE92;
+  color: white;
+  border: 1px solid #1e0202;
+  padding: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  width: 100%;
+}
+#google-signup-btn:hover {
+  background-color: #5A827E;
+}
+
+
+#google-signup-btn img {
+  height: 25px;
+  width: 25px; /* ensure it's a square */
+  border-radius: 50%; /* makes it circular */
+  object-fit: cover;  /* makes sure it fits well inside the circle */
+  background-color: white; /* optional: helps if image has transparent edges */
+}
+
+ #snackbar {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 16px;
+      position: fixed;
+      z-index: 999;
+      left: 50%;
+      bottom: 30px;
+      font-size: 16px;
+      transition: visibility 0s, opacity 0.3s ease-in-out;
+      opacity: 0;
+    }
+
+    #snackbar.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    #snackbar.success {
+      background-color: #4CAF50;
+    }
+
+    #snackbar.error {
+      background-color: #f44336;
+    }
+
+
+  /* Hide default browser eye icon */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-contacts-auto-fill-button {
+  display: none !important;
+}
