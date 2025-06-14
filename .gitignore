@@ -1,0 +1,24 @@
+# Ignore environment files
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# React / frontend builds
+build/
+dist/
+
+# VSCode / system files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
