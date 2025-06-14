@@ -1,0 +1,155 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Navbar */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color:white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%; /* Makes it circular */
+  border: none;
+}
+
+.logo-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #5A827E;
+  font-family: cursive;
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-buttons button {
+  padding: 8px 16px;
+  font-size: 1.2rem;
+  border: none;
+  background-color: transparent;
+  color: #5A827E;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.signup-btn {
+  background-color: #4f9cff;
+  color: white;
+  border-radius: 6px;
+}
+  
+  .menu-icon {
+    font-size: 25px;
+    /* display: none; */
+    cursor: pointer;
+    color: #5A827E;
+  }
+   @media (max-width: 768px) {
+    .menu-icon {
+      display: block;
+    }
+  
+    .nav-buttons button:not(.menu-icon) {
+      display: none;
+    }
+  
+    .services {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .image h1 {
+      font-size: 2rem;
+    }
+  }
+  .drawer {
+    position: fixed;
+    right: -250px;
+    top: 0;
+    height: 100%;
+    width: 250px;
+    background-color: #ccc;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    transition: right 0.3s ease;
+    z-index: 999;
+    padding-top: 60px;
+  }
+  
+  .drawer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .drawer ul li {
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .drawer ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .drawer.open {
+    right: 0;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    display: none;
+    z-index: 1000;
+  }
+  
+  .overlay.show {
+    display: block;
+  }
+  
+  .user-avatar {
+    width: 90px;
+    height: 90px;
+    background-color: #5A67D8;
+    color: white;
+    border-radius: 50%;
+    display: flex;                 /* Use flex to center the text */
+    align-items: center;          /* Vertically center */
+    justify-content: center;      /* Horizontally center */
+    font-weight: bold;
+    font-size: 40px;              /* Adjust if needed */
+    margin: 10px auto 5px;       /* Push avatar slightly up */
+  }
+  
+  .avatar-item {
+    list-style: none;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  #logout-item:hover {
+    background-color: #ccc;
+  }
+
+  

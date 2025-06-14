@@ -1,0 +1,157 @@
+.body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    .nav {
+      background-color: #24292e;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+
+    .nav-buttons button {
+      background-color: #2ea44f;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin-left: 10px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .hero-section {
+      text-align: center;
+      padding: 3rem 1rem 1rem;
+    }
+
+    .hero-section h1 {
+      font-size: 2.5rem;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-section p {
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    .search-bar {
+      text-align: center;
+      margin: 1.5rem auto;
+    }
+
+    .search-bar input {
+      padding: 10px;
+      width: 80%;
+      max-width: 500px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .section-heading {
+      text-align: center;
+      font-size: 2rem;
+      color: #34495e;
+      margin-top: 2rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .service-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .service-card:hover {
+      transform: scale(1.02);
+    }
+
+    .service-img-placeholder {
+      background-color: #ddd;
+      height: 200px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .service-card h3 {
+      font-size: 22px;
+      margin: 10px 0 8px;
+      color: #333;
+    }
+
+    .service-card p {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .badge, .price {
+      display: inline-block;
+      background-color: #f0f0f0;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-right: 8px;
+    }
+
+    .price {
+      background-color: #e6f7ff;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      text-align: center;
+      margin: 3rem 0;
+    }
+
+    .cta-section h2 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+    }
+
+    .cta-section p {
+      color: #666;
+    }
+
+    .cta-section button {
+      padding: 12px 24px;
+      background-color: #2ea44f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }

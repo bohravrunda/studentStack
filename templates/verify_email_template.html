@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/verify_email_template.css') }}">
+
+  <title>Verify Email</title>
+ 
+</head>
+<body>
+  <div class="card">
+    <img src="{{ url_for('static', filename='images/email.png') }}" alt="Email Icon" />
+    <h2>Verify your email address</h2>
+    <p>You’ve entered <strong>{{ email }}</strong> as the email address for your account.</p>
+    <p>Please check your inbox and click the verification link we sent.
+      Just click on the link in that email to complete your signup. </p>
+     <p>If you didn't receive the email, please check your spam folder. </p>
+
+    <p style="margin-top: 20px;">Didn't receive the email?</p>
+    <button class="resend-button" onclick="resendVerification()">Resend Email</button>
+    <div id="resend-status"></div>
+
+    <div class="link">
+      If you didn't receive the email, here's your verification link:<br>
+      <small>{{ verify_link }}</small>
+    </div>
+  </div>
+
+  
+
+  <script>
+    function resendVerification() {
+      fetch('/resend-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: "{{ email }}" })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('resend-status').innerText = data.message || 'Email resent successfully.';
+      })
+      .catch(() => {
+        document.getElementById('resend-status').innerText = 'Failed to resend email.';
+      });
+    }
+  </script>
+</body>
+</html>

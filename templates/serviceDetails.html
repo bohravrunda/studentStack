@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Service Details</title>
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">
+      <img src="../images/logo.jpg" class="logo-img">
+      <span>StudentStack</span>
+    </div>
+  </nav>
+
+  <!-- Service Details Section -->
+  <div class="service-details">
+    <h1 id="service-name">Service Name</h1>
+    <p id="service-category">Category: </p>
+    <p id="service-provider">Provider: </p>
+    <p id="service-price">Price: </p>
+    <p id="service-availability">Available Days: </p>
+    <p id="service-description">Description: </p>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    window.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const serviceId = urlParams.get('id');
+
+      if (serviceId) {
+        try {
+          const response = await fetch(`http://localhost:5000/get-service/${serviceId}`, {
+            method: 'GET',
+            credentials: 'include',
+          });
+
+          const service = await response.json();
+
+          if (response.ok) {
+            document.getElementById('service-name').textContent = service.service_name;
+            document.getElementById('service-category').textContent = `Category: ${service.category}`;
+            document.getElementById('service-provider').textContent = `Provider: ${service.provider_info.name}`;
+            document.getElementById('service-price').textContent = `Price: $${service.cost.price}`;
+            document.getElementById('service-availability').textContent = `Available Days: ${service.availability.available_days.join(', ')}`;
+            document.getElementById('service-description').textContent = `Description: ${service.additional_note || 'No description available.'}`;
+          } else {
+            alert('Failed to fetch service details.');
+          }
+        } catch (error) {
+          console.error('Error fetching service details:', error);
+          alert('An error occurred while fetching service details.');
+        }
+      } else {
+        alert('Service ID is missing.');
+      }
+    });
+  </script>
+</body>
+</html>

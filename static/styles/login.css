@@ -1,0 +1,290 @@
+/* login.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden; /* Prevents scrolling on small screens */
+}
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.brand-name {
+  margin-top: 10px;
+  font-size: 24px;
+  color: #5A827E;
+  font-weight: bold;
+  font-family: cursive;
+}
+
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.login-box {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Title styling */
+h1 {
+    margin-bottom: 24px;
+    text-align: center;
+    color:  #05407a;
+}
+
+/* Input field group */
+.input-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels */
+.input-group label {
+    margin-bottom: 6px;
+    color:  #05407a;
+}
+
+/* Input fields */
+.input-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+/* Login button */
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #84AE92;
+    border: 1px solid #1e0202;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #5A827E;
+}
+
+/* Signup redirect link */
+.signup-redirect {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #05407a;
+}
+
+.signup-redirect a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.signup-redirect a:hover {
+    text-decoration: underline;
+}
+
+/* Password input container */
+.password-container {
+    position: relative;
+}
+
+/* Adjust password input */
+.password-container input {
+    width: 100%;
+    max-width: 350px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+/* Icon styling for password visibility */
+.password-container i {
+    position: absolute;
+    top: 65%;
+    right: 20px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color:  #05407a;
+    font-size: 0.9rem;
+}
+
+/* Adjust password input to fit the icon */
+.password-container input {
+    padding-right: 35px; /* Space for the eye icon */
+}
+
+/* Snackbar container */
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+/* Show snackbar */
+#snackbar.show {
+    visibility: visible;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Snackbar fade-in and fade-out animation */
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadeout {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+/* Success and error styles for snackbar */
+#snackbar.success {
+    background-color: #4CAF50;
+}
+
+#snackbar.error {
+    background-color: #f44336;
+}
+
+/* Responsive breakpoints */
+
+/* For devices smaller than 768px (tablets, larger phones) */
+@media (max-width: 768px) {
+    .login-box {
+        padding: 20px;
+        max-width: 90%; /* Make the login box take 90% of the screen width */
+    }
+
+    .input-group input {
+        font-size: 0.9rem;
+    }
+
+    .login-btn {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}
+
+/* For devices smaller than 480px (small phones) */
+@media (max-width: 480px) {
+    .login-box {
+        padding: 15px;
+        max-width: 90%; /* Take 90% width */
+    }
+
+    .input-group input {
+        font-size: 0.8rem;
+    }
+
+    .login-btn {
+        font-size: 0.8rem;
+        padding: 8px;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    .signup-redirect {
+        font-size: 12px;
+    }
+}
+#google-signup-btn {
+  background-color: #84AE92;
+  color: white;
+  border: 1px solid #1e0202;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+#google-signup-btn img {
+  height: 25px;
+  width: 25px; /* ensure it's a square */
+  border-radius: 50%; /* makes it circular */
+  object-fit: cover;  /* makes sure it fits well inside the circle */
+  background-color: white; /* optional: helps if image has transparent edges */
+}
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 12px;
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  bottom: 30px;
+  font-size: 16px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  animation: fadein 0.4s, fadeout 0.4s 2.6s;
+}
+
+@keyframes fadein {
+  from { bottom: 0; opacity: 0; }
+  to { bottom: 30px; opacity: 1; }
+}
+
+@keyframes fadeout {
+  from { bottom: 30px; opacity: 1; }
+  to { bottom: 0; opacity: 0; }
+}
+
+/* Hide default browser eye icon */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-contacts-auto-fill-button {
+  display: none !important;
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>View Services - StudentStack</title>
+<link rel="stylesheet" href="/static/styles/view.css">
+<link rel="stylesheet" href="/static/styles/style.css">
+
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">
+      <img src="/static/images/logo.jpg" class="logo-img">
+      <span style="font-size: 20px;">StudentStack</span>
+    </div>
+    <div class="nav-buttons">
+      <button id="login-btn">Login</button>
+      <button id="signup-btn">Sign Up</button>
+    </div>
+  </nav>
+
+  <!-- Hero Header -->
+  <section class="hero-section">
+    <h1>🎯 Find & Book Your Desired Service</h1>
+    <p>From tutoring to tech help, everything a student needs!</p>
+  </section>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="Search services...">
+  </div>
+
+  <!-- Services Section -->
+  <section>
+    <h2 class="section-heading">🔥 Popular Services This Week</h2>
+    <div id="services-list" class="services-grid"></div>
+  </section>
+
+  <!-- JavaScript -->
+  <script>
+    const servicesContainer = document.getElementById('services-list');
+    const searchInput = document.getElementById('search-input');
+
+    // Function to render services on page
+    function renderServices(services) {
+      servicesContainer.innerHTML = '';
+      if (services.length === 0) {
+        servicesContainer.innerHTML = '<p style="text-align:center; color:#888;">No services found.</p>';
+        return;
+      }
+
+      services.forEach(service => {
+        const serviceCard = document.createElement('div');
+        serviceCard.classList.add('service-card');
+
+        serviceCard.innerHTML = `
+          <div class="service-img-placeholder"></div>
+          <h3>${service.service_name}</h3>
+          <p>${service.additional_note || 'No description available'}</p>
+          <p><span class="price">₹${service.cost?.price || 'N/A'}</span> <span class="badge">${service.category}</span></p>
+          <p style="font-size: 13px; color: #777;">By: ${service.provider?.name || 'Unknown'}</p>
+        `;
+
+        servicesContainer.appendChild(serviceCard);
+      });
+    }
+
+    // Fetch all services initially
+    async function fetchAllServices() {
+      try {
+        const response = await fetch('http://localhost:5000/get-all-services');
+        const data = await response.json();
+        renderServices(data);
+      } catch (error) {
+        console.error('Error loading services:', error);
+        servicesContainer.innerHTML = '<p style="text-align:center; color:red;">Failed to load services.</p>';
+      }
+    }
+
+    // Search services by query
+    async function searchServices(query) {
+      if (!query) {
+        // If empty query, show all services
+        fetchAllServices();
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:5000/search-services?q=${encodeURIComponent(query)}`);
+        if (!response.ok) {
+          throw new Error('Search failed');
+        }
+        const data = await response.json();
+        renderServices(data);
+      } catch (error) {
+        console.error('Error searching services:', error);
+        servicesContainer.innerHTML = '<p style="text-align:center; color:red;">Search failed.</p>';
+      }
+    }
+
+    // Event listener on search input with debounce
+    let debounceTimeout = null;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(debounceTimeout);
+      debounceTimeout = setTimeout(() => {
+        searchServices(e.target.value.trim());
+      }, 300); // 300ms debounce
+    });
+
+    // Load all services on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchAllServices();
+    });
+  </script>
+
+</body>
+</html>

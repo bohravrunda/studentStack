@@ -1,0 +1,96 @@
+/* Apply global styles */
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f4ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px; /* for small screens */
+  box-sizing: border-box;
+}
+
+/* Card styling */
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Image styling */
+img {
+  width: 120px;
+  margin-bottom: 20px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Headings and text */
+h2 {
+  color: #333;
+  font-size: 24px;
+}
+
+p {
+  color: #555;
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+/* Button styling */
+.resend-button {
+  background-color: #84AE92;
+  color: white;
+  border: 1px solid #1e0202;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.resend-button:hover {
+  background-color: #5A827E;
+}
+
+/* Link and status text */
+.link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #357bd8;
+  word-wrap: break-word;
+}
+
+#resend-status {
+  margin-top: 10px;
+  font-size: 14px;
+  color: green;
+}
+
+/* RESPONSIVE RULES */
+@media (max-width: 480px) {
+  .card {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+  .resend-button {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}

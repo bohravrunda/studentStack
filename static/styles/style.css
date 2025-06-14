@@ -1,0 +1,232 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f6fbff;
+  color: #333;
+}
+
+/* Navbar */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-buttons button {
+  padding: 8px 16px;
+  border: none;
+  background-color: transparent;
+  color: #2c3e50;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.signup-btn {
+  background-color: #4f9cff;
+  color: white;
+  border-radius: 6px;
+}
+
+.menu-icon {
+  font-size: 24px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+/* Hero Section */
+.image {
+  text-align: center;
+  padding: 60px 20px 30px;
+}
+
+.image h1 {
+  font-size: 2.5rem;
+  color: #1d3557;
+}
+
+.image p {
+  font-size: 1.1rem;
+  color: #444;
+  margin-top: 10px;
+}
+
+.dashboard-img {
+  width: 100%;
+  max-width: 600px;
+  margin: 40px auto 20px;
+  display: block;
+  border-radius: 10px;
+}
+
+/* Services Section */
+.services {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 20px 40px;
+}
+
+.service-box {
+  flex: 1;
+  max-width: 600px;
+  min-width: 250px;
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  text-align: center;
+}
+
+.service-box h3 {
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+.service-box p {
+  color: #555;
+}
+
+.service-box button {
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #84AE92;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.service-box button:hover {
+  background-color: #3a89e0;
+}
+
+/* Drawer */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+  transition: right 0.3s ease;
+}
+
+.drawer.open {
+  right: 0;
+}
+
+.drawer ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 60px;
+}
+
+.drawer ul li {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+}
+
+.drawer ul li a {
+  text-decoration: none;
+  color: black;
+  margin-left: 10px;
+}
+
+.user-avatar {
+  width: 90px;
+  height: 90px;
+  background-color: #5A67D8;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 40px;
+  margin: 10px auto 5px;
+}
+
+#avatar-item {
+  list-style: none;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#logout-item {
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#logout-item:hover {
+  background-color: #ffe5e5;
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 999;
+}
+
+.overlay.show {
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-buttons button:not(.menu-icon) {
+    display: none;
+  }
+
+  .menu-icon {
+    display: block;
+  }
+
+  .services {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .image h1 {
+    font-size: 2rem;
+  }
+}
