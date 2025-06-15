@@ -3,6 +3,25 @@ from werkzeug.utils import secure_filename
 from datetime import datetime
 import os
 from extensions import client
+from flask import session
+
+
+cart_bp = Blueprint('cart', __name__)
+@cart_bp.route('/add-to-cart', methods=['POST'])
+def add_to_cart():
+    service = request.json
+
+    if 'cart' not in session:
+        session['cart'] = []
+
+    session['cart'].append(service)
+    session.modified = True
+
+    return jsonify({"message": "Service added to cart!", "cart": session['cart']}), 200
+
+@cart_bp.route('/view-cart', methods=['GET'])
+def view_cart():
+    return jsonify(session.get('cart', []))
 
 services = Blueprint('services', __name__)
 services_collection = client['test'].services
@@ -61,7 +80,6 @@ def create_service():
     
     
 
-
 @services.route('/search-services', methods=['GET'])
 def search_services():
     try:
@@ -88,6 +106,20 @@ def search_services():
     except Exception as e:
         return jsonify({'error': 'Search failed', 'message': str(e)}), 500
 
+
+@services.route('/get-services-by-userid', methods=['GET'])
+def get_services_by_userid():
+    try:
+        user_id = request.args.get('userId')
+        if not user_id:
+            return jsonify({'error': 'User ID is required'}), 400
+
+        services_cursor = services_collection.find({'user_id': user_id})
+        services_list = [dict(service, _id=str(service['_id'])) for service in services_cursor]
+        return jsonify(services_list), 200
+    except Exception as e:
+        return jsonify({'error': 'Failed to fetch services', 'message': str(e)}), 500
+    
 @services.route('/get-all-services', methods=['GET'])
 def get_all_services():
     try:
@@ -103,3 +135,20 @@ def get_all_services():
 
 # -------------------- PROFILE --------------------
 
+from bson import ObjectId
+
+@services.route('/get-service', methods=['GET'])
+def get_service_by_id():
+    try:
+        service_id = request.args.get('id')
+        if not service_id:
+            return jsonify({'error': 'Service ID is required'}), 400
+
+        service = services_collection.find_one({'_id': ObjectId(service_id)})
+        if not service:
+            return jsonify({'error': 'Service not found'}), 404
+
+        service['_id'] = str(service['_id'])  # Convert ObjectId to string
+        return jsonify(service), 200
+    except Exception as e:
+        return jsonify({'error': 'Failed to fetch service', 'message': str(e)}), 500
