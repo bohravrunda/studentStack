@@ -4,125 +4,213 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>StudentStack</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+  <link rel="stylesheet" href="/static/styles/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav>
-    <div class="logo">
-      <img src="{{ url_for('static', filename='images/logo.jpg') }}" class="logo-img" alt="Logo">
-      <span>StudentStack</span>
-    </div>
-    <div class="nav-buttons">
-      <button id="login-btn">Login</button>
-      <button id="signup-btn" class="signup-btn">Sign Up</button>
-      <div class="menu-icon">&#9776;</div>
-    </div>
-  </nav>
-
-  <!-- Drawer -->
-  <div id="right-drawer" class="drawer">
-    <ul>
-      <li id="avatar-item" style="display:none;">
-        <div id="user-avatar" class="user-avatar">RS</div>
-      </li>
-      <li><i class="fas fa-user"></i><a href="profile.html">Profile</a></li>
-      <li><i class="fas fa-eye"></i><a href="view.html">View Services</a></li>
-      <li><i class="fas fa-plus-circle"></i><a href="createService.html">Create Service</a></li>
-      <li><i class="fas fa-briefcase"></i><a href="createdservices.html">My Services</a></li>
-      <li><i class="fas fa-book"></i><a href="bookedServices.html">My Bookings</a></li>
-      <li id="logout-item" style="color: red; font-weight: bold; display: none; cursor: pointer;">
-        <i class="fas fa-sign-out-alt"></i><span id="logout-link">Logout</span>
-      </li>
-    </ul>
+<!-- Navbar -->
+<nav>
+  <div class="logo">
+    <img src="/static/images/logo.jpg" class="logo-img" alt="Logo">
+    <span>StudentStack</span>
   </div>
 
-  <!-- Overlay -->
-  <div id="overlay" class="overlay"></div>
-
-  <!-- Image Section -->
-  <div class="image">
-    <h1>Grow Your Services. Help Others.</h1>
-    <p>Create your own service or explore what others are offering. It's that simple.</p>
-    <img class="dashboard-img" src="/static/images/skill.jpg" alt="Student Image">
+  <!-- 🔍 Search Bar -->
+  <div class="search-container">
+    <input type="text" class="search-input" placeholder="Search services..." />
+    <button class="search-button"><i class="fas fa-search"></i></button>
   </div>
 
-  <!-- Service Boxes -->
-  <div class="services">
-    <div class="service-box">
-      <h3>Create Service</h3>
-      <p>Share your skills and services with the world.</p>
-      <button id="create-service-btn">Create</button>
-    </div>  
-    <div class="service-box">
-      <h3>View Services</h3>
-      <p>Explore a variety of services offered by others.</p>
-      <button id="view-services-btn">View</button>
+  <div class="moving-text">
+    <marquee behavior="scroll" direction="left" scrollamount="4">
+      Exchange Skills, Expand Possibilities. Trade Knowledge ,not just tools.
+    </marquee>
+  </div>
+
+  <div class="nav-buttons">
+    <a href="cart.html" class="cart-icon"><i class="fas fa-shopping-cart"></i></a>
+    <button id="login-btn">Login</button>
+    <button id="signup-btn" class="signup-btn">Sign Up</button>
+    <div class="menu-icon" style="color: white; font-size: 30px; cursor: pointer;">&#9776;</div>
+  </div>
+</nav>
+
+<!-- Drawer -->
+<div id="right-drawer" class="drawer">
+  <ul>
+    <li id="avatar-item" style="display:none;">
+      <div id="user-avatar" class="user-avatar">RS</div>
+    </li>
+    <li><i class="fas fa-user"></i><a href="profile.html">Profile</a></li>
+    <li><i class="fas fa-eye"></i><a href="view.html">View Services</a></li>
+    <li><i class="fas fa-plus-circle"></i><a href="createService.html">Create Service</a></li>
+    <li><i class="fas fa-briefcase"></i><a href="createdservices.html">My Services</a></li>
+    <li><i class="fas fa-book"></i><a href="bookedServices.html">My Bookings</a></li>
+    <li id="logout-item" style="color: red; font-weight: bold; display: none; cursor: pointer;">
+      <i class="fas fa-sign-out-alt"></i><span id="logout-link">Logout</span>
+    </li>
+  </ul>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" class="overlay"></div>
+
+<!-- Carousel Section -->
+<div class="carousel">
+  <div class="carousel-images">
+<img src="/static/images/e5.png" class="carousel-img" alt="Slide 3" style="height: 550px; width: 100%; object-fit: cover;">
+<img src="/static/images/e13.png" class="carousel-img" alt="Slide 3" style="height: 580px; width: 100%; object-fit: cover;">
+<img src="/static/images/e12.jpg" class="carousel-img" alt="Slide 3" style="height: 550px; width: 100%; object-fit: cover;">
+  </div>
+  <div class="carousel-controls">
+    <span class="prev">&#10094;</span>
+    <span class="next">&#10095;</span>
+  </div>
+</div>
+
+<!-- Service Boxes -->
+<div class="services">
+  <div class="service-box">
+    <h3>Create Service</h3>
+    <p>Share your skills and services with the world.</p>
+    <button id="create-service-btn">Create</button>
+  </div>  
+  <div class="service-box">
+    <h3>View Services</h3>
+    <p>Explore a variety of services offered by others.</p>
+    <button id="view-services-btn">View</button>
+  </div>
+</div>
+
+<!-- About Section -->
+<section class="about-section">
+  <div class="about-container">
+    <h2>About StudentStack</h2>
+    <p>
+      StudentStack is your one-stop platform to share skills, discover services, and connect with a vibrant student community. 
+      Whether you want to showcase your talent or explore new opportunities — we’ve got you covered.
+    </p>
+    <div class="social-links">
+      <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
     </div>
   </div>
+</section>
 
-  <!-- JavaScript -->
-  <script>
-    const menuIcon = document.querySelector('.menu-icon');
-    const drawer = document.getElementById('right-drawer');
-    const overlay = document.getElementById('overlay');
+<!-- JavaScript -->
+<script>
+  const menuIcon = document.querySelector('.menu-icon');
+  const drawer = document.getElementById('right-drawer');
+  const overlay = document.getElementById('overlay');
 
-    menuIcon.addEventListener('click', (e) => {
-      drawer.classList.add('open');
-      overlay.classList.add('show');
-      e.stopPropagation();
-    });
+  menuIcon.addEventListener('click', (e) => {
+    drawer.classList.add('open');
+    overlay.classList.add('show');
+    e.stopPropagation();
+  });
 
-    overlay.addEventListener('click', () => {
+  overlay.addEventListener('click', () => {
+    drawer.classList.remove('open');
+    overlay.classList.remove('show');
+  });
+
+  drawer.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
       drawer.classList.remove('open');
       overlay.classList.remove('show');
     });
+  });
 
-    drawer.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        drawer.classList.remove('open');
-        overlay.classList.remove('show');
+  document.getElementById('login-btn').onclick = () => window.location.href = 'login.html';
+  document.getElementById('signup-btn').onclick = () => window.location.href = 'signup.html';
+  document.getElementById('create-service-btn').onclick = () => window.location.href = 'createService.html';
+  document.getElementById('view-services-btn').onclick = () => window.location.href = 'view.html';
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch("http://localhost:5000/me", { credentials: "include" });
+      if (res.ok) {
+        const user = await res.json();
+        const username = user.username || "User";
+        localStorage.setItem('username', username);
+        localStorage.setItem('userId', user.userId);
+        const initials = username.trim().split(" ").map(word => word[0].toUpperCase()).join("");
+        document.getElementById('user-avatar').textContent = initials;
+        document.getElementById('avatar-item').style.display = 'block';
+        document.getElementById('logout-item').style.display = 'block';
+      }
+    } catch (err) {
+      console.error("Error checking login status:", err);
+    }
+  });
+
+  document.getElementById('logout-link').addEventListener('click', async () => {
+    try {
+      await fetch('http://localhost:5000/logout', {
+        method: 'POST',
+        credentials: 'include'
       });
-    });
+      localStorage.clear();
+      window.location.href = 'login.html';
+    } catch (err) {
+      console.error('Logout failed:', err);
+    }
+  });
 
-    document.getElementById('login-btn').onclick = () => window.location.href = 'login.html';
-    document.getElementById('signup-btn').onclick = () => window.location.href = 'signup.html';
-    document.getElementById('create-service-btn').onclick = () => window.location.href = 'createService.html';
-    document.getElementById('view-services-btn').onclick = () => window.location.href = 'view.html';
+  // Carousel JS
+  const slides = document.querySelectorAll('.carousel-img');
+  const prev = document.querySelector('.prev');
+  const next = document.querySelector('.next');
+  let currentIndex = 0;
 
-    window.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const res = await fetch("http://localhost:5000/me", { credentials: "include" });
-        if (res.ok) {
-          const user = await res.json();
-          const username = user.username || "User";
-          localStorage.setItem('username', username);
-          localStorage.setItem('userId', user.userId);
-          const initials = username.trim().split(" ").map(word => word[0].toUpperCase()).join("");
-          document.getElementById('user-avatar').textContent = initials;
-          document.getElementById('avatar-item').style.display = 'block';
-          document.getElementById('logout-item').style.display = 'block';
-        }
-      } catch (err) {
-        console.error("Error checking login status:", err);
-      }
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
     });
+  }
 
-    document.getElementById('logout-link').addEventListener('click', async () => {
-      try {
-        await fetch('http://localhost:5000/logout', {
-          method: 'POST',
-          credentials: 'include'
-        });
-        localStorage.clear();
-        window.location.href = 'login.html';
-      } catch (err) {
-        console.error('Logout failed:', err);
-      }
-    });
-  </script>
+  prev.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    showSlide(currentIndex);
+  });
+
+  next.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+  });
+
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+  }, 5000);
+
+  showSlide(currentIndex);
+
+  // 🔄 Animated Search Placeholder
+  const phrases = ["Search services...", "Search skills...", "Search students..."];
+  let i = 0;
+  let charIndex = 0;
+  const input = document.querySelector(".search-input");
+
+  function typePlaceholder() {
+    if (!input) return;
+    if (charIndex <= phrases[i].length) {
+      input.setAttribute("placeholder", phrases[i].substring(0, charIndex++));
+    } else {
+      setTimeout(() => {
+        charIndex = 0;
+        i = (i + 1) % phrases.length;
+        typePlaceholder();
+      }, 1500);
+      return;
+    }
+    setTimeout(typePlaceholder, 100);
+  }
+
+  typePlaceholder();
+</script>
 
 </body>
 </html>

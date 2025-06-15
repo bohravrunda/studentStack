@@ -6,21 +6,38 @@
   <title>View Services - StudentStack</title>
 <link rel="stylesheet" href="/static/styles/view.css">
 <link rel="stylesheet" href="/static/styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!-- ✅ Added this -->
 
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav>
-    <div class="logo">
-      <img src="/static/images/logo.jpg" class="logo-img">
-      <span style="font-size: 20px;">StudentStack</span>
-    </div>
-    <div class="nav-buttons">
-      <button id="login-btn">Login</button>
-      <button id="signup-btn">Sign Up</button>
-    </div>
-  </nav>
+<nav>
+  <div class="logo">
+    <img src="/static/images/logo.jpg" class="logo-img" alt="Logo">
+    <span>StudentStack</span>
+  </div>
+
+  <!-- 🔍 Search Bar -->
+  <div class="search-container">
+    <input type="text" class="search-input" placeholder="Search services..." />
+    <button class="search-button"><i class="fas fa-search"></i></button>
+  </div>
+
+  <div class="moving-text">
+    <marquee behavior="scroll" direction="left" scrollamount="4">
+      Exchange Skills, Expand Possibilities. Trade Knowledge ,not just tools.
+    </marquee>
+  </div>
+
+<div class="nav-buttons">
+  <a href="cart.html" class="cart-icon"><i class="fas fa-shopping-cart"></i></a>
+  <button onclick="window.location.href='login.html'">Login</button>
+  <button onclick="window.location.href='signup.html'" class="signup-btn">Sign Up</button>
+  <div class="menu-icon" style="color: white; font-size: 30px; cursor: pointer;">&#9776;</div>
+</div>
+</nav>
+
+
 
   <!-- Hero Header -->
   <section class="hero-section">
@@ -38,6 +55,24 @@
     <h2 class="section-heading">🔥 Popular Services This Week</h2>
     <div id="services-list" class="services-grid"></div>
   </section>
+
+
+    <!-- About Section -->
+<!-- About Section -->
+<section class="about-section">
+  <div class="about-container">
+    <h2>About StudentStack</h2>
+    <p>
+      StudentStack is your one-stop platform to share skills, discover services, and connect with a vibrant student community. 
+      Whether you want to showcase your talent or explore new opportunities — we’ve got you covered.
+    </p>
+    <div class="social-links">
+      <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+    </div>
+  </div>
+</section>
 
   <!-- JavaScript -->
   <script>
@@ -57,12 +92,16 @@
         serviceCard.classList.add('service-card');
 
         serviceCard.innerHTML = `
-          <div class="service-img-placeholder"></div>
-          <h3>${service.service_name}</h3>
-          <p>${service.additional_note || 'No description available'}</p>
-          <p><span class="price">₹${service.cost?.price || 'N/A'}</span> <span class="badge">${service.category}</span></p>
-          <p style="font-size: 13px; color: #777;">By: ${service.provider?.name || 'Unknown'}</p>
-        `;
+  <a href="service-detail.html?id=${service._id}" style="text-decoration: none; color: inherit;">
+    <div class="service-img-placeholder"></div>
+    <h3>${service.service_name}</h3>
+    <p>${service.additional_note || 'No description available'}</p>
+    <p><span class="price">₹${service.cost?.price || 'N/A'}</span> 
+       <span class="badge">${service.category}</span></p>
+    <p style="font-size: 13px; color: #777;">By: ${service.provider?.name || 'Unknown'}</p>
+  </a>
+`;
+
 
         servicesContainer.appendChild(serviceCard);
       });
