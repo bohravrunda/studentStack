@@ -5,6 +5,8 @@ from itsdangerous import URLSafeTimedSerializer
 from extensions import bcrypt, mail, client
 from config import Config
 from flask import current_app
+import random
+from datetime import datetime, timedelta
 
 from datetime import timedelta
 import os
@@ -218,3 +220,73 @@ def resend_email():
 
     return jsonify({'message': 'Verification email resent successfully.'}), 200
 
+
+
+@auth.route('/request-otp', methods=['POST'])
+def request_otp():
+    data = request.get_json()
+    email = data.get('email')
+
+    if not email:
+        return jsonify({'error': 'Email is required'}), 400
+
+    user = users.find_one({'email': email})
+    if not user:
+        return jsonify({'error': 'Email not registered'}), 404
+
+    # Generate 6-digit OTP
+    otp = str(random.randint(100000, 999999))
+    expiry_time = datetime.utcnow() + timedelta(minutes=5)
+
+    # Store OTP and expiry in user document
+    users.update_one(
+        {'email': email},
+        {'$set': {'reset_otp': otp, 'otp_expiry': expiry_time}}
+    )
+
+    # Send email
+    msg = Message("Your OTP for Password Reset", sender=current_app.config['MAIL_USERNAME'], recipients=[email])
+    msg.body = f"Hi {user.get('username', '')},\n\nYour OTP is: {otp}\nIt will expire in 5 minutes."
+
+    try:
+        mail.send(msg)
+    except Exception as e:
+        return jsonify({'error': 'Failed to send OTP email', 'message': str(e)}), 500
+
+    return jsonify({'message': 'OTP sent to your email.'}), 200
+
+
+@auth.route('/reset-password', methods=['POST'])
+def reset_password_with_otp():
+    data = request.get_json()
+    email = data.get('email')
+    otp = data.get('otp')
+    new_password = data.get('new_password')
+    confirm_password = data.get('confirm_password')
+
+    if not all([email, otp, new_password, confirm_password]):
+        return jsonify({'error': 'All fields are required'}), 400
+
+    if new_password != confirm_password:
+        return jsonify({'error': 'Passwords do not match'}), 400
+
+    user = users.find_one({'email': email})
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    # Check if OTP is correct and not expired
+    if user.get('reset_otp') != otp:
+        return jsonify({'error': 'Invalid OTP'}), 400
+
+    if datetime.utcnow() > user.get('otp_expiry', datetime.utcnow()):
+        return jsonify({'error': 'OTP has expired'}), 400
+
+    # Reset password
+    hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+    users.update_one(
+        {'email': email},
+        {'$set': {'password': hashed_password},
+         '$unset': {'reset_otp': "", 'otp_expiry': ""}}  # Remove OTP fields
+    )
+
+    return jsonify({'message': 'Password reset successful'}), 200
