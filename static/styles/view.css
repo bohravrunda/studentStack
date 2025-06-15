@@ -1,4 +1,4 @@
-.body {
+    .body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 0;
@@ -155,3 +155,98 @@
       cursor: pointer;
       margin-top: 1rem;
     }
+
+.about-section {
+  background-color: #24292e;
+  color: #fff;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.about-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.about-section h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.about-section p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.social-links a {
+  display: inline-block;
+  margin: 0 10px;
+  font-size: 1.8em;
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #1da1f2; /* Twitter blue as highlight, change if you'd like */
+}
+/* Group logo and search together */
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+/* Logo spacing */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-img {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Search bar styling */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: -100px; /* ya hata do agar bilkul chipkana hai logo se */
+
+}
+
+.search-input {
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  width: 300px;
+}
+
+.search-button {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
+}
+.cart-icon {
+  color: white;           /* White color */
+  
+}
+.moving-text {
+  color: white;
+  font-weight: 300;
+  font-size: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0 20px;
+  width: 350px;
+  overflow: hidden;
+  white-space: nowrap;
+}

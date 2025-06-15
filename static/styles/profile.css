@@ -3,84 +3,91 @@
   padding: 0;
   box-sizing: border-box;
 }
- nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  }
-  
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .logo-img {
-    width: 40px;        /* smaller size */
-    height: 40px;
-    object-fit: contain;
-  }
-  
-  .logo-text {
-    font-size: 2%;
-    font-weight: bold;
-    color: #2c3e50;
-  }
 
+/* Navbar */
+nav {
+  display: flex;
+  height: 64px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #24292e;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+    color:white;
+
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
   
-  
-  .nav-buttons {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .nav-buttons button {
+
+}
+
+.logo-text {
+  font-size: 2%;
+  font-weight: bold;
+  color:white;
+  font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+    color:white;
+
+  gap: 15px;
+}
+
+.nav-buttons button {
   padding: 8px 16px;
   border: none;
   background-color: transparent;
-  color: #2c3e50;
-  font-weight: bold; /* Updated from 500 to bold */
+    color:white;
+  font-weight: bold;
   cursor: pointer;
 }
 
 .signup-btn {
   background-color: #4f9cff;
   color: white;
-  font-weight: bold; /* Already bold, kept for clarity */
+  font-weight: bold;
   border-radius: 6px;
 }
 
-  
-  .menu-icon {
+.menu-icon {
   font-size: 22px;
-  /* display: none; */
   cursor: pointer;
 }
 
-  @media (max-width: 768px) {
-    .menu-icon {
-      display: block;
-    }
-  
-    .nav-buttons button:not(.menu-icon) {
-      display: none;
-    }
-  
-    .services {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .image h1 {
-      font-size: 2rem;
-    }
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
   }
 
-  .sidebar {
+  .nav-buttons button:not(.menu-icon) {
+    display: none;
+  }
+
+  .services {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .image h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Sidebar */
+.sidebar {
   position: fixed;
   top: 0;
   right: -300px;
@@ -139,8 +146,7 @@
   padding-left: 0.5rem;
 }
 
-  
-
+/* Body and Layout */
 body {
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(to right, #e0f0ff, #fff8ee);
@@ -152,7 +158,6 @@ body {
   min-height: 100vh;
 }
 
-/* Sidebar */
 .sidebar {
   width: 60px;
   background-color: #fff;
@@ -161,18 +166,18 @@ body {
   flex-shrink: 0;
 }
 
-/* Main content */
 .main-content {
   flex: 1;
   padding: 30px;
-  min-width: 0; /* Fix for overflow in flex container */
+  min-width: 0;
 }
 
+/* Header */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap; /* allow wrap on small screens */
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -197,6 +202,7 @@ body {
   border-radius: 50%;
 }
 
+/* Profile Card */
 .profile-card {
   background-color: white;
   margin-top: 20px;
@@ -216,11 +222,14 @@ body {
   flex-wrap: wrap;
 }
 
+/* Profile Image */
 .profile-image {
   position: relative;
   width: 100px;
   height: 100px;
   flex-shrink: 0;
+  cursor: pointer;
+  margin-right: 20px;
 }
 
 .profile-image img {
@@ -240,10 +249,53 @@ body {
   cursor: pointer;
 }
 
+/* Upload Label + Hint */
+.upload-label {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+
+.initial-avatar, #preview {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #84AE92;
+  color: white;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.upload-hint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 6px 0;
+  text-align: center;
+  font-size: 12px;
+  background-color: rgba(0,0,0,0.6);
+  color: #fff;
+  opacity: 0;
+  border-radius: 0 0 50% 50%;
+  transition: opacity 0.3s ease;
+}
+
+.upload-label:hover .upload-hint {
+  opacity: 1;
+}
+
+/* Edit Button */
 .edit-btn {
   margin-left: auto;
   padding: 8px 18px;
-  background-color: #2b72ff;
+  background-color: #84AE92;
   color: white;
   border: none;
   border-radius: 8px;
@@ -251,6 +303,7 @@ body {
   flex-shrink: 0;
 }
 
+/* Form Layout */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -258,7 +311,6 @@ body {
   margin-top: 20px;
 }
 
-/* Responsive 1-column on smaller screens */
 @media (max-width: 700px) {
   .form-grid {
     grid-template-columns: 1fr;
@@ -290,6 +342,10 @@ body {
   margin-bottom: 6px;
 }
 
+.form-group label span {
+  color: red;
+}
+
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -303,7 +359,15 @@ body {
   box-sizing: border-box;
 }
 
-/* Bio textarea specific */
+/* Readonly & Disabled Styles */
+input:read-only,
+textarea:read-only,
+select:disabled {
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+}
+
+/* Bio Textarea */
 .form-group textarea {
   height: 150px;
   min-height: 120px;
@@ -311,7 +375,7 @@ body {
   width: 100%;
 }
 
-/* Email Section */
+/* Email Box */
 .email-section {
   margin-top: 30px;
   max-width: 400px;
@@ -348,13 +412,15 @@ body {
 }
 
 .add-email:hover {
-  background-color: #c5cef9;
+  background-color: #c5cef9;
 }
+
+/* Initial Avatar Specific */
 .initial-avatar {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: #4f9cff;
+  background-color: #84AE92;
   color: white;
   display: flex;
   align-items: center;
@@ -362,4 +428,99 @@ body {
   font-size: 36px;
   font-weight: bold;
   text-transform: uppercase;
+}
+.about-section {
+  background-color: #24292e;
+  color: #fff;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.about-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.about-section h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.about-section p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.social-links a {
+  display: inline-block;
+  margin: 0 10px;
+  font-size: 1.8em;
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #1da1f2; /* Twitter blue as highlight, change if you'd like */
+}
+
+/* Group logo and search together */
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+/* Logo spacing */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-img {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Search bar styling */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: -100px; /* ya hata do agar bilkul chipkana hai logo se */
+
+}
+
+.search-input {
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  width: 300px;
+}
+
+.search-button {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
+}
+.cart-icon {
+  color: white;           /* White color */
+  
+}
+.moving-text {
+  color: white;
+  font-weight: 300;
+  font-size: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0 20px;
+  width: 350px;
+  overflow: hidden;
+  white-space: nowrap;
 }

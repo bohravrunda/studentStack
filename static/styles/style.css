@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
+font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #f6fbff;
   color: #333;
 }
@@ -14,10 +14,12 @@ body {
 /* Navbar */
 nav {
   display: flex;
+  height: 64px;
+
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  background-color: #ffffff;
+  background-color: #24292e;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
@@ -25,6 +27,8 @@ nav {
   display: flex;
   align-items: center;
   gap: 8px;
+    color:white;
+
 }
 
 .logo-img {
@@ -43,7 +47,7 @@ nav {
   padding: 8px 16px;
   border: none;
   background-color: transparent;
-  color: #2c3e50;
+  color:white;
   font-weight: 500;
   cursor: pointer;
 }
@@ -136,7 +140,7 @@ nav {
   right: -250px;
   width: 250px;
   height: 100%;
-  background-color: white;
+  background-color:white ;
   box-shadow: -2px 0 5px rgba(0,0,0,0.2);
   z-index: 1000;
   transition: right 0.3s ease;
@@ -150,6 +154,8 @@ nav {
   list-style-type: none;
   padding: 0;
   margin-top: 60px;
+  color:black;
+  
 }
 
 .drawer ul li {
@@ -157,18 +163,19 @@ nav {
   border-bottom: 1px solid #eee;
   display: flex;
   align-items: center;
+  color:black;
 }
 
 .drawer ul li a {
   text-decoration: none;
-  color: black;
+  color:black;
   margin-left: 10px;
 }
 
 .user-avatar {
   width: 90px;
   height: 90px;
-  background-color: #5A67D8;
+  background-color:#84AE92;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -183,6 +190,7 @@ nav {
   list-style: none;
   text-align: center;
   margin-bottom: 10px;
+  
 }
 
 #logout-item {
@@ -216,10 +224,11 @@ nav {
   .nav-buttons button:not(.menu-icon) {
     display: none;
   }
-
-  .menu-icon {
-    display: block;
-  }
+.menu-icon {
+  color: white !important;
+  font-size: 30px;
+  cursor: pointer;
+}
 
   .services {
     flex-direction: column;
@@ -229,4 +238,155 @@ nav {
   .image h1 {
     font-size: 2rem;
   }
+}
+.carousel {
+  position: relative;
+  max-width: 1000px;
+  margin: 30px auto;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.carousel-images {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+    max-width: 1000px;
+
+
+}
+
+.carousel-img {
+  min-width: 100%;
+  display: none;
+}
+
+.carousel-img.active {
+  display: block;
+}
+
+.carousel-controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  padding: 0 10px;
+}
+
+.carousel-controls span {
+  cursor: pointer;
+  font-size: 30px;
+  color: #333;
+  user-select: none;
+}
+
+.about-section {
+  background-color: #24292e;
+  color: #fff;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.about-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.about-section h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.about-section p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.social-links a {
+  display: inline-block;
+  margin: 0 10px;
+  font-size: 1.8em;
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #1da1f2; /* Twitter blue as highlight, change if you'd like */
+}
+/* Group logo and search together */
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+/* Logo spacing */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-img {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Search bar styling */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: -100px; /* ya hata do agar bilkul chipkana hai logo se */
+
+}
+
+.search-input {
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  width: 300px;
+}
+
+.search-button {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
+}
+.cart-icon {
+  color: white;           /* White color */
+  
+}
+.moving-text {
+  color: white;
+  font-weight: 300;
+  font-size: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0 20px;
+  width: 350px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.cart-badge {
+  position: absolute;
+  top: 5px;
+  right: 0;
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+}
+.cart-icon {
+  position: relative;
 }
