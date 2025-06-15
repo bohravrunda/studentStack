@@ -3,73 +3,148 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Created Services</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/createdservices.css') }}">
+  <title>My Created Services - StudentStack</title>
+  <link rel="stylesheet" href="/static/styles/createdservices.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
 </head>
 <body>
-
-  <!-- Navbar -->
-  <nav>
-    <div class="logo">
-<img src="{{ url_for('static', filename='images/logo.jpg') }}" class="logo-img">
-      <span>StudentStack</span>
-    </div>
-  </nav>
-
-  <!-- Service Display Section -->
-  <div class="services-container">
-    <h1>My Created Services</h1>
-    <div id="services-list">
-      <!-- Services will be dynamically added here -->
-    </div>
+<!-- Navbar -->
+<nav>
+  <div class="logo">
+    <img src="/static/images/logo.jpg" class="logo-img" alt="Logo">
+    <span>StudentStack</span>
   </div>
 
+  <!-- 🔍 Search Bar -->
+  <div class="search-container">
+    <input type="text" class="search-input" placeholder="Search services..." />
+    <button class="search-button"><i class="fas fa-search"></i></button>
+  </div>
+
+  <div class="moving-text">
+    <marquee behavior="scroll" direction="left" scrollamount="4">
+      Exchange Skills, Expand Possibilities. Trade Knowledge ,not just tools.
+    </marquee>
+  </div>
+
+  <div class="nav-buttons">
+    <a href="cart.html" class="cart-icon"><i class="fas fa-shopping-cart"></i></a>
+  <button onclick="window.location.href='login.html'">Login</button>
+  <button onclick="window.location.href='signup.html'" class="signup-btn">Sign Up</button>
+      <div class="menu-icon" style="color: white; font-size: 30px; cursor: pointer;">&#9776;</div>
+  </div>
+</nav>
+
+
+
+  <!-- Header -->
+  <section class="hero-section">
+    <h1>🛠️ My Created Services</h1>
+  </section>
+
+  <!-- Services Section -->
+  <section>
+    <div id="services-list" class="services-grid"></div>
+  </section>
+
+
+
+  <!-- About Section -->
+<section class="about-section">
+  <div class="about-container">
+    <h2>About StudentStack</h2>
+    <p>
+      StudentStack is your one-stop platform to share skills, discover services, and connect with a vibrant student community. 
+      Whether you want to showcase your talent or explore new opportunities — we’ve got you covered.
+    </p>
+    <div class="social-links">
+      <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('login-btn').addEventListener('click', () => {
+    window.location.href = 'login.html';
+  });
+
+  document.getElementById('signup-btn').addEventListener('click', () => {
+    window.location.href = 'signup.html';
+  });
+</script>
+
   <!-- JavaScript -->
-  <script>
+<script>
   window.addEventListener('DOMContentLoaded', async () => {
     const username = localStorage.getItem('username');
     if (!username) {
-      window.location.href = 'login.html';  // Redirect if not logged in
+      window.location.href = 'login.html';
       return;
     }
 
     try {
       const userId = localStorage.getItem('userId');
       const response = await fetch(`http://localhost:5000/get-services-by-userid?userId=${userId}`, {
-      method: "GET",
-    credentials: "include",
-});
+        method: "GET",
+        credentials: "include",
+      });
 
-      
+      const servicesContainer = document.getElementById('services-list');
+      servicesContainer.innerHTML = '';
+
+      // 🔹 Add "Add Service" Card First
+      const addCard = document.createElement('div');
+      addCard.className = 'service-card add-service-card';
+      addCard.onclick = () => window.location.href = 'createservice.html';
+      addCard.innerHTML = `
+        <div class="add-icon">+</div>
+        <h3>Add New Service</h3>
+        <p>Click to create a new service</p>
+      `;
+      servicesContainer.appendChild(addCard);
 
       if (!response.ok) {
-        // Handle errors (401 Unauthorized, etc.)
         alert('You need to be logged in to see your services.');
         return;
       }
 
       const services = await response.json();
+
       if (services.length === 0) {
-        document.getElementById("services-list").innerHTML = "<p>No services found.</p>";
-      } else {
-        let serviceHTML = services.map(service => `
-          <div class="service-item">
-            <h3>${service.service_name}</h3>
-            <p>${service.category}</p>
-            <p>Price: ${service.cost.price}</p>
-            <button class="view-details" onclick="viewDetails('${service._id}')">View Details</button>
-          </div>
-        `).join('');
-        document.getElementById("services-list").innerHTML = serviceHTML;
+        const noServiceMsg = document.createElement('p');
+        noServiceMsg.style.textAlign = "center";
+        noServiceMsg.style.color = "#888";
+        noServiceMsg.textContent = "No services found.";
+        servicesContainer.appendChild(noServiceMsg);
+        return;
       }
+
+      services.forEach(service => {
+        const serviceCard = document.createElement('div');
+        serviceCard.className = 'service-card';
+
+        serviceCard.innerHTML = `
+          <div class="service-img-placeholder"></div>
+          <h3>${service.service_name}</h3>
+          <p>${service.additional_note || 'No description available.'}</p>
+          <p><span class="price">₹${service.cost?.price || 'N/A'}</span> <span class="badge">${service.category}</span></p>
+          <button class="view-details-btn" onclick="viewDetails('${service._id}')">View Details</button>
+        `;
+
+        servicesContainer.appendChild(serviceCard);
+      });
+
     } catch (error) {
       console.error("Error fetching services:", error);
+      document.getElementById('services-list').innerHTML = '<p style="text-align:center; color:red;">Failed to load services.</p>';
     }
   });
 
   function viewDetails(serviceId) {
-    // Redirect to a service details page
-   alert(`Service ID: ${serviceId}\nDetails feature coming soon!`);
+    alert(`Service ID: ${serviceId}\nDetails feature coming soon!`);
   }
 </script>
 

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Service Detail - StudentStack</title>
+  <link rel="stylesheet" href="/static/styles/details.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">
+      <img src="/static/images/logo.jpg" class="logo-img" alt="Logo" />
+      <span>StudentStack</span>
+    </div>
+
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search services..." />
+      <button class="search-button">🔍</button>
+    </div>
+
+    <div class="moving-text">
+      <marquee behavior="scroll" direction="left" scrollamount="4">
+        Exchange Skills, Expand Possibilities. Trade Knowledge, not just tools.
+      </marquee>
+    </div>
+
+    <div class="nav-buttons">
+      <a href="cart.html" class="cart-icon">🛒</a>
+      <button id="login-btn">Login</button>
+      <button id="signup-btn" class="signup-btn">Sign Up</button>
+      <div class="menu-icon" style="color: white; font-size: 30px; cursor: pointer;">&#9776;</div>
+    </div>
+  </nav>
+
+  <!-- Main Service Detail -->
+  <div class="service-container">
+    <div class="service-left">
+      <h1 id="service-name">Loading...</h1>
+      <p id="service-note" class="tagline">Loading description...</p>
+
+      <div class="stats">
+        <span id="service-rating">⭐ 4.7</span>
+        <span>•</span>
+        <span id="service-exercises">126 practice exercises</span>
+        <span>•</span>
+        <span id="service-duration">87.6 hours</span>
+      </div>
+
+      <p class="price" id="service-price">₹999</p>
+<button class="subscribe-btn" onclick="goToPayment()">Book Your Service</button>
+      <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+    </div>
+
+    <div class="service-image">
+      <img src="/static/images/e8.jpg" alt="Service Image" />
+    </div>
+  </div>
+
+  <!-- About Section -->
+  <section class="about-section">
+    <div class="about-container">
+      <h2>About StudentStack</h2>
+      <p>
+        StudentStack is your one-stop platform to share skills, discover services, and connect with a vibrant student community. 
+        Whether you want to showcase your talent or explore new opportunities — we’ve got you covered.
+      </p>
+      <div class="social-links">
+        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Script -->
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const serviceId = urlParams.get('id');
+
+    async function loadServiceDetails() {
+      try {
+        const response = await fetch(`http://localhost:5000/get-service?id=${serviceId}`);
+        const service = await response.json();
+
+        document.getElementById('service-name').innerText = service.service_name;
+        document.getElementById('service-price').innerText = `₹${service.cost?.price || 'N/A'}`;
+        document.getElementById('service-note').innerText = service.additional_note || "No description available";
+        document.getElementById('service-rating').innerText = `⭐ ${service.rating || '4.7'}`;
+        document.getElementById('service-exercises').innerText = `${service.exercises || 126} practice exercises`;
+        document.getElementById('service-duration').innerText = `${service.duration || 87.6} hours`;
+
+      } catch (error) {
+        document.querySelector('.service-container').innerHTML =
+          '<p style="color: red;">Failed to load service details.</p>';
+        console.error("Error:", error);
+      }
+    }
+
+    async function addToCart() {
+      try {
+        const serviceId = new URLSearchParams(window.location.search).get('id');
+        const response = await fetch(`http://localhost:5000/get-service?id=${serviceId}`);
+        const service = await response.json();
+
+        const res = await fetch('http://localhost:5000/add-to-cart', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(service)
+        });
+
+        const data = await res.json();
+        alert(data.message || "Added to cart");
+      } catch (err) {
+        console.error("Cart error:", err);
+        alert("Failed to add to cart");
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadServiceDetails);
+
+
+    function goToPayment() {
+  const serviceId = new URLSearchParams(window.location.search).get('id');
+  window.location.href = `/payment.html?id=${serviceId}`;
+}
+
+  </script>
+</body>
+</html>
