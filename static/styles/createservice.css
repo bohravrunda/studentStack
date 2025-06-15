@@ -1,7 +1,7 @@
 
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
+font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   background: linear-gradient(to right, #e0f0ff, #fff8ee);  background-color: rgba(255, 255, 255, 0.8);
   background-size: cover;
   display: flex;
@@ -10,65 +10,75 @@ body {
   padding: 2rem;
   min-height: 100vh;
   box-sizing: border-box;
-}
-
-/* Navbar Styling */
+  height: 64px;
+}/* Navbar */
 nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  padding: 1rem 2rem;
   display: flex;
+  height: 32px;
+
   justify-content: space-between;
   align-items: center;
-  z-index: 1000;
+  padding: 20px 40px;
+  background-color: #24292e;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
+    color:white;
+
 }
 
 .logo-img {
-  height: 40px;
   width: 40px;
-  border-radius: 50%;
-  object-fit: cover;
+  height: 40px;
+  object-fit: contain;
 }
 
-/* Back arrow left to logo */
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 
-.back-arrow {
-  background: none;
-  color: #111827;
-  font-size: 1.5rem;       /* Increased font size */
-  font-weight: 700;
+.nav-buttons button {
+  padding: 8px 16px;
   border: none;
+  background-color: transparent;
+  color:white;
+  font-weight: 500;
   cursor: pointer;
-  padding: 0.5rem 1rem;
 }
 
-.back-arrow:hover {
-  background-color: #e5e7eb;
-  border-radius: 0.4rem;
+.signup-btn {
+  background-color: #4f9cff;
+  color: white;
+  border-radius: 6px;
 }
+
+.menu-icon {
+  font-size: 24px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+
 
 /* Form Container */
 .form-container {
-  background: white;
-  padding: 3rem 3.5rem;
-  border-radius: 1rem;
-  width: 100%;
-  max-width: 1200px; /* Increased max width */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin: 80px auto 40px auto;
-  box-sizing: border-box;
-}
+  margin-top: 100px;        /* shift form down below navbar */
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 30px 40px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px; /* Add space below the form */
 
+}
 /* Add spacing below each label */
 label {
   display: block;
@@ -170,7 +180,15 @@ button:hover {
   .nav-buttons {
     order: 0;
     margin-right: auto;
+    color:black;
   }
+  
+.signup-btn {
+  background-color: #4f9cff;
+  color: white;
+  border-radius: 6px;
+}
+
 
   .illustration-img {
     width: 150px;
@@ -226,4 +244,99 @@ button:hover {
   .right-img {
     display: none;
   }
+}
+
+.about-section {
+  background-color: #24292e;
+  color: #fff;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.about-container {
+  max-width: 100%;
+  margin: auto;
+}
+
+.about-section h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.about-section p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.social-links a {
+  display: inline-block;
+  margin: 0 10px;
+  font-size: 1.8em;
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #1da1f2; /* Twitter blue as highlight, change if you'd like */
+}
+/* Group logo and search together */
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+/* Logo spacing */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-img {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Search bar styling */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: -100px; /* ya hata do agar bilkul chipkana hai logo se */
+
+}
+
+.search-input {
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  width: 300px;
+}
+
+.search-button {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
+}
+.cart-icon {
+  color: white;           /* White color */
+  
+}
+.moving-text {
+  color: white;
+  font-weight: 300;
+  font-size: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0 20px;
+  width: 350px;
+  overflow: hidden;
+  white-space: nowrap;
 }
