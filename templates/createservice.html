@@ -4,186 +4,222 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create Service</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/createservice.css') }}">
+  <link rel="stylesheet" href="/static/styles/createservice.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav id="main-content">
-    <div class="logo">
-<img src="{{ url_for('static', filename='images/logo.jpg') }}" class="logo-img" alt="Logo" />
-      <span>StudentStack</span>
-    </div>
-    <div class="nav-buttons">
-      <button id="back-btn" class="nav-icon-btn">&#8592;</button>
-    </div>
-  </nav>
 
-  <!-- Main Form Container -->
-  <div id="main-content" class="form-container">
-    <h2>Create Service</h2>
-    <form id="service-form">
-      <label>User Name<span class="required-star">*</span></label>
-      <input type="text" id="username" placeholder="Enter your name" required />
+  <main>
 
-      <label>Service Name <span class="required-star">*</span></label>
-      <input type="text" id="serviceName" placeholder="Service Description" required />
 
-      <label>Category (Type of Service) <span class="required-star">*</span></label>
-      <select id="category" required>
-        <option value="" disabled selected>Select category</option>
-        <option>Education</option>
-        <option>Health</option>
-        <option>Extracurricular</option>
-      </select>
-
-      <label>Provider Info <span class="required-star">*</span></label>
-      <div class="input-row">
-        <input type="text" id="providerName" placeholder="Name" required />
-        <input type="email" id="providerEmail" placeholder="Email" required />
-      </div>
-      <input type="text" id="location" placeholder="Location" required />
-
-      <label>Availability<span class="required-star">*</span></label>
-      <div class="input-row">
-        <input type="date" id="fromDate" required />
-        <input type="date" id="toDate" required />
-      </div>
-      <input type="text" id="days" placeholder="Available Days (e.g, Mon-Fri)" required />
-
-      <label>Cost <span class="required-star">*</span></label>
-      <div class="input-row">
-        <input type="text" id="price" placeholder="Price" required />
-      </div>
-
-      <label>Payment Methods <span class="required-star">*</span></label>
-      <div class="input-row">
-        <label><input type="checkbox" name="paymentMethod" value="UPI" required /> UPI</label>
-        <label><input type="checkbox" name="paymentMethod" value="Bank Transfer" /> Bank Transfer</label>
-        <label><input type="checkbox" name="paymentMethod" value="Cash" /> Cash</label>
-        <label><input type="checkbox" name="paymentMethod" value="Credit Card" /> Credit Card</label>
-      </div>
-
-      <label>Level <span class="required-star">*</span></label>
-      <select id="level" required>
-        <option value="" disabled selected>Select Level</option>
-        <option>Beginner</option>
-        <option>Intermediate</option>
-        <option>Advanced</option>
-      </select>
-
-      <label>Language <span class="required-star">*</span></label>
-      <input type="text" id="language" placeholder="e.g., English, Hindi" required />
-
-      <label>Proof / Portfolio Upload <span class="required-star">*</span></label>
-      <input type="file" id="portfolio" name="proof[]" multiple required />
-
-      <label>Additional Notes <span class="required-star">*</span></label>
-      <textarea id="notes" placeholder="Any additional details…" required></textarea>
-
-      <!-- Buttons -->
-      <div class="button-row">
-        <button type="submit">Submit</button>
-        <button type="button" id="edit-btn">✏ Edit</button>
-      </div>
-    </form>
+<!-- Navbar -->
+<nav>
+  <div class="logo">
+    <img src="/static/images/logo.jpg" class="logo-img" alt="Logo">
+    <span>StudentStack</span>
   </div>
 
+  <!-- 🔍 Search Bar -->
+  <div class="search-container">
+    <input type="text" class="search-input" placeholder="Search services..." />
+    <button class="search-button"><i class="fas fa-search"></i></button>
+  </div>
+
+  <div class="moving-text">
+    <marquee behavior="scroll" direction="left" scrollamount="4">
+      Exchange Skills, Expand Possibilities. Trade Knowledge ,not just tools.
+    </marquee>
+  </div>
+
+  <div class="nav-buttons">
+    <a href="cart.html" class="cart-icon"><i class="fas fa-shopping-cart"></i></a>
+  <button onclick="window.location.href='login.html'">Login</button>
+  <button onclick="window.location.href='signup.html'" class="signup-btn">Sign Up</button>
+      <div class="menu-icon" style="color: white; font-size: 30px; cursor: pointer;">&#9776;</div>
+  </div>
+</nav>
+    <!-- Main Form Container -->
+    <div id="main-content" class="form-container">
+      <h2>Create Service</h2>
+      <form id="service-form">
+        <label>User Name<span class="required-star">*</span></label>
+        <input type="text" id="username" placeholder="Enter your name" required />
+
+        <label>Service Name <span class="required-star">*</span></label>
+        <input type="text" id="serviceName" placeholder="Service Description" required />
+
+        <label>Category (Type of Service) <span class="required-star">*</span></label>
+        <select id="category" required>
+          <option value="" disabled selected>Select category</option>
+          <option>Education</option>
+          <option>Health</option>
+          <option>Extracurricular</option>
+        </select>
+
+        <label>Provider Info <span class="required-star">*</span></label>
+        <div class="input-row">
+          <input type="text" id="providerName" placeholder="Name" required />
+          <input type="email" id="providerEmail" placeholder="Email" required />
+        </div>
+        <input type="text" id="location" placeholder="Location" required />
+
+        <label>Availability<span class="required-star">*</span></label>
+        <div class="input-row">
+          <input type="date" id="fromDate" required />
+          <input type="date" id="toDate" required />
+        </div>
+        <input type="text" id="days" placeholder="Available Days (e.g, Mon-Fri)" required />
+
+        <label>Cost <span class="required-star">*</span></label>
+        <div class="input-row">
+          <input type="text" id="price" placeholder="Price" required />
+        </div>
+
+        <label>Payment Methods <span class="required-star">*</span></label>
+        <div class="input-row">
+          <label><input type="checkbox" name="paymentMethod" value="UPI" required /> UPI</label>
+          <label><input type="checkbox" name="paymentMethod" value="Bank Transfer" /> Bank Transfer</label>
+          <label><input type="checkbox" name="paymentMethod" value="Cash" /> Cash</label>
+          <label><input type="checkbox" name="paymentMethod" value="Credit Card" /> Credit Card</label>
+        </div>
+
+        <label>Level <span class="required-star">*</span></label>
+        <select id="level" required>
+          <option value="" disabled selected>Select Level</option>
+          <option>Beginner</option>
+          <option>Intermediate</option>
+          <option>Advanced</option>
+        </select>
+
+        <label>Language <span class="required-star">*</span></label>
+        <input type="text" id="language" placeholder="e.g., English, Hindi" required />
+
+        <label>Proof / Portfolio Upload <span class="required-star">*</span></label>
+        <input type="file" id="portfolio" name="proof[]" multiple required />
+
+        <label>Additional Notes <span class="required-star">*</span></label>
+        <textarea id="notes" placeholder="Any additional details…" required></textarea>
+
+        <div class="button-row">
+          <button type="submit">Submit</button>
+          <button type="button" id="edit-btn">✏ Edit</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- About Section (Now Below Form) -->
+    <section class="about-section">
+      <div class="about-container">
+        <h2>About StudentStack</h2>
+        <p>
+          StudentStack is your one-stop platform to share skills, discover services, and connect with a vibrant student community. 
+          Whether you want to showcase your talent or explore new opportunities — we’ve got you covered.
+        </p>
+        <div class="social-links">
+          <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JavaScript -->
   <script>
-    // Prefill username from localStorage, no modal or blur
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const res = await fetch("http://localhost:5000/me", {
-      credentials: "include"
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch("http://localhost:5000/me", {
+          credentials: "include"
+        });
+
+        if (res.ok) {
+          const user = await res.json();
+          localStorage.setItem('username', user.username);
+          localStorage.setItem('userId', user.userId);
+          document.getElementById('username').value = user.username;
+        } else {
+          localStorage.removeItem('username');
+          localStorage.removeItem('userId');
+        }
+      } catch (err) {
+        console.error("Error fetching user info:", err);
+      }
     });
 
-    if (res.ok) {
-      const user = await res.json();
-      localStorage.setItem('username', user.username);
-      localStorage.setItem('userId', user.userId);
-      document.getElementById('username').value = user.username;
-    } else {
-      // Not logged in
-      localStorage.removeItem('username');
-      localStorage.removeItem('userId');
-    }
-  } catch (err) {
-    console.error("Error fetching user info:", err);
-  }
-});
+    document.getElementById('service-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-document.getElementById('service-form').addEventListener('submit', async function (e) {
-  e.preventDefault();
+      const username = localStorage.getItem('username');
+      const userId = localStorage.getItem('userId');
 
-  // Correctly get user info from localStorage
-  const username = localStorage.getItem('username');
-  const userId = localStorage.getItem('userId');
+      if (!username || !userId) {
+        alert("Please signup/login first to create a service.");
+        return;
+      }
 
-  if (!username || !userId) {
-    alert("Please signup/login first to create a service.");
-    return;
-  }
+      const formData = new FormData();
+      formData.append("userId", userId);
+      formData.append("username", username);
+      formData.append("service_name", document.getElementById('serviceName').value);
+      formData.append("category", document.getElementById('category').value);
+      formData.append("provider_name", document.getElementById('providerName').value);
+      formData.append("provider_email", document.getElementById('providerEmail').value);
+      formData.append("provider_location", document.getElementById('location').value);
+      formData.append("starting_date", document.getElementById('fromDate').value);
+      formData.append("ending_date", document.getElementById('toDate').value);
 
-  const formData = new FormData();
+      const days = document.getElementById('days').value.split(/[, ]+/);
+      days.forEach(day => {
+        if (day.trim() !== "") {
+          formData.append("available_days[]", day.trim());
+        }
+      });
 
-  formData.append("userId", userId);
-  formData.append("username", username);
-  formData.append("service_name", document.getElementById('serviceName').value);
-  formData.append("category", document.getElementById('category').value);
-  formData.append("provider_name", document.getElementById('providerName').value);
-  formData.append("provider_email", document.getElementById('providerEmail').value);
-  formData.append("provider_location", document.getElementById('location').value);
-  formData.append("starting_date", document.getElementById('fromDate').value);
-  formData.append("ending_date", document.getElementById('toDate').value);
+      formData.append("price", document.getElementById('price').value);
 
-  const days = document.getElementById('days').value.split(/[, ]+/);
-  days.forEach(day => {
-    if (day.trim() !== "") {
-      formData.append("available_days[]", day.trim());
-    }
-  });
+      document.querySelectorAll('input[name="paymentMethod"]:checked').forEach(cb => {
+        formData.append("payment_method", cb.value);
+      });
 
-  formData.append("price", document.getElementById('price').value);
+      formData.append("level", document.getElementById('level').value);
 
-  document.querySelectorAll('input[name="paymentMethod"]:checked').forEach(cb => {
-    formData.append("payment_method", cb.value);
-  });
+      const languages = document.getElementById('language').value.split(/[, ]+/);
+      languages.forEach(lang => {
+        if (lang.trim() !== "") {
+          formData.append("language[]", lang.trim());
+        }
+      });
 
-  formData.append("level", document.getElementById('level').value);
+      formData.append("additional_note", document.getElementById('notes').value);
 
-  const languages = document.getElementById('language').value.split(/[, ]+/);
-  languages.forEach(lang => {
-    if (lang.trim() !== "") {
-      formData.append("language[]", lang.trim());
-    }
-  });
+      const fileInput = document.getElementById('portfolio');
+      for (let i = 0; i < fileInput.files.length; i++) {
+        formData.append("proof[]", fileInput.files[i]);
+      }
 
-  formData.append("additional_note", document.getElementById('notes').value);
+      try {
+        const response = await fetch("http://localhost:5000/create-service", {
+          method: "POST",
+          body: formData,
+          credentials: "include"
+        });
 
-  const fileInput = document.getElementById('portfolio');
-  for (let i = 0; i < fileInput.files.length; i++) {
-    formData.append("proof[]", fileInput.files[i]);
-  }
-
-  try {
-    const response = await fetch("http://localhost:5000/create-service", {
-      method: "POST",
-      body: formData,
-      credentials: "include"
+        if (response.ok) {
+          const result = await response.json();
+          alert("✅ " + result.message);
+          document.getElementById('service-form').reset();
+        } else {
+          const errorResult = await response.json();
+          alert("❌ Error: " + errorResult.message);
+        }
+      } catch (err) {
+        console.error("Error submitting service:", err);
+        alert("⚠ Something went wrong while submitting.");
+      }
     });
-
-    if (response.ok) {
-      const result = await response.json();
-      alert("✅ " + result.message);
-      document.getElementById('service-form').reset();
-    } else {
-      const errorResult = await response.json();
-      alert("❌ Error: " + errorResult.message);
-    }
-  } catch (err) {
-    console.error("Error submitting service:", err);
-    alert("⚠ Something went wrong while submitting.");
-  }
-});
   </script>
 </body>
 </html>
