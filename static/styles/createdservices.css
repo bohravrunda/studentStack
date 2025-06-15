@@ -1,72 +1,276 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #e6f0eb;
+font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #f9f9f9;
 }
 
-.services-container {
+/* Navbar */
+nav {
+  display: flex;
+  height: 32px;
+
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #24292e;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+    color:white;
+
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-buttons button {
+  padding: 8px 16px;
+  border: none;
+  background-color: transparent;
+  color:white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.signup-btn {
+  background-color: #4f9cff;
+  color: white;
+  border-radius: 6px;
+}
+
+.menu-icon {
+  font-size: 24px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.hero-section {
   text-align: center;
-  padding: 40px 20px;
-  background-color: #cce3d6;
+  padding: 2rem 1rem 1rem;
 }
 
-.services-container h1 {
-  font-size: 2.5rem;
+.hero-section h1 {
+  font-size: 2.2rem;
+  color: #2c3e50;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.service-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.service-card:hover {
+  transform: scale(1.02);
+}
+
+.service-img-placeholder {
+  background-color: #ddd;
+  height: 180px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.service-card h3 {
+  font-size: 20px;
+  margin: 10px 0 6px;
   color: #333;
-  margin-bottom: 10px;
 }
 
-#services-list {
+.service-card p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.badge, .price {
+  display: inline-block;
+  background-color: #f0f0f0;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-right: 8px;
+}
+
+.price {
+  background-color: #e6f7ff;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.view-details-btn {
+  margin-top: auto;
+  padding: 10px;
+  background-color: #2ea44f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  align-self: start;
+}
+
+.view-details-btn:hover {
+  background-color: #24953e;
+}
+.add-service-card {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  border: 2px dashed #2ea44f;
+  background-color: #f0fff4;
+}
+
+.add-service-card:hover {
+  background-color: #e6ffe6;
+  transform: scale(1.02);
+}
+
+.add-icon {
+  font-size: 60px;
+  color: #2ea44f;
+  margin-bottom: 12px;
+}
+
+/* Add this to your CSS */
+.services-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 2rem;
-  margin-top: 40px;
+  gap: 20px;
+  padding: 40px;
+  margin-bottom: 60px;  /* 👈 Adds spacing before About section */
 }
 
-.card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 25px;
-  width: 280px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease;
+.about-section {
+  background-color: #24292e;
+  color: #fff;
+  padding: 60px 20px;
+  text-align: center;
 }
 
-.card:hover {
-  transform: translateY(-5px);
+.about-container {
+  max-width: 800px;
+  margin: auto;
 }
 
-.card-icon img {
-  width: 50px;
-  height: 50px;
-  margin-bottom: 15px;
+.about-section h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
 }
 
-.card h3 {
-  font-size: 1.25rem;
-  margin-bottom: 10px;
-  color: #444;
+.about-section p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 30px;
 }
 
-.card .category, .card .price {
-  font-size: 0.95rem;
-  color: #666;
-  margin-bottom: 8px;
+.social-links a {
+  display: inline-block;
+  margin: 0 10px;
+  font-size: 1.8em;
+  color: #fff;
+  transition: color 0.3s ease;
 }
 
-.card button {
-  padding: 10px 18px;
+.social-links a:hover {
+  color: #1da1f2; /* Twitter blue as highlight, change if you'd like */
+}
+
+.nav-buttons button {
+  padding: 8px 16px;
   border: none;
-  background-color: #87c9a8;
-  color: white;
-  border-radius: 6px;
+  background-color: transparent;
+  color:white;
+  font-weight: 500;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
+}
+/* Group logo and search together */
+.nav-left {
+  display: flex;
+  align-items: center;
 }
 
-.card button:hover {
-  background-color: #69b893;
+/* Logo spacing */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-img {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Search bar styling */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: -100px; /* ya hata do agar bilkul chipkana hai logo se */
+
+}
+
+.search-input {
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  width: 300px;
+}
+
+.search-button {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
+}
+.cart-icon {
+  color: white;           /* White color */
+  
+}
+.moving-text {
+  color: white;
+  font-weight: 300;
+  font-size: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0 20px;
+  width: 350px;
+  overflow: hidden;
+  white-space: nowrap;
 }
