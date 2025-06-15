@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reset Password with OTP</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/verify_otp.css') }}">
+</head>
+<body>
+  <div class="card">
+    <h2>Enter OTP</h2>
+    <form id="reset-form">
+      <div class="otp-container">
+        <input type="text" maxlength="1" class="otp-input" required />
+        <input type="text" maxlength="1" class="otp-input" required />
+        <input type="text" maxlength="1" class="otp-input" required />
+        <input type="text" maxlength="1" class="otp-input" required />
+        <input type="text" maxlength="1" class="otp-input" required />
+        <input type="text" maxlength="1" class="otp-input" required />
+      </div>
+
+      <input type="password" id="new-password" placeholder="Reset password" required />
+      <input type="password" id="confirm-password" placeholder="Confirm password" required />
+      <button type="submit">Reset Password</button>
+      <div id="message"></div>
+    </form>
+  </div>
+
+  <script>
+    const otpInputs = document.querySelectorAll('.otp-input');
+    otpInputs.forEach((input, index) => {
+      input.addEventListener('input', () => {
+        if (input.value.length === 1 && index < otpInputs.length - 1) {
+          otpInputs[index + 1].focus();
+        }
+      });
+    });
+
+    document.getElementById('reset-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const otp = Array.from(otpInputs).map(input => input.value).join('');
+      const email = localStorage.getItem('reset_email'); // ✅ Get email from localStorage
+      const newPassword = document.getElementById('new-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      const msg = document.getElementById('message');
+
+      // Password regex: min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special character
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+      msg.textContent = ''; // Clear previous message
+
+      if (!email) {
+        msg.style.color = 'red';
+        msg.textContent = 'Email not found. Please start again.';
+        return;
+      }
+
+      if (!passwordRegex.test(newPassword)) {
+        msg.style.color = 'red';
+        msg.textContent = 'Password must be at least 8 characters and include uppercase, lowercase, number, and symbol.';
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        msg.style.color = 'red';
+        msg.textContent = 'Passwords do not match.';
+        return;
+      }
+
+      try {
+        const response = await fetch('/reset-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, otp, new_password: newPassword, confirm_password: confirmPassword })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          msg.style.color = 'green';
+          msg.textContent = data.message;
+
+          // Clear saved email
+          localStorage.removeItem('reset_email');
+
+          setTimeout(() => window.location.href = '/login.html', 1500);
+        } else {
+          msg.style.color = 'red';
+          msg.textContent = data.error || 'Reset failed.';
+        }
+      } catch (err) {
+        msg.style.color = 'red';
+        msg.textContent = 'Something went wrong.';
+      }
+    });
+  </script>
+</body>
+</html>

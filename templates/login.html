@@ -27,16 +27,25 @@
           <input type="password" id="password" name="password" placeholder="Enter your password" required />
           <i id="toggle-password" class="fas fa-eye"></i>
         </div>
+        <p class="forgot-password">
+              <a href="/forgot-password">Forgot Password?</a>
+</p>
 
-        <button type="submit" class="login-btn">Login</button>
-        <p class="signup-redirect">Don't have an account? <a href="signup.html">Sign up</a></p>
-      </form>
-      <div style="text-align: center;">
-        <button id="google-signup-btn">
-          <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" />
-          Sign up with Google
-        </button>
-      </div>
+       <!-- Submit Login Button -->
+<button type="submit" class="btn-common">Login</button>
+
+<p class="signup-redirect">
+  Don't have an account? <a href="signup.html">Sign up</a>
+</p>
+
+<div class="google-button-container">
+  <button class="btn-common">
+    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" />
+    Sign up with Google
+  </button>
+</div>
+
+
     </div>
   </div>
 
@@ -87,7 +96,7 @@
         if (response.ok) {
           showSnackbar('Login successful!');
           setTimeout(() => {
-            window.location.href = 'index.html';
+            window.location.href = '/';
           }, 1000);
         } else {
           showSnackbar(data.error || 'Login failed!', true);

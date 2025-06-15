@@ -13,7 +13,7 @@ print("Index.html exists:", os.path.exists("templates/index.html"))
 
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static', static_folder='static')
 print("Static folder path:", app.static_folder)
 print("Static URL path:", app.static_url_path)
 print("Static folder exists:", os.path.exists(app.static_folder))
@@ -36,13 +36,14 @@ app.register_blueprint(profile)
 @app.before_request
 def require_login():
     # Allow access to static files and login/signup routes without session
-    if request.path.startswith('/static'):
+    if request.path.startswith('/static') or request.path.startswith('/login/google'):
         return
 
     # List routes allowed without login
     allowed_routes = [
         'auth.login', 'auth.signup', 'auth.google_callback',
         'auth.verify_email', 'auth.serve_verification_page',
+        'auth.request_otp', 'auth.reset_password_with_otp','forgot_password','verify_otp_page',
         'login_page', 'signup_page',  # your HTML routes
         'google.login',  # <- fixed
         'home'           # <- now properly separated
@@ -66,6 +67,16 @@ def signup_page():
 @app.route('/login.html')
 def login_page():
     return render_template('login.html')
+
+
+@app.route('/forgot-password')
+def forgot_password():
+    return render_template('forgot_password.html')
+
+@app.route('/verify_otp.html')
+def verify_otp_page():
+    return render_template('verify_otp.html')
+
 
 @app.route('/createService.html')
 def createservice_page():
