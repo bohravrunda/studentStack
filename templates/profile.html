@@ -5,259 +5,258 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>StudentStack Profile</title>
   <link rel="stylesheet" href="/static/styles/profile.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!-- ✅ Added this -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
 <!-- Navbar -->
 <nav>
   <div class="logo">
     <img src="/static/images/logo.jpg" class="logo-img" alt="Logo">
     <span>StudentStack</span>
   </div>
-
-  <!-- 🔍 Search Bar -->
   <div class="search-container">
     <input type="text" class="search-input" placeholder="Search services..." />
     <button class="search-button"><i class="fas fa-search"></i></button>
   </div>
-
   <div class="moving-text">
     <marquee behavior="scroll" direction="left" scrollamount="4">
-      Exchange Skills, Expand Possibilities. Trade Knowledge ,not just tools.
+      Exchange Skills, Expand Possibilities. Trade Knowledge, not just tools.
     </marquee>
   </div>
-
   <div class="nav-buttons">
     <a href="cart.html" class="cart-icon"><i class="fas fa-shopping-cart"></i></a>
-  <button onclick="window.location.href='login.html'">Login</button>
-  <button onclick="window.location.href='signup.html'" class="signup-btn">Sign Up</button>
-      <div class="menu-icon" style="color: white; font-size: 30px; cursor: pointer;">&#9776;</div>
+    <button onclick="window.location.href='login.html'">Login</button>
+    <button onclick="window.location.href='signup.html'" class="signup-btn">Sign Up</button>
+    <div class="menu-icon" style="color: white; font-size: 30px; cursor: pointer;">&#9776;</div>
   </div>
 </nav>
 
-
-
-  <div id="sidebar" class="sidebar">
-    <div class="sidebar-header">
-<img src="/static/images/avatar.jpg" alt="Avatar" class="avatar" />
-      <h3 id="sidebar-name">John Doe</h3>
-    </div>
-    <ul class="sidebar-menu">
-      <li><i class="fas fa-user"></i> Profile</li>
-      <li><i class="fas fa-eye"></i> View Services</li>
-      <li><i class="fas fa-plus-circle"></i> Create Service</li>
-      <li><i class="fas fa-briefcase"></i> My Services</li>
-      <li><i class="fas fa-book"></i> My Bookings</li>
-      <li><i class="fas fa-sign-out-alt"></i> Logout</li>
-    </ul>
+<!-- Sidebar + Main -->
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <img src="/static/images/avatar.jpg" alt="Avatar" class="avatar" />
+    <h3 id="sidebar-name">John Doe</h3>
   </div>
+  <ul class="sidebar-menu">
+    <li><i class="fas fa-user"></i> Profile</li>
+    <li><i class="fas fa-eye"></i> View Services</li>
+    <li><i class="fas fa-plus-circle"></i> Create Service</li>
+    <li><i class="fas fa-briefcase"></i> My Services</li>
+    <li><i class="fas fa-book"></i> My Bookings</li>
+    <li><i class="fas fa-sign-out-alt"></i> Logout</li>
+  </ul>
+</div>
 
-  <div class="container">
-    <div class="sidebar"></div>
+<div class="container">
+  <div class="main-content">
+    <div class="header">
+      <h2 id="welcome-message">Welcome, </h2>
+      <div class="search-area">
+        <input type="text" placeholder="Search..." />
+      </div>
+    </div>
 
-    <div class="main-content">
-      <div class="header">
-        <h2 id="welcome-message">Welcome, </h2>
-        <div class="search-area">
-          <input type="text" placeholder="Search..." />
+    <div class="profile-card">
+      <div class="top-section">
+        <div class="profile-image">
+          <label for="pic-input" class="upload-label">
+            <div id="initial-avatar" class="initial-avatar">A</div>
+            <img id="preview" style="display: none;" alt="Profile Pic" />
+            <div class="upload-hint">Click to upload</div>
+          </label>
+          <input type="file" id="pic-input" onchange="previewPic(event)" style="display: none;" />
         </div>
+
+        <div>
+          <h3 id="profile-name">Alexa Rawles</h3>
+          <p id="profile-email">alexarawles@gmail.com</p>
+        </div>
+        <button class="edit-btn">Save</button>
       </div>
 
-      <div class="profile-card">
-        <div class="top-section">
-          <div class="profile-image">
-            <label for="pic-input" class="upload-label">
-              <div id="initial-avatar" class="initial-avatar">A</div>
-              <img id="preview" style="display: none;" alt="Profile Pic" />
-              <div class="upload-hint">Click to upload</div>
-            </label>
-            <input type="file" id="pic-input" onchange="previewPic(event)" style="display: none;" />
-          </div>
+      <div class="form-grid">
+        <div class="form-group"><label>Full Name *</label><input type="text" id="full-name" /></div>
+        <div class="form-group"><label>Username *</label><input type="text" id="username" /></div>
+        <div class="form-group"><label>College Name *</label><input type="text" id="college-name" /></div>
+        <div class="form-group"><label>Department *</label><input type="text" id="department" /></div>
+        <div class="form-group"><label>Semester *</label><input type="text" id="semester" /></div>
+        <div class="form-group"><label>Gender *</label><select id="gender"><option>Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+        <div class="form-group"><label>Country *</label><input type="text" id="country" /></div>
+        <div class="form-group"><label>Language *</label><select id="language"><option>Select</option><option>English</option><option>Hindi</option></select></div>
+        <div class="form-group" style="grid-column: span 2;"><label>Bio *</label><textarea id="bio"></textarea></div>
+      </div>
 
-          <div>
-            <h3 id="profile-name">Alexa Rawles</h3>
-            <p id="profile-email">alexarawles@gmail.com</p>
-          </div>
-          <button class="edit-btn">Save</button>
+      <div class="email-section">
+        <p class="email-title">My Email Address</p>
+        <div class="email-box">
+          <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" />
+          <div><p id="email-display">alexarawles@gmail.com</p><small>1 month ago</small></div>
         </div>
-
-        <div class="form-grid">
-          <div class="form-group"><label>Full Name <span>*</span></label><input type="text" id="full-name" placeholder="Your Full Name" /></div>
-          <div class="form-group"><label>Username <span>*</span></label><input type="text" id="username" placeholder="Username or Handle" /></div>
-          <div class="form-group"><label>College Name <span>*</span></label><input type="text" id="college-name" placeholder="College Name" /></div>
-          <div class="form-group"><label>Department <span>*</span></label><input type="text" id="department" placeholder="Department" /></div>
-          <div class="form-group"><label>Semester <span>*</span></label><input type="text" id="semester" placeholder="Semester / Year" /></div>
-          <div class="form-group"><label>Gender <span>*</span></label><select id="gender"><option>Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
-          <div class="form-group"><label>Country <span>*</span></label><input type="text" id="country" placeholder="Country" /></div>
-          <div class="form-group"><label>Language <span>*</span></label><select id="language"><option>Select</option><option>English</option><option>Hindi</option></select></div>
-          <div class="form-group" style="grid-column: span 2;"><label>Bio / Description <span>*</span></label><textarea id="bio" placeholder="Short bio or description about yourself"></textarea></div>
-        </div>
-
-        <div class="email-section">
-          <p class="email-title">My Email Address</p>
-          <div class="email-box">
-            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" />
-            <div><p id="email-display">alexarawles@gmail.com</p><small>1 month ago</small></div>
-          </div>
-          <button class="add-email" onclick="showEmailInput()">+ Add Email Address</button>
-          <div id="new-email-section" style="display:none; margin-top: 10px;">
-            <input type="email" id="new-email" placeholder="Enter new email" />
-            <button onclick="saveNewEmail()">Save</button>
-          </div>
+        <button class="add-email" onclick="showEmailInput()">+ Add Email Address</button>
+        <div id="new-email-section" style="display:none;">
+          <input type="email" id="new-email" placeholder="Enter new email" />
+          <button onclick="saveNewEmail()">Save</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-    <!-- About Section -->
 <!-- About Section -->
 <section class="about-section">
   <div class="about-container">
     <h2>About StudentStack</h2>
-    <p>
-      StudentStack is your one-stop platform to share skills, discover services, and connect with a vibrant student community. 
-      Whether you want to showcase your talent or explore new opportunities — we’ve got you covered.
-    </p>
+    <p>StudentStack is your one-stop platform to share skills, discover services, and connect with a vibrant student community.</p>
     <div class="social-links">
-      <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
     </div>
   </div>
 </section>
 
-
 <script>
-  let isEditing = true;
+let isEditing = true;
 
-  function previewPic(event) {
-    const file = event.target.files[0];
-    if (file) {
-      const preview = document.getElementById('preview');
-      const initialAvatar = document.getElementById('initial-avatar');
-      preview.src = URL.createObjectURL(file);
-      preview.style.display = 'block';
-      initialAvatar.style.display = 'none';
-    }
+function previewPic(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const preview = document.getElementById('preview');
+    const initialAvatar = document.getElementById('initial-avatar');
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = 'block';
+    initialAvatar.style.display = 'none';
   }
+}
 
-  function setReadOnlyState(readonly = true) {
-    const inputs = document.querySelectorAll('.form-group input, .form-group textarea');
-    const selects = document.querySelectorAll('.form-group select');
-    inputs.forEach(input => input.readOnly = readonly);
-    selects.forEach(select => select.disabled = readonly);
-  }
+function setReadOnlyState(readonly = true) {
+  const inputs = document.querySelectorAll('.form-group input, .form-group textarea');
+  const selects = document.querySelectorAll('.form-group select');
+  inputs.forEach(input => input.readOnly = readonly);
+  selects.forEach(select => select.disabled = readonly);
+}
 
-  function showEmailInput() {
-    document.getElementById("new-email-section").style.display = "block";
-  }
+function showEmailInput() {
+  document.getElementById("new-email-section").style.display = "block";
+}
 
-  function saveNewEmail() {
-    const email = document.getElementById("new-email").value.trim();
-    if (email) {
-      document.getElementById("email-display").textContent = email;
-      document.getElementById("profile-email").textContent = email;
-      document.getElementById("new-email-section").style.display = "none";
-      document.getElementById("new-email").value = '';
-    }
-  }
+function saveNewEmail() {
+  const email = document.getElementById("new-email").value.trim();
+  if (email) {
+    document.getElementById("email-display").textContent = email;
+    document.getElementById("profile-email").textContent = email;
+    document.getElementById("new-email-section").style.display = "none";
+    document.getElementById("new-email").value = '';
 
-  function updateWelcomeMessage() {
-    const fullNameInput = document.getElementById("full-name");
-    const welcomeMessage = document.getElementById("welcome-message");
-    fullNameInput.addEventListener("input", () => {
-      const name = fullNameInput.value.trim();
-      welcomeMessage.textContent = name ? `Welcome, ${name}` : 'Welcome, Guest';
-      document.getElementById("profile-name").textContent = name;
-      document.getElementById("sidebar-name").textContent = name;
-    });
+    // ✅ Update localStorage
+    localStorage.setItem("email", email);
   }
+}
+
+function updateWelcomeMessage() {
+  const fullNameInput = document.getElementById("full-name");
+  const welcomeMessage = document.getElementById("welcome-message");
+  fullNameInput.addEventListener("input", () => {
+    const name = fullNameInput.value.trim();
+    welcomeMessage.textContent = name ? `Welcome, ${name}` : 'Welcome, Guest';
+    document.getElementById("profile-name").textContent = name;
+    document.getElementById("sidebar-name").textContent = name;
+  });
+}
 
 async function saveProfileToServer() {
-  const fullName = document.getElementById("full-name").value;
-  const username = document.getElementById("username").value;
-  const collegeName = document.getElementById("college-name").value;
-  const department = document.getElementById("department").value;
-  const semester = document.getElementById("semester").value;
-  const gender = document.getElementById("gender").value;
-  const country = document.getElementById("country").value;
-  const language = document.getElementById("language").value;
-  const bio = document.getElementById("bio").value;
-  const email = document.getElementById("email-display").textContent;
-  const profilePicUrl = document.getElementById("preview").src || "";
-
   const profileData = {
-    fullName,
-    username,
-    collegeName,
-    department,
-    semester,
-    gender,
-    country,
-    language,
-    bio,
-    email,
-    profilePicUrl
+    fullName: document.getElementById("full-name").value,
+    username: document.getElementById("username").value,
+    collegeName: document.getElementById("college-name").value,
+    department: document.getElementById("department").value,
+    semester: document.getElementById("semester").value,
+    gender: document.getElementById("gender").value,
+    country: document.getElementById("country").value,
+    language: document.getElementById("language").value,
+    bio: document.getElementById("bio").value,
+    email: document.getElementById("email-display").textContent,
+    profilePicUrl: document.getElementById("preview").src || ""
   };
 
   try {
-    // First: check if profile exists
-    const checkRes = await fetch(`/get-profile?userId=${email}`);
-    if (checkRes.status === 404) {
-      // No profile yet => call save
+    const res = await fetch(`/get-profile?userId=${profileData.email}`);
+    if (res.status === 404) {
       const saveRes = await fetch('/save-profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profileData)
       });
       const result = await saveRes.json();
-      alert(result.message || result.error || "Saved (no message)");
+      alert(result.message || result.error || "Profile saved.");
     } else {
-      // Profile exists => call edit
       const editRes = await fetch('/edit-profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profileData)
       });
       const result = await editRes.json();
-      alert(result.message || result.error || "Updated (no message)");
+      alert(result.message || result.error || "Profile updated.");
     }
-
   } catch (err) {
     alert("Error: " + err.message);
   }
 }
-  document.querySelector(".edit-btn").addEventListener("click", async function () {
-    if (isEditing) {
-      // Save mode
-      await saveProfileToServer();
-      setReadOnlyState(true);
-      this.textContent = "Edit";
-    } else {
-      // Edit mode
-      setReadOnlyState(false);
-      this.textContent = "Save";
+
+document.querySelector(".edit-btn").addEventListener("click", async function () {
+  if (isEditing) {
+    await saveProfileToServer();
+    setReadOnlyState(true);
+    this.textContent = "Edit";
+  } else {
+    setReadOnlyState(false);
+    this.textContent = "Save";
+  }
+  isEditing = !isEditing;
+});
+
+window.onload = async () => {
+  const name = localStorage.getItem("username") || "Guest";
+  const email = localStorage.getItem("email") || "guest@example.com";
+  const avatar = email.charAt(0).toUpperCase();
+
+  document.getElementById("profile-name").textContent = name;
+  document.getElementById("profile-email").textContent = email;
+  document.getElementById("email-display").textContent = email;
+  document.getElementById("welcome-message").textContent = `Welcome, ${name}`;
+  document.getElementById("sidebar-name").textContent = name;
+  document.getElementById("initial-avatar").textContent = avatar;
+
+  try {
+    const res = await fetch(`/get-profile?userId=${email}`);
+    if (res.ok) {
+      const data = await res.json();
+      document.getElementById("full-name").value = data.fullName || "";
+      document.getElementById("username").value = data.username || "";
+      document.getElementById("college-name").value = data.collegeName || "";
+      document.getElementById("department").value = data.department || "";
+      document.getElementById("semester").value = data.semester || "";
+      document.getElementById("gender").value = data.gender || "Select";
+      document.getElementById("country").value = data.country || "";
+      document.getElementById("language").value = data.language || "Select";
+      document.getElementById("bio").value = data.bio || "";
+
+      if (data.profilePicUrl) {
+        document.getElementById("preview").src = data.profilePicUrl;
+        document.getElementById("preview").style.display = 'block';
+        document.getElementById("initial-avatar").style.display = 'none';
+      }
     }
-    isEditing = !isEditing;
-  });
+  } catch (err) {
+    console.error("Profile Load Error:", err);
+  }
 
-  window.onload = () => {
-    const name = localStorage.getItem("username") || "Guest";
-    const email = localStorage.getItem("email") || "guest@example.com";
-    const avatar = email.charAt(0).toUpperCase();
-
-    document.getElementById("profile-name").textContent = name;
-    document.getElementById("profile-email").textContent = email;
-    document.getElementById("email-display").textContent = email;
-    document.getElementById("welcome-message").textContent = `Welcome, ${name}`;
-    document.getElementById("sidebar-name").textContent = name;
-    document.getElementById("initial-avatar").textContent = avatar;
-
-    setReadOnlyState(false); // Editable by default
-    updateWelcomeMessage();
-    document.querySelector(".edit-btn").textContent = "Save";
-    isEditing = true;
-  };
+  setReadOnlyState(false);
+  updateWelcomeMessage();
+  document.querySelector(".edit-btn").textContent = "Save";
+  isEditing = true;
+};
 </script>
 </body>
 </html>
