@@ -49,12 +49,12 @@
       </div>
 
       <p class="price" id="service-price">₹999</p>
-<button class="subscribe-btn" onclick="goToPayment()">Book Your Service</button>
+      <button class="subscribe-btn" onclick="goToPayment()">Book Your Service</button>
       <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
     </div>
 
     <div class="service-image">
-      <img src="/static/images/e8.jpg" alt="Service Image" />
+      <img id="service-thumbnail" src="/static/images/placeholder.jpg" alt="Service Image" />
     </div>
   </div>
 
@@ -91,6 +91,10 @@
         document.getElementById('service-exercises').innerText = `${service.exercises || 126} practice exercises`;
         document.getElementById('service-duration').innerText = `${service.duration || 87.6} hours`;
 
+        // Set thumbnail
+        const thumbnail = service.thumbnail || '/static/images/placeholder.jpg';
+        document.getElementById('service-thumbnail').src = thumbnail;
+
       } catch (error) {
         document.querySelector('.service-container').innerHTML =
           '<p style="color: red;">Failed to load service details.</p>';
@@ -100,15 +104,12 @@
 
     async function addToCart() {
       try {
-        const serviceId = new URLSearchParams(window.location.search).get('id');
         const response = await fetch(`http://localhost:5000/get-service?id=${serviceId}`);
         const service = await response.json();
 
         const res = await fetch('http://localhost:5000/add-to-cart', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(service)
         });
 
@@ -120,14 +121,11 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', loadServiceDetails);
-
-
     function goToPayment() {
-  const serviceId = new URLSearchParams(window.location.search).get('id');
-  window.location.href = `/payment.html?id=${serviceId}`;
-}
+      window.location.href = `/payment.html?id=${serviceId}`;
+    }
 
+    document.addEventListener('DOMContentLoaded', loadServiceDetails);
   </script>
 </body>
 </html>

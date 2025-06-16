@@ -91,9 +91,13 @@
         const serviceCard = document.createElement('div');
         serviceCard.classList.add('service-card');
 
-        serviceCard.innerHTML = `
+serviceCard.innerHTML = `
   <a href="service-detail.html?id=${service._id}" style="text-decoration: none; color: inherit;">
-    <div class="service-img-placeholder"></div>
+    <img src="${service.thumbnail || '/static/images/default-thumbnail.jpg'}" 
+         alt="${service.service_name}" 
+         class="service-thumbnail" 
+         style="width: 100%; height: 180px; object-fit: cover; border-radius: 10px;"/>
+
     <h3>${service.service_name}</h3>
     <p>${service.additional_note || 'No description available'}</p>
     <p><span class="price">₹${service.cost?.price || 'N/A'}</span> 
