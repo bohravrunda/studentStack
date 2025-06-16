@@ -59,6 +59,8 @@ def google_callback():
         session.permanent = True
         session['user_id'] = str(user['_id'])
         session['username'] = user.get('username', '')
+        session['email'] = user.get('email', '')
+
 
         return redirect(url_for('home'))
     except TokenExpiredError:
@@ -82,6 +84,8 @@ def login():
     session.permanent = True
     session['user_id'] = str(user['_id'])
     session['username'] = user.get('username', '')
+    session['email'] = user.get('email', '')
+
     return jsonify({'message': 'Login successful'}), 200
 
 @auth.route('/signup', methods=['POST'])
@@ -152,7 +156,11 @@ def logout():
 @auth.route('/me', methods=['GET'])
 def get_current_user():
     if 'user_id' in session:
-        return jsonify({'userId': session['user_id'], 'username': session.get('username', '')}), 200
+        return jsonify({
+            'userId': session['user_id'],
+            'username': session.get('username', ''),
+            'email': session.get('email', '')
+        }), 200
     return jsonify({'error': 'Not logged in'}), 401
 
 from flask import render_template
@@ -290,3 +298,4 @@ def reset_password_with_otp():
     )
 
     return jsonify({'message': 'Password reset successful'}), 200
+

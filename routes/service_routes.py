@@ -31,20 +31,29 @@ def create_service():
     try:
         form = request.form
         files = request.files.getlist('proof[]')
+        thumbnail_file = request.files.get('thumbnail')  # Get thumbnail from request
 
         file_paths = []
         upload_folder = current_app.config.get('UPLOAD_FOLDER', 'uploads')
 
-        # Create upload folder if doesn't exist
         if not os.path.exists(upload_folder):
             os.makedirs(upload_folder)
 
+        # Save proof files
         for file in files:
-            if file.filename != '':
-                filename = secure_filename(file.filename)
+            if file and file.filename != '':
+                filename = secure_filename(file.filename.replace(" ", "_"))
                 filepath = os.path.join(upload_folder, filename)
                 file.save(filepath)
-                file_paths.append(filepath)
+                file_paths.append(f'/uploads/{filename}')  # Save as browser path
+
+        # Save thumbnail
+        thumbnail_path = ''
+        if thumbnail_file and thumbnail_file.filename != '':
+            tn = secure_filename(thumbnail_file.filename)
+            tn_path = os.path.join(upload_folder, tn)
+            thumbnail_file.save(tn_path)
+            thumbnail_path = f'/uploads/{tn}'  # For frontend access
 
         service_doc = {
             'user_id': form.get('userId'),
@@ -63,12 +72,13 @@ def create_service():
             },
             'cost': {
                 'price': form.get('price'),
-                'payment_method': form.getlist('payment_method')  # multiple methods
+                'payment_method': form.getlist('payment_method')
             },
             'level': form.get('level'),
             'language': form.getlist('language[]'),
             'portfolio_files': file_paths,
             'additional_note': form.get('additional_note'),
+            'thumbnail': thumbnail_path,
             'created_at': datetime.utcnow()
         }
 
@@ -77,9 +87,6 @@ def create_service():
 
     except Exception as e:
         return jsonify({'error': 'Service creation failed', 'message': str(e)}), 500
-    
-    
-
 @services.route('/search-services', methods=['GET'])
 def search_services():
     try:
@@ -149,6 +156,8 @@ def get_service_by_id():
             return jsonify({'error': 'Service not found'}), 404
 
         service['_id'] = str(service['_id'])  # Convert ObjectId to string
+        service['user_id'] = str(service.get('user_id', ''))
+
         return jsonify(service), 200
     except Exception as e:
         return jsonify({'error': 'Failed to fetch service', 'message': str(e)}), 500
