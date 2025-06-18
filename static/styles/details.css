@@ -505,3 +505,59 @@ h1 {
   bottom: 50px;
   opacity: 1;
 }
+#proof-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.proof-message {
+  font-weight: bold;
+  color: #2e7d32;
+  grid-column: 1 / -1;
+}
+
+.proof-file {
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.proof-file:hover {
+  transform: scale(1.02);
+}
+
+.proof-file img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.proof-file a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.proof-file i {
+  font-size: 20px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+    .nav-buttons button {
+      background-color: #24292e;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin-left: 10px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    
