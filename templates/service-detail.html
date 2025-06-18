@@ -7,41 +7,41 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
-  <style>
-    
-  </style>
 
-  <!-- Navbar -->
-  <nav>
-    <div class="logo">
-      <img src="/static/images/logo.jpg" class="logo-img" alt="Logo" />
-      <span>StudentStack</span>
-    </div>
-  <!-- 🔍 Search Bar -->
+<!-- Navbar -->
+<nav>
+  <div class="logo">
+    <img src="/static/images/logo.jpg" class="logo-img" alt="Logo" />
+    <span>StudentStack</span>
+  </div>
+
   <div class="search-container">
     <input type="text" class="search-input" placeholder="Search services..." />
     <button class="search-button"><i class="fas fa-search"></i></button>
     <div class="search-results"></div>
   </div>
 
+  <div class="moving-text">
+    <marquee behavior="scroll" direction="left" scrollamount="4">
+      Exchange Skills, Expand Possibilities. Trade Knowledge, not just tools.
+    </marquee>
+  </div>
 
-    <div class="moving-text">
-      <marquee behavior="scroll" direction="left" scrollamount="4">
-        Exchange Skills, Expand Possibilities. Trade Knowledge, not just tools.
-      </marquee>
-    </div>
+<div class="nav-buttons">
+  <div class="cart-container">
+    <a href="/cart.html" class="cart-icon" title="View Cart">
+      🛒
+      <span class="cart-badge" id="cart-count">0</span>
+    </a>
+  </div>
 
-    <div class="nav-buttons">
-      <div class="cart-container">
-        <a href="/cart.html" class="cart-icon" title="View Cart">🛒</a>
-        <span class="cart-badge" id="cart-count">0</span>
-      </div>
-      <div class="menu-icon" style="color: white; font-size: 30px; cursor: pointer;">&#9776;</div>
-    </div>
-  </nav>
+  <button onclick="window.location.href='login.html'">Login</button>
+  <button onclick="window.location.href='signup.html'" class="signup-btn">Sign Up</button>
 
+  <div class="menu-icon" style="color: white; font-size: 30px; cursor: pointer;">&#9776;</div>
+</div>
+</nav>
 
-  
 <!-- Drawer -->
 <div id="right-drawer" class="drawer">
   <ul>
@@ -62,23 +62,21 @@
 <!-- Overlay -->
 <div id="overlay" class="overlay"></div>
 
+<!-- Main Content -->
 <div class="service-wrapper">
   <div class="main-content">
     <h1 id="service-name">Loading...</h1>
     <p id="service-note" class="tagline">Loading description...</p>
 
-    <!-- What you'll learn -->
     <div class="what-youll-learn">
       <h3>What you'll learn</h3>
       <ul id="learning-points">
         <li>✔ Master the basics and advanced concepts</li>
         <li>✔ Learn at your own pace</li>
         <li>✔ Improve skill through practice</li>
-        <!-- Add more from backend if needed -->
       </ul>
     </div>
 
-    <!-- Provider Info -->
     <div class="provider-info">
       <h3>Provider Details</h3>
       <p><strong>Name:</strong> <span id="provider-name">Loading...</span></p>
@@ -86,7 +84,6 @@
       <p><strong>Location:</strong> <span id="provider-location">Loading...</span></p>
     </div>
 
-    <!-- Service Details -->
     <div class="extra-details">
       <h3><strong>Category:</strong> <span id="service-category">Loading...</span></h3>
       <h3><strong>Level:</strong> <span id="service-level">Loading...</span></h3>
@@ -95,13 +92,9 @@
       <h3><strong>Available Days:</strong> <span id="service-days">Loading...</span></h3>
     </div>
 
-    <!-- Proof Material -->
     <div class="proof-container" id="proof-container" style="display: none;"></div>
-
-    
   </div>
 
-  <!-- Sticky Sidebar -->
   <div class="sidebar">
     <img id="service-thumbnail" src="/static/images/placeholder.jpg" alt="Service Image" />
     <p class="price" id="service-price">₹999</p>
@@ -110,241 +103,291 @@
   </div>
 </div>
 
-  <!-- About Section -->
-  <section class="about-section">
-    <div class="about-container">
-      <h2>About StudentStack</h2>
-      <p>
-        StudentStack is your one-stop platform to share skills, discover services, and connect with a vibrant student community.
-        Whether you want to showcase your talent or explore new opportunities — we’ve got you covered.
-      </p>
-      <div class="social-links">
-        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-      </div>
+<!-- About Section -->
+<section class="about-section">
+  <div class="about-container">
+    <h2>About StudentStack</h2>
+    <p>
+      StudentStack is your one-stop platform to share skills, discover services, and connect with a vibrant student community.
+      Whether you want to showcase your talent or explore new opportunities — we’ve got you covered.
+    </p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
     </div>
-  </section>
+  </div>
+</section>
+
 <div id="snackbar">Service added to cart!</div>
 
-  <!-- Script -->
-  <script>
-
-
+<!-- JavaScript -->
+<script>
 document.querySelector(".menu-icon").addEventListener("click", function () {
   document.getElementById("right-drawer").classList.add("open");
-  document.getElementById("overlay").classList.add("show"); // was 'active'
+  document.getElementById("overlay").classList.add("show");
 });
 
 document.getElementById("overlay").addEventListener("click", function () {
   document.getElementById("right-drawer").classList.remove("open");
-  document.getElementById("overlay").classList.remove("show"); // was 'active'
+  document.getElementById("overlay").classList.remove("show");
+});
+
+window.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const res = await fetch("http://localhost:5000/me", { credentials: "include" });
+    if (res.ok) {
+      const user = await res.json();
+      const username = user.username || "User";
+      localStorage.setItem('username', username);
+      localStorage.setItem('userId', user.userId);
+      const initials = username.trim().split(" ").map(word => word[0].toUpperCase()).join("");
+      document.getElementById('user-avatar').textContent = initials;
+      document.getElementById('avatar-item').style.display = 'block';
+      document.getElementById('logout-item').style.display = 'block';
+    }
+  } catch (err) {
+    console.error("Error checking login status:", err);
+  }
+
+  loadServiceDetails();
 });
 
 
+const urlParams = new URLSearchParams(window.location.search);
+const serviceId = urlParams.get('id');
 
-  window.addEventListener('DOMContentLoaded', async () => {
-    try {
-      const res = await fetch("http://localhost:5000/me", { credentials: "include" });
-      if (res.ok) {
-        const user = await res.json();
-        const username = user.username || "User";
-        localStorage.setItem('username', username);
-        localStorage.setItem('userId', user.userId);
-        const initials = username.trim().split(" ").map(word => word[0].toUpperCase()).join("");
-        document.getElementById('user-avatar').textContent = initials;
-        document.getElementById('avatar-item').style.display = 'block';
-        document.getElementById('logout-item').style.display = 'block';
-      }
-    } catch (err) {
-      console.error("Error checking login status:", err);
-    }
+async function loadServiceDetails() {
+  try {
+    const response = await fetch(`http://localhost:5000/get-service?id=${serviceId}`);
+    const service = await response.json();
 
-    updateCartCount();
-  });
+    document.getElementById('service-name').innerText = service.service_name;
+    document.getElementById('service-price').innerText = `₹${service.cost?.price || 'N/A'}`;
+    document.getElementById('service-note').innerText = service.additional_note || "No description available";
+    document.getElementById('service-category').innerText = service.category || 'N/A';
+    document.getElementById('service-level').innerText = service.level || 'N/A';
+    document.getElementById('service-language').innerText = (service.language || []).join(', ') || 'N/A';
+    document.getElementById('service-from').innerText = service.availability?.from || '--';
+    document.getElementById('service-to').innerText = service.availability?.to || '--';
+    document.getElementById('service-days').innerText = (service.availability?.days || []).join(', ') || 'N/A';
+    document.getElementById('provider-name').innerText = service.provider?.name || 'Unknown';
+    document.getElementById('provider-email').innerText = service.provider?.email || 'Unknown';
+    document.getElementById('provider-location').innerText = service.provider?.location || 'Unknown';
 
+    const proofDiv = document.getElementById('proof-container');
+    if (service.portfolio_files && service.portfolio_files.length > 0) {
+      proofDiv.style.display = 'block';
+      proofDiv.innerHTML = `<p class="proof-message">✅ This service was uploaded by a verified provider</p>`;
 
+      service.portfolio_files.forEach((fileObj) => {
+        const fileUrl = fileObj.url;
+        const ext = fileUrl.split('.').pop().toLowerCase();
+        const fileCard = document.createElement('div');
+        fileCard.className = 'proof-file';
 
+        if (fileUrl.includes("drive.google.com")) {
+          const fileIdMatch = fileUrl.match(/[-\w]{25,}/);
+          const fileId = fileIdMatch ? fileIdMatch[0] : null;
 
-
-
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const serviceId = urlParams.get('id');
-
-    async function loadServiceDetails() {
-      try {
-        const response = await fetch(`http://localhost:5000/get-service?id=${serviceId}`);
-        const service = await response.json();
-
-        document.getElementById('service-name').innerText = service.service_name;
-        document.getElementById('service-price').innerText = `₹${service.cost?.price || 'N/A'}`;
-        document.getElementById('service-note').innerText = service.additional_note || "No description available";
-        document.getElementById('service-category').innerText = service.category || 'N/A';
-        document.getElementById('service-level').innerText = service.level || 'N/A';
-        document.getElementById('service-language').innerText = (service.language || []).join(', ') || 'N/A';
-        document.getElementById('service-from').innerText = service.availability?.from || '--';
-        document.getElementById('service-to').innerText = service.availability?.to || '--';
-        document.getElementById('service-days').innerText = (service.availability?.days || []).join(', ') || 'N/A';
-        document.getElementById('provider-name').innerText = service.provider?.name || 'Unknown';
-        document.getElementById('provider-email').innerText = service.provider?.email || 'Unknown';
-        document.getElementById('provider-location').innerText = service.provider?.location || 'Unknown';
-
-        if (service.portfolio_files && service.portfolio_files.length > 0) {
-          const proofUrl = service.portfolio_files[0];
-          const proofDiv = document.getElementById('proof-container');
-          proofDiv.style.display = 'block';
-          proofDiv.innerHTML = `
-            <p class="proof-message">✅ This service was uploaded by a verified provider</p>
-            <div id="proof-content"></div>
-          `;
-
-          const proofContent = document.getElementById('proof-content');
-          const ext = proofUrl.split('.').pop().toLowerCase();
-
-          if (proofUrl.includes("drive.google.com")) {
-            proofContent.innerHTML = `<a href="${proofUrl}" target="_blank">📎 View Google Drive Proof</a>`;
-          } else if (['jpg', 'jpeg', 'png', 'gif'].includes(ext)) {
-            proofContent.innerHTML = `<img src="${proofUrl}" alt="Proof Image" style="max-width:100%; border-radius: 10px; margin-top: 10px;">`;
-          } else if (['mp4', 'webm'].includes(ext)) {
-            proofContent.innerHTML = `
-              <video controls style="max-width:100%; margin-top: 10px; border-radius: 10px;">
-                <source src="${proofUrl}" type="video/${ext}">
-                Your browser does not support the video tag.
-              </video>`;
-          } else if (ext === 'pdf') {
-            proofContent.innerHTML = `<embed src="${proofUrl}" type="application/pdf" width="100%" height="500px" style="margin-top: 10px;" />`;
+          if (fileId) {
+            const previewLink = `https://drive.google.com/uc?id=${fileId}`;
+            fileCard.innerHTML = `
+              <a href="${fileUrl}" target="_blank">
+                <img src="${previewLink}" alt="view proof" style="max-width:100%; border-radius:10px; margin:10px 0;" />
+              </a>
+            `;
           } else {
-            proofContent.innerHTML = `<a href="${proofUrl}" target="_blank">📄 View Uploaded Proof</a>`;
+            fileCard.innerHTML = `
+              <a href="${fileUrl}" target="_blank" style="display:block; margin: 10px 0;">
+                <i class="fas fa-link"></i> View Uploaded Proof
+              </a>
+            `;
           }
+        } else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) {
+          fileCard.innerHTML = `
+            <img src="${fileUrl}" alt="Proof Image" style="max-width:100%; border-radius:10px; margin:10px 0;" />
+          `;
+        } else {
+          fileCard.innerHTML = `
+            <a href="${fileUrl}" target="_blank" style="display:block; margin: 10px 0;">
+              <i class="fas fa-file-alt"></i> View Uploaded File
+            </a>
+          `;
         }
 
-        const thumbnail = service.thumbnail || '/static/images/placeholder.jpg';
-        document.getElementById('service-thumbnail').src = thumbnail;
-
-        updateCartBadge();
-      } catch (error) {
-        document.querySelector('.service-container').innerHTML =
-          '<p style="color: red;">Failed to load service details.</p>';
-        console.error("Error:", error);
-      }
+        proofDiv.appendChild(fileCard);
+      });
     }
 
-    async function addToCart() {
-      try {
-        const response = await fetch(`http://localhost:5000/get-service?id=${serviceId}`);
-        const service = await response.json();
+    document.getElementById('service-thumbnail').src = service.thumbnail || '/static/images/placeholder.jpg';
 
-        const res = await fetch('http://localhost:5000/add-to-cart', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(service)
-        });
+  } catch (error) {
+    document.querySelector('.service-container').innerHTML =
+      '<p style="color: red;">Failed to load service details.</p>';
+    console.error("Error:", error);
+  }
+}
 
-        const data = await res.json();
-showSnackbar(data.message || "Service added to cart!");
-        updateCartBadge();
-      } catch (err) {
-        console.error("Cart error:", err);
-  showSnackbar("Failed to add to cart");
-      }
-    }
+function goToPayment() {
+  window.location.href = `/payment.html?id=${serviceId}`;
+}
 
-    async function updateCartBadge() {
-      try {
-        const res = await fetch('http://localhost:5000/cart-count');
-        const data = await res.json();
-        document.getElementById('cart-count').innerText = data.count || 0;
-      } catch (err) {
-        console.error("Failed to fetch cart count", err);
-        document.getElementById('cart-count').innerText = 0;
-      }
-    }
+const phrases = ["Search services...", "Search skills...", "Search students..."];
+let i = 0;
+let charIndex = 0;
+const input = document.querySelector(".search-input");
 
-    function goToPayment() {
-      window.location.href = `/payment.html?id=${serviceId}`;
-    }
+function typePlaceholder() {
+  if (!input) return;
+  if (charIndex <= phrases[i].length) {
+    input.setAttribute("placeholder", phrases[i].substring(0, charIndex++));
+  } else {
+    setTimeout(() => {
+      charIndex = 0;
+      i = (i + 1) % phrases.length;
+      typePlaceholder();
+    }, 1500);
+    return;
+  }
+  setTimeout(typePlaceholder, 100);
+}
+typePlaceholder();
 
-    document.addEventListener('DOMContentLoaded', loadServiceDetails);
+const searchInput = document.querySelector('.search-input');
+const resultBox = document.querySelector('.search-results');
 
-    
-  // Animated Search Placeholder
-  const phrases = ["Search services...", "Search skills...", "Search students..."];
-  let i = 0;
-  let charIndex = 0;
-  const input = document.querySelector(".search-input");
-
-  function typePlaceholder() {
-    if (!input) return;
-    if (charIndex <= phrases[i].length) {
-      input.setAttribute("placeholder", phrases[i].substring(0, charIndex++));
-    } else {
-      setTimeout(() => {
-        charIndex = 0;
-        i = (i + 1) % phrases.length;
-        typePlaceholder();
-      }, 1500);
-      return;
-    }
-    setTimeout(typePlaceholder, 100);
+searchInput.addEventListener('input', async () => {
+  const query = searchInput.value.trim();
+  if (!query) {
+    resultBox.style.display = 'none';
+    return;
   }
 
-  typePlaceholder();
-    
-  // 🔍 Real-time Search Dropdown
-  const searchInput = document.querySelector('.search-input');
-  const resultBox = document.querySelector('.search-results');
+  try {
+    const res = await fetch(`http://localhost:5000/search-services?q=${encodeURIComponent(query)}`);
+    const data = await res.json();
 
-  searchInput.addEventListener('input', async () => {
-    const query = searchInput.value.trim();
-    if (!query) {
-      resultBox.style.display = 'none';
-      return;
-    }
-
-    try {
-      const res = await fetch(`http://localhost:5000/search-services?q=${encodeURIComponent(query)}`);
-      const data = await res.json();
-
-      if (Array.isArray(data) && data.length > 0) {
-        resultBox.innerHTML = '';
-        data.forEach(service => {
-          const div = document.createElement('div');
-          div.innerHTML = `
-            <strong>${service.service_name}</strong><br>
-            <small>${service.category} - ${service.provider?.name || 'Unknown'}</small>
-          `;
-          div.onclick = () => {
-            localStorage.setItem('searchResult', JSON.stringify(service));
-            window.location.href = 'view.html';
-          };
-          resultBox.appendChild(div);
-        });
-        resultBox.style.display = 'block';
-      } else {
-        resultBox.style.display = 'none';
-      }
-    } catch (err) {
-      console.error("Search error:", err);
+    if (Array.isArray(data) && data.length > 0) {
+      resultBox.innerHTML = '';
+      data.forEach(service => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <strong>${service.service_name}</strong><br>
+          <small>${service.category} - ${service.provider?.name || 'Unknown'}</small>
+        `;
+        div.onclick = () => {
+          localStorage.setItem('searchResult', JSON.stringify(service));
+          window.location.href = 'view.html';
+        };
+        resultBox.appendChild(div);
+      });
+      resultBox.style.display = 'block';
+    } else {
       resultBox.style.display = 'none';
     }
-  });
+  } catch (err) {
+    console.error("Search error:", err);
+    resultBox.style.display = 'none';
+  }
+});
 
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.search-container')) {
-      resultBox.style.display = 'none';
-    }
-  });
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.search-container')) {
+    resultBox.style.display = 'none';
+  }
+});
 
-  function showSnackbar(message = "Service added to cart!") {
+function showSnackbar(message = "Service added to cart!") {
   const snackbar = document.getElementById("snackbar");
   snackbar.textContent = message;
   snackbar.classList.add("show");
   setTimeout(() => {
     snackbar.classList.remove("show");
-  }, 3000); // Snackbar disappears after 3 seconds
+  }, 3000);
 }
 
-  </script>
+window.addEventListener("DOMContentLoaded", () => {
+  fetchCartCount();
+});
+
+// 🔢 Fetch cart count from Flask session
+async function fetchCartCount() {
+  try {
+    const res = await fetch("http://localhost:5000/cart-count", {
+      credentials: "include"
+    });
+    const data = await res.json();
+    document.getElementById("cart-count").textContent = data.count || 0;
+  } catch (err) {
+    console.error("Error fetching cart count:", err);
+    document.getElementById("cart-count").textContent = "0";
+  }
+}
+
+// ➕ Add service to cart
+async function addToCart(serviceId) {
+  try {
+    const res = await fetch(`http://localhost:5000/get-service?id=${serviceId}`);
+    const service = await res.json();
+
+    const addRes = await fetch("http://localhost:5000/add-to-cart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(service)
+    });
+
+    const result = await addRes.json();
+    if (addRes.ok) {
+      showSnackbar(result.message || "Service added to cart!");
+      fetchCartCount();
+    } else {
+      showSnackbar(result.error || "Error adding to cart.");
+    }
+  } catch (err) {
+    console.error("Add to cart failed:", err);
+    showSnackbar("⚠ Failed to add to cart.");
+  }
+}
+
+// 🗑 Remove item from cart
+async function removeFromCart(serviceId) {
+  try {
+    const res = await fetch("http://localhost:5000/remove-from-cart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ service_id: serviceId })
+    });
+
+    const result = await res.json();
+    if (res.ok) {
+      showSnackbar("Item removed from cart.");
+      fetchCartCount();
+    } else {
+      showSnackbar(result.error || "Failed to remove item.");
+    }
+  } catch (err) {
+    console.error("Remove from cart failed:", err);
+    showSnackbar("⚠ Failed to remove from cart.");
+  }
+}
+
+// 🛍 View cart (for debugging or console use)
+async function viewCart() {
+  try {
+    const res = await fetch("http://localhost:5000/view-cart", {
+      credentials: "include"
+    });
+    const cart = await res.json();
+    console.log("Current Cart:", cart);
+  } catch (err) {
+    console.error("Error viewing cart:", err);
+  }
+}
+
+</script>
+
 </body>
 </html>

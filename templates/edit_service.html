@@ -150,11 +150,8 @@
 </main>
 <div id="snackbar">Service updated successfully</div>
 
+
 <script>
-
-
-
-
 document.querySelector(".menu-icon").addEventListener("click", function () {
   document.getElementById("right-drawer").classList.add("open");
   document.getElementById("overlay").classList.add("active");
@@ -165,32 +162,30 @@ document.getElementById("overlay").addEventListener("click", function () {
   document.getElementById("overlay").classList.remove("active");
 });
 
-
-  window.addEventListener('DOMContentLoaded', async () => {
-    try {
-      const res = await fetch("http://localhost:5000/me", { credentials: "include" });
-      if (res.ok) {
-        const user = await res.json();
-        const username = user.username || "User";
-        localStorage.setItem('username', username);
-        localStorage.setItem('userId', user.userId);
-        const initials = username.trim().split(" ").map(word => word[0].toUpperCase()).join("");
-        document.getElementById('user-avatar').textContent = initials;
-        document.getElementById('avatar-item').style.display = 'block';
-        document.getElementById('logout-item').style.display = 'block';
-      }
-    } catch (err) {
-      console.error("Error checking login status:", err);
+window.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const res = await fetch("http://localhost:5000/me", { credentials: "include" });
+    if (res.ok) {
+      const user = await res.json();
+      const username = user.username || "User";
+      localStorage.setItem('username', username);
+      localStorage.setItem('userId', user.userId);
+      const initials = username.trim().split(" ").map(word => word[0].toUpperCase()).join("");
+      document.getElementById('user-avatar').textContent = initials;
+      document.getElementById('avatar-item').style.display = 'block';
+      document.getElementById('logout-item').style.display = 'block';
     }
+  } catch (err) {
+    console.error("Error checking login status:", err);
+  }
 
-    updateCartCount();
-  });
-
+  updateCartCount();
+});
 
 const queryParams = new URLSearchParams(window.location.search);
 const serviceId = queryParams.get("id");
-let existingPortfolioFiles = []; // Will store fetched portfolio URLs
-let existingThumbnail = ""; // Will store fetched thumbnail URL
+let existingPortfolioFiles = [];
+let existingThumbnail = "";
 
 async function fetchServiceDetails() {
   if (!serviceId) {
@@ -211,19 +206,18 @@ async function fetchServiceDetails() {
       document.getElementById('location').value = data.provider?.location || '';
       document.getElementById('fromDate').value = data.availability?.from || '';
       document.getElementById('toDate').value = data.availability?.to || '';
-document.getElementById('days').value = data.availability?.days || '';
+      document.getElementById('days').value = data.availability?.days || '';
       document.getElementById('price').value = data.cost?.price || '';
       document.getElementById('level').value = data.level || '';
       document.getElementById('language').value = (data.language || []).join(', ');
       document.getElementById('notes').value = data.additional_note || '';
 
-const paymentMethods = data.cost?.payment_method || [];
-paymentMethods.forEach(method => {
-  const checkbox = document.querySelector(`input[name="paymentMethod"][value="${method}"]`);
-  if (checkbox) checkbox.checked = true;
-});
+      const paymentMethods = data.cost?.payment_method || [];
+      paymentMethods.forEach(method => {
+        const checkbox = document.querySelector(`input[name="paymentMethod"][value="${method}"]`);
+        if (checkbox) checkbox.checked = true;
+      });
 
-      // ✅ Thumbnail preview
       if (data.thumbnail) {
         existingThumbnail = data.thumbnail;
         const fileName = data.thumbnail.split('/').pop();
@@ -232,30 +226,31 @@ paymentMethods.forEach(method => {
             <input type="text" value="${fileName}" readonly />
             <div class="icons">
               <button onclick="previewFile('${data.thumbnail}')"><i class="fas fa-eye"></i></button>
-<button type="button" onclick="document.getElementById('thumbnailInput').click()"><i class="fas fa-pen"></i></button>
+              <button type="button" onclick="document.getElementById('thumbnailInput').click()"><i class="fas fa-pen"></i></button>
             </div>
           </div>
         `;
       }
 
-      // ✅ Portfolio files preview
-      existingPortfolioFiles = data.portfolio_files || [];
-      const portfolioList = document.getElementById('portfolioList');
-      portfolioList.innerHTML = '';
-      existingPortfolioFiles.forEach(file => {
-        const fileName = file.split('/').pop();
-        const div = document.createElement('div');
-        div.classList.add('file-box');
-        div.innerHTML = `
-          <input type="text" value="${fileName}" readonly />
-          <div class="icons">
-            <button onclick="previewFile('${file}')"><i class="fas fa-eye"></i></button>
-<button type="button" onclick="document.getElementById('portfolioInput').click()"><i class="fas fa-pen"></i></button>
-          </div>
-        `;
-        portfolioList.appendChild(div);
-      });
+existingPortfolioFiles = data.portfolio_files || [];
+const portfolioList = document.getElementById('portfolioList');
+portfolioList.innerHTML = '';
 
+existingPortfolioFiles.forEach(file => {
+  const fileUrl = file.url;
+  const fileName = file.name || 'View Proof';
+
+  const div = document.createElement('div');
+  div.classList.add('file-box');
+  div.innerHTML = `
+    <input type="text" value="${fileName}" readonly />
+    <div class="icons">
+      <button onclick="previewFile('${fileUrl}')"><i class="fas fa-eye"></i></button>
+      <button type="button" onclick="document.getElementById('portfolioInput').click()"><i class="fas fa-pen"></i></button>
+    </div>
+  `;
+  portfolioList.appendChild(div);
+});
     } else {
       showSnackbar("❌ Failed to fetch service details");
     }
@@ -265,20 +260,29 @@ paymentMethods.forEach(method => {
   }
 }
 
-// 🔍 Preview image in modal
 function previewFile(fileUrl) {
   const modal = document.getElementById("imageModal");
   const modalImg = document.getElementById("modalImage");
+
+  if (fileUrl.includes("drive.google.com")) {
+    const match = fileUrl.match(/\/d\/([^/]+)/);
+    if (match) {
+      const fileId = match[1];
+      modalImg.src = `https://drive.google.com/uc?export=view&id=${fileId}`;
+    } else {
+      modalImg.src = fileUrl;
+    }
+  } else {
+    modalImg.src = fileUrl;
+  }
+
   modal.style.display = "block";
-  modalImg.src = fileUrl;
 }
 
-// ❌ Close modal
 function closeModal() {
   document.getElementById("imageModal").style.display = "none";
 }
 
-// 👂 Show local thumbnail preview
 document.getElementById('thumbnailInput').addEventListener('change', function () {
   const file = this.files[0];
   if (file) {
@@ -296,7 +300,6 @@ document.getElementById('thumbnailInput').addEventListener('change', function ()
   }
 });
 
-// 👂 Show local portfolio previews
 document.getElementById('portfolioInput').addEventListener('change', function () {
   const files = this.files;
   const portfolioList = document.getElementById('portfolioList');
@@ -318,7 +321,6 @@ document.getElementById('portfolioInput').addEventListener('change', function ()
   }
 });
 
-// 🔄 Submit updated form data
 document.getElementById("edit-form").addEventListener("submit", async function (event) {
   event.preventDefault();
 
@@ -332,27 +334,26 @@ document.getElementById("edit-form").addEventListener("submit", async function (
   formData.append("location", document.getElementById("location").value);
   formData.append("from_date", document.getElementById("fromDate").value);
   formData.append("to_date", document.getElementById("toDate").value);
-document.getElementById("days").value
-  .split(",")
-  .map(day => day.trim())
-  .forEach(day => {
-    formData.append("available_days[]", day);
-  });
+  document.getElementById("days").value
+    .split(",")
+    .map(day => day.trim())
+    .forEach(day => {
+      formData.append("available_days[]", day);
+    });
   formData.append("price", document.getElementById("price").value);
   formData.append("level", document.getElementById("level").value);
-document.getElementById("language").value
-  .split(",")
-  .map(lang => lang.trim())
-  .forEach(lang => {
-    formData.append("language[]", lang);
-  });
+  document.getElementById("language").value
+    .split(",")
+    .map(lang => lang.trim())
+    .forEach(lang => {
+      formData.append("language[]", lang);
+    });
   formData.append("additional_note", document.getElementById("notes").value);
 
   document.querySelectorAll('input[name="paymentMethod"]:checked').forEach(cb => {
     formData.append("payment_method", cb.value);
   });
 
-  // New thumbnail
   const thumbnailFile = document.getElementById("thumbnailInput").files[0];
   if (thumbnailFile) {
     formData.append("thumbnail", thumbnailFile);
@@ -360,13 +361,11 @@ document.getElementById("language").value
     formData.append("existing_thumbnail", existingThumbnail);
   }
 
-  // New portfolio files
   const portfolioFiles = document.getElementById("portfolioInput").files;
   for (let file of portfolioFiles) {
-formData.append("proof[]", file);           // ✅ correct
+    formData.append("proof[]", file);
   }
 
-  // Keep existing portfolio files
   for (let fileUrl of existingPortfolioFiles) {
     formData.append("existing_portfolio_files", fileUrl);
   }
@@ -380,7 +379,7 @@ formData.append("proof[]", file);           // ✅ correct
 
     if (res.ok) {
       showSnackbar("✅ Service updated successfully!");
-      window.location.href = "service-detail.html?id=" + serviceId;
+      window.location.href = "createdservices.html?id=" + serviceId;
     } else {
       showSnackbar("❌ Failed to update service");
     }
@@ -392,9 +391,6 @@ formData.append("proof[]", file);           // ✅ correct
 
 fetchServiceDetails();
 
-
-
-  
 function showSnackbar(message) {
   const snackbar = document.getElementById("snackbar");
   snackbar.textContent = message;
@@ -404,75 +400,72 @@ function showSnackbar(message) {
   }, 3000);
 }
 
-  // Animated Search Placeholder
-  const phrases = ["Search services...", "Search skills...", "Search students..."];
-  let i = 0;
-  let charIndex = 0;
-  const input = document.querySelector(".search-input");
+// Typing search placeholder
+const phrases = ["Search services...", "Search skills...", "Search students..."];
+let i = 0;
+let charIndex = 0;
+const input = document.querySelector(".search-input");
 
-  function typePlaceholder() {
-    if (!input) return;
-    if (charIndex <= phrases[i].length) {
-      input.setAttribute("placeholder", phrases[i].substring(0, charIndex++));
-    } else {
-      setTimeout(() => {
-        charIndex = 0;
-        i = (i + 1) % phrases.length;
-        typePlaceholder();
-      }, 1500);
-      return;
-    }
-    setTimeout(typePlaceholder, 100);
+function typePlaceholder() {
+  if (!input) return;
+  if (charIndex <= phrases[i].length) {
+    input.setAttribute("placeholder", phrases[i].substring(0, charIndex++));
+  } else {
+    setTimeout(() => {
+      charIndex = 0;
+      i = (i + 1) % phrases.length;
+      typePlaceholder();
+    }, 1500);
+    return;
+  }
+  setTimeout(typePlaceholder, 100);
+}
+typePlaceholder();
+
+// Search service results
+const searchInput = document.querySelector('.search-input');
+const resultBox = document.querySelector('.search-results');
+
+searchInput.addEventListener('input', async () => {
+  const query = searchInput.value.trim();
+  if (!query) {
+    resultBox.style.display = 'none';
+    return;
   }
 
-  typePlaceholder();
-  
-  // 🔍 Real-time Search Dropdown
-  const searchInput = document.querySelector('.search-input');
-  const resultBox = document.querySelector('.search-results');
+  try {
+    const res = await fetch(`http://localhost:5000/search-services?q=${encodeURIComponent(query)}`);
+    const data = await res.json();
 
-  searchInput.addEventListener('input', async () => {
-    const query = searchInput.value.trim();
-    if (!query) {
-      resultBox.style.display = 'none';
-      return;
-    }
-
-    try {
-      const res = await fetch(`http://localhost:5000/search-services?q=${encodeURIComponent(query)}`);
-      const data = await res.json();
-
-      if (Array.isArray(data) && data.length > 0) {
-        resultBox.innerHTML = '';
-        data.forEach(service => {
-          const div = document.createElement('div');
-          div.innerHTML = `
-            <strong>${service.service_name}</strong><br>
-            <small>${service.category} - ${service.provider?.name || 'Unknown'}</small>
-          `;
-          div.onclick = () => {
-            localStorage.setItem('searchResult', JSON.stringify(service));
-            window.location.href = 'view.html';
-          };
-          resultBox.appendChild(div);
-        });
-        resultBox.style.display = 'block';
-      } else {
-        resultBox.style.display = 'none';
-      }
-    } catch (err) {
-      console.error("Search error:", err);
+    if (Array.isArray(data) && data.length > 0) {
+      resultBox.innerHTML = '';
+      data.forEach(service => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <strong>${service.service_name}</strong><br>
+          <small>${service.category} - ${service.provider?.name || 'Unknown'}</small>
+        `;
+        div.onclick = () => {
+          localStorage.setItem('searchResult', JSON.stringify(service));
+          window.location.href = 'view.html';
+        };
+        resultBox.appendChild(div);
+      });
+      resultBox.style.display = 'block';
+    } else {
       resultBox.style.display = 'none';
     }
-  });
+  } catch (err) {
+    console.error("Search error:", err);
+    resultBox.style.display = 'none';
+  }
+});
 
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.search-container')) {
-      resultBox.style.display = 'none';
-    }
-  });
-
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.search-container')) {
+    resultBox.style.display = 'none';
+  }
+});
 </script>
-
 </body>
 </html>
