@@ -1,3 +1,4 @@
+import traceback
 from flask import Blueprint, request, jsonify, current_app
 from werkzeug.utils import secure_filename
 from datetime import datetime
@@ -10,6 +11,8 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
+from routes.google_drive_routes import upload_file_to_drive
+
 
 
 cloudinary.config(
@@ -21,6 +24,7 @@ cloudinary.config(
 
 
 
+GOOGLE_DRIVE_FOLDER_ID = "14K4SVAQn-cTtzIGtnXAb7bE5jloA29ao"
 
 
 
@@ -89,27 +93,31 @@ def create_service():
         files = request.files.getlist('proof[]')
         thumbnail_file = request.files.get('thumbnail')
 
+        print("Received form data:", form)
+        print("Files received:", [f.filename for f in files])
+        print("Thumbnail received:", thumbnail_file.filename if thumbnail_file else "None")
+
         file_paths = []
         upload_folder = current_app.config.get('UPLOAD_FOLDER', 'uploads')
         if not os.path.exists(upload_folder):
             os.makedirs(upload_folder)
 
-        # Save proof files locally
-        # Upload proof files to Cloudinary
-
+        # ✅ Upload proof files to Google Drive
         for file in files:
-            if file and file.filename != '':
-                upload_result = cloudinary.uploader.upload(file)
-                file_paths.append(upload_result.get('secure_url'))
+            if file and file.filename:
+                drive_link = upload_file_to_drive(file, folder_id=GOOGLE_DRIVE_FOLDER_ID)
+                file_paths.append({
+                    "name": file.filename,
+                    "url": drive_link
+                })
 
-
-        # Upload thumbnail to Cloudinary
+        # ✅ Upload thumbnail to Cloudinary
         thumbnail_url = ''
-        if thumbnail_file and thumbnail_file.filename != '':
+        if thumbnail_file and thumbnail_file.filename:
             upload_result = cloudinary.uploader.upload(thumbnail_file)
-            thumbnail_url = upload_result.get('secure_url')
+            thumbnail_url = upload_result.get('secure_url', '')
 
-        # Insert into MongoDB
+        # ✅ Prepare MongoDB document
         service_doc = {
             'user_id': form.get('userId'),
             'username': form.get('username'),
@@ -137,13 +145,15 @@ def create_service():
             'created_at': datetime.utcnow()
         }
 
+        print("Inserting document to MongoDB...")
         services_collection.insert_one(service_doc)
+        print("Service created successfully.")
+
         return jsonify({'message': 'Service created successfully'}), 201
 
     except Exception as e:
+        traceback.print_exc()
         return jsonify({'error': 'Service creation failed', 'message': str(e)}), 500
-
-
 @services.route('/edit-service', methods=['PUT'])
 def edit_service():
     try:
@@ -155,25 +165,15 @@ def edit_service():
         files = request.files.getlist('proof[]')
         thumbnail_file = request.files.get('thumbnail')
 
+        # Upload proof files to Google Drive
         file_paths = []
-        upload_folder = current_app.config.get('UPLOAD_FOLDER', 'uploads')
-        if not os.path.exists(upload_folder):
-            os.makedirs(upload_folder)
-
-        # Save proof files locally
-# Upload proof files to Cloudinary
-
-
-
-
-
-
-
-
         for file in files:
             if file and file.filename != '':
-                upload_result = cloudinary.uploader.upload(file)
-                file_paths.append(upload_result.get('secure_url'))
+                link = upload_file_to_drive(file, folder_id=GOOGLE_DRIVE_FOLDER_ID)
+                file_paths.append({
+                    "name": file.filename,
+                    "url": link
+                })
 
         # Upload thumbnail to Cloudinary
         thumbnail_url = None
@@ -181,15 +181,15 @@ def edit_service():
             upload_result = cloudinary.uploader.upload(thumbnail_file)
             thumbnail_url = upload_result.get('secure_url')
 
-        # Update document
+        # Prepare update document
         update_doc = {
             'service_name': form.get('service_name'),
             'category': form.get('category'),
             'provider.name': form.get('provider_name'),
             'provider.email': form.get('provider_email'),
-            'provider.location': form.get('provider_location'),
-            'availability.from': form.get('starting_date'),
-            'availability.to': form.get('ending_date'),
+            'provider.location': form.get('location'),  # ✅ fixed key
+            'availability.from': form.get('from_date'),  # ✅ fixed key
+            'availability.to': form.get('to_date'),      # ✅ fixed key
             'availability.days': form.getlist('available_days[]'),
             'cost.price': form.get('price'),
             'cost.payment_method': form.getlist('payment_method'),
@@ -217,6 +217,7 @@ def edit_service():
 
     except Exception as e:
         return jsonify({'error': 'Failed to update service', 'message': str(e)}), 500
+
 @services.route('/search-services', methods=['GET'])
 def search_services():
     try:
@@ -307,75 +308,17 @@ def get_service(service_id):
         return jsonify({'message': str(e)}), 500
 
 
-@services.route('/delete-file', methods=['POST'])
-def delete_file():
+from bson.errors import InvalidId  # ✅ Import this
+
+@services.route('/delete-service/<service_id>', methods=['DELETE'])
+def delete_service(service_id):
     try:
-        data = request.get_json()
-        service_id = data.get('service_id')
-        file_type = data.get('file_type')
+        obj_id = ObjectId(service_id)
+    except InvalidId:
+        return jsonify({'error': 'Invalid service ID'}), 400
 
-        # Debug: print incoming data
-        print("Received service_id:", service_id)
-        print("Received file_type:", file_type)
-
-        if not service_id or not file_type:
-            return jsonify({'error': 'Service ID and file type required'}), 400
-
-        try:
-            obj_id = ObjectId(service_id)
-        except Exception as e:
-            print("Invalid ObjectId:", e)
-            return jsonify({'error': 'Invalid service ID'}), 400
-
-        services_col = client['studentstack']['services']
-        service = services_col.find_one({'_id': obj_id})
-
-        if not service:
-            print("Service not found for ID:", obj_id)
-            return jsonify({'error': 'Service not found'}), 404
-
-        file_path = None
-        update = {}
-
-        if file_type == 'thumbnail':
-            file_path = service.get('thumbnail')
-            update = {'$unset': {'thumbnail': ""}}
-
-        elif file_type == 'portfolio':
-            file_paths = service.get('portfolio_files', [])
-            if file_paths:
-                file_path = file_paths[0]  # ⚠ Or choose based on frontend input
-                new_files = file_paths[1:]
-                if new_files:
-                    update = {'$set': {'portfolio_files': new_files}}
-                else:
-                    update = {'$unset': {'portfolio_files': ""}}
-            else:
-                return jsonify({'error': 'No portfolio file to delete'}), 400
-
-        else:
-            return jsonify({'error': 'Invalid file type'}), 400
-
-        # Remove file from server
-        if file_path:
-            # Convert browser path to filesystem path
-            filepath_on_disk = os.path.join(current_app.root_path, file_path.strip('/'))
-            print("Attempting to remove file:", filepath_on_disk)
-
-            if os.path.exists(filepath_on_disk):
-                try:
-                    os.remove(filepath_on_disk)
-                    print("File removed:", filepath_on_disk)
-                except Exception as e:
-                    return jsonify({'error': f'File removal failed: {str(e)}'}), 500
-            else:
-                print("File not found on disk:", filepath_on_disk)
-
-        # Update DB
-        services_col.update_one({'_id': obj_id}, update)
-
-        return jsonify({'message': 'File deleted successfully'}), 200
-
-    except Exception as e:
-        print("Exception in delete_file:", str(e))
-        return jsonify({'error': 'Server error', 'message': str(e)}), 500
+    result = services_collection.delete_one({'_id': obj_id})
+    if result.deleted_count == 1:
+        return jsonify({'message': 'Service deleted'}), 200
+    else:
+        return jsonify({'error': 'Service not found'}), 404  # ✅ Fix this line
