@@ -1,64 +1,387 @@
-.container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-img {
-  border-radius: 8px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Navbar */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ===== Navbar ===== */
 nav {
-  display: flex;
-  height: 64px;
-
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
   background-color: #24292e;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  padding: 1rem 2rem;
+  display: flex;
+        border-radius: 12px; /* 🟢 Yeh line add karo */
+height:64px;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
-    color:white;
-
+  gap: 10px;
 }
 
 .logo-img {
-  width: 40px;
   height: 40px;
-  object-fit: contain;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* ===== Search ===== */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: -100px; /* ya hata do agar bilkul chipkana hai logo se */
+  margin-right: -200px;
+
+}
+
+.search-input {
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  width: 300px;
+}
+
+.search-button {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
 }
 
 .nav-buttons {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 50px;
 }
 
-.nav-buttons button {
+#login-btn,
+#signup-btn {
   padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: bold;
   border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#login-btn {
+  background-color: #ffffff;
+  color: #24292e;
+}
+
+#signup-btn {
   background-color: transparent;
-  color:white;
-  font-weight: 500;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+/* ===== Cart ===== */
+.cart-container {
+  position: relative;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 
-.signup-btn {
-  background-color: #4f9cff;
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: red;
   color: white;
-  border-radius: 6px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-size: 0.7rem;
 }
 
-.menu-icon {
-  font-size: 24px;
+/* ===== Service Details ===== */
+.service-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  padding: 3rem 4rem;
+  background-color: #ffffff;
+}
+
+.service-left {
+  flex: 1;
+  min-width: 300px;
+}
+
+.service-image img {
+  width: 100%;
+  max-width: 520px;
+  border-radius: 12px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.07);
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+.tagline {
+  font-style: italic;
+  color: #666;
+  margin-bottom: 1.2rem;
+}
+
+.provider-info,
+.extra-details {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: #444;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2c974b;
+  margin: 2rem 0;
+}
+
+/* ===== Buttons ===== */
+.subscribe-btn,
+.add-to-cart-btn {
+  padding: 12px 22px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-left: 20px;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.subscribe-btn {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.subscribe-btn:hover {
+  background-color: #219638;
+}
+
+.add-to-cart-btn {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #e6b307;
+}
+
+/* ===== Proof Section ===== */
+.proof-container {
+  margin-top: 1.5rem;
+  background-color: #e6ffed;
+  padding: 14px;
+  border-left: 5px solid #28a745;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+/* ===== About Section ===== */
+.about-section {
+  background: #24292e;
+  color: white;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.about-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.about-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 14px;
+}
+
+.about-section p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.social-links a {
+  color: white;
+  font-size: 1.4rem;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #4f9cff;
+}
+
+/* ===== Drawer ===== */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: right 0.3s ease;
+}
+
+.drawer.open {
+  right: 0;
+}
+
+.drawer ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 60px;
+}
+
+.drawer ul li {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  color: #333;
+}
+
+.drawer ul li a {
+  text-decoration: none;
+  color: #333;
+  margin-left: 10px;
+}
+
+/* ===== Avatar & Logout ===== */
+.user-avatar {
+  width: 90px;
+  height: 90px;
+  background-color: #84AE92;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 36px;
+  margin: 10px auto 5px;
+}
+
+#avatar-item {
+  list-style: none;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#logout-item {
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+#logout-item:hover {
+  background-color: #ffe5e5;
+}
+
+/* ===== Overlay ===== */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 999;
+}
+
+.overlay.show {
+  display: block;
+}
+.service-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 1200px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+.main-content {
+  flex: 2;
+  min-width: 0;
+}
+
+.sidebar {
+  flex: 1;
+  min-width: 300px;
+  max-width: 350px;
+  position: sticky;
+  top: 80px;
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.sidebar img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.price {
+  font-size: 28px;
+  color: #b12704;
+  font-weight: bold;
+}
+
+.subscribe-btn, .add-to-cart-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: #5624d0;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.add-to-cart-btn {
+  background: #f4b400;
+  color: #333;
+}
+
+.what-youll-learn ul, .curriculum-section ul {
+  padding-left: 20px;
+}
+
+.curriculum-section ul li::before {
+  content: "🎓 ";
 }
 
 /* Search bar styling */
@@ -97,258 +420,88 @@ nav {
   font-size: 16px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0 20px;
-  width: 350px;
+  width: 900px;
   overflow: hidden;
   white-space: nowrap;
 }
-body {
-font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      padding: 40px;
-      background-color: #f7f7f7;
+.cart-badge {
+  position: absolute;
+  top: 5px;
+  right: 0;
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+}
+.cart-icon {
+  position: relative;
+}
+
+.add-to-cart-btn:hover {
+  background: #8AE492;
+}
+.search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: black;
+      border: 1px solid #ccc;
+      border-top: none;
+      max-height: 250px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
     }
-    .price {
-      font-weight: bold;
-      color: green;
+    .search-results div {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
     }
-    body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f6f6f6;
-  margin: 0;
-  padding: 0;
-}
-
-.service-container {
-  max-width: 1000px;
-  margin: 60px auto;
-  padding: 30px;
-  display: flex;
-  gap: 40px;
-  background-color: white;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  align-items: center;
-}
-
-.service-details {
-  flex: 1;
-}
-
-.service-details h1 {
-  font-size: 2.2rem;
-  margin-bottom: 20px;
-  color: #2e2e2e;
-}
-
-.service-details p {
-  font-size: 1.1rem;
-  margin: 12px 0;
-  color: #444;
-}
-
-.service-details strong {
-  color: #333;
-}
-
-.service-image {
-  flex: 1;
-  text-align: center;
-}
-
-.service-image img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-.about-section {
-  background-color: #24292e;
-  color: #fff;
-  padding: 60px 20px;
-  text-align: center;
-}
-
-.about-container {
-  max-width: 800px;
-  margin: auto;
-}
-
-.about-section h2 {
-  font-size: 2em;
-  margin-bottom: 20px;
-}
-
-.about-section p {
-  font-size: 1.1em;
-  line-height: 1.6;
-  margin-bottom: 30px;
-}
-
-.social-links a {
-  display: inline-block;
-  margin: 0 10px;
-  font-size: 1.8em;
-  color: #fff;
-  transition: color 0.3s ease;
-}
-
-.social-links a:hover {
-  color: #1da1f2; /* Twitter blue as highlight, change if you'd like */
-}
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #fff;
+    .search-results div:hover {
+      background-color: #f0f0f0;
     }
-
-    nav {
-      background-color: #6c63ff;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo img {
-      height: 40px;
-      margin-right: 10px;
-    }
-
     .search-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
+      position: relative;
+      width: 300px;
     }
-
-    .search-input {
-      padding: 6px;
-      width: 50%;
-      border: none;
-      border-radius: 4px 0 0 4px;
+        .cart-icon {
+      position: relative;
+      display: inline-block;
     }
-
-    .search-button {
-      padding: 6px 10px;
-      border: none;
-      background-color: #4b47e0;
+    #cart-count {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: red;
       color: white;
-      border-radius: 0 4px 4px 0;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
     }
+    
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #28a745; /* ✅ Success green */
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 14px;
+  position: fixed;
+  z-index: 1001;
+  left: 50%;
+  bottom: 30px;
+  font-size: 16px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease-in-out;
+}
 
-    .moving-text {
-      color: yellow;
-      font-weight: bold;
-      margin-left: 20px;
-      flex-shrink: 1;
-    }
-
-    .nav-buttons {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .nav-buttons button {
-      background-color: white;
-      color: #6c63ff;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .service-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 60px 20px;
-      gap: 60px;
-    }
-
-    .service-left {
-      max-width: 600px;
-    }
-
-    .service-left h1 {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-    }
-
-    .tagline {
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: #444;
-      margin-bottom: 20px;
-    }
-
-    .stats {
-      font-size: 1rem;
-      color: #666;
-      margin-bottom: 20px;
-    }
-
-    .stats span {
-      margin-right: 10px;
-    }
-
-    .price {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #111;
-      margin-bottom: 20px;
-    }
-
-    .subscribe-btn {
-      background-color: #6c63ff;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    .service-image img {
-      width: 400px;
-      height: auto;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    @media (max-width: 768px) {
-      .service-container {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .service-image img {
-        width: 90%;
-      }
-    }
-      .add-to-cart-btn {
-    background-color: #6c63ff;
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-
-  .add-to-cart-btn {
-    background-color: #6c63ff;
-  }
-
-  .add-to-cart-btn:hover,
-  .subscribe-btn:hover {
-    background-color: #3a3799;
-  }
+#snackbar.show {
+  visibility: visible;
+  bottom: 50px;
+  opacity: 1;
+}

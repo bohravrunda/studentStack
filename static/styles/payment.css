@@ -1,0 +1,113 @@
+ .payment-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 40px;
+      font-family: Arial, sans-serif;
+    }
+
+    .left-section {
+      width: 60%;
+    }
+
+    .right-summary {
+      width: 35%;
+      background: #f7f7f7;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .payment-form input, .payment-form select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-row div {
+      width: 48%;
+    }
+
+    .pay-btn, .start-subscription {
+      background-color: #7c3aed;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .pay-btn:hover, .start-subscription:hover {
+      background-color: #5b21b6;
+    }
+
+    .cancel-note {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #555;
+    }
+
+    .payment-options {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .payment-options label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 8px;
+      background: #fff;
+      transition: 0.2s;
+    }
+
+    .payment-options label:hover,
+    .payment-options input:checked + img {
+      border-color: #7c3aed;
+    }
+
+    .payment-options input {
+      display: none;
+    }
+
+    .payment-options img {
+      width: 60px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    #card-fields, #upi-fields, #bank-fields {
+      display: none;
+    }
+    /* Navbar */
+nav {
+  display: flex;
+  height: 32px;
+      border-radius: 12px; /* 🟢 Yeh line add karo */
+
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #24292e;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+    color:white;
+
+}

@@ -1,0 +1,450 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f6f8;
+  color: #333;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+        border-radius: 12px; /* 🟢 Yeh line add karo */
+
+  background-color: #24292e;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-input {
+  padding: 8px 14px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  width: 250px;
+}
+
+
+.search-button {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
+}
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.nav-buttons button {
+  padding: 6px 14px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.signup-btn {
+  background-color: #4f9cff;
+  border-radius: 20px;
+}
+
+.cart-icon {
+  color: white;
+  position: relative;
+  font-size: 20px;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.moving-text {
+  color: white;
+  font-weight: 300;
+  font-size: 14px;
+  width: 900px;
+}
+
+.cart-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  background: white;
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.item-count {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.cart-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.cart-item {
+  display: flex;
+  background: #f9fafb;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  gap: 12px;
+}
+
+.cart-item img {
+  width: 100px;
+  height: auto;
+  border-radius: 6px;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-details h2 {
+  font-size: 1.1rem;
+  margin: 0 0 4px;
+}
+
+.item-details .instructor, 
+.item-details .level {
+  color: #777;
+  font-size: 0.85rem;
+}
+
+.item-actions a {
+  color: purple;
+  text-decoration: none;
+  font-size: 0.8rem;
+  margin-right: 10px;
+}
+
+.item-price {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #222;
+  align-self: center;
+}
+
+.cart-summary {
+  margin-top: 20px;
+  padding: 16px;
+  background: #f1f3f5;
+  border-radius: 8px;
+  text-align: right;
+}
+
+.cart-summary p {
+  margin: 6px 0;
+}
+
+.checkout-btn {
+  background: purple;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.coupon-btn {
+  background: transparent;
+  border: 1px solid purple;
+  color: purple;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.recommendations {
+  display: flex;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.rec-item {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px;
+  width: 140px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.rec-item img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.rec-item p {
+  font-size: 0.85rem;
+  margin: 6px 0 0;
+}
+
+.about-section {
+  background: #24292e;
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.about-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.about-section h2 {
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+}
+
+.about-section p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.social-links a {
+  color: white;
+  font-size: 1.4rem;
+  margin: 0 8px;
+  transition: color 0.2s ease-in-out;
+}
+
+.social-links a:hover {
+  color: #4f9cff;
+}
+
+.add-to-cart-btn:hover {
+  background-color:#84AE92; ; /* slightly darker green on hover */
+}
+    .cart-icon {
+      position: relative;
+      display: inline-block;
+    }
+    #cart-count {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
+    }
+
+/* Drawer */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 250px;
+  height: 100%;
+  background-color:white ;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+  transition: right 0.3s ease;
+}
+
+.drawer.open {
+  right: 0;
+}
+
+.drawer ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 60px;
+  color:black;
+  
+}
+
+.drawer ul li {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  color:black;
+}
+
+.drawer ul li a {
+  text-decoration: none;
+  color:black;
+  margin-left: 10px;
+}
+
+.user-avatar {
+  width: 90px;
+  height: 90px;
+  background-color:#84AE92;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 40px;
+  margin: 10px auto 5px;
+}
+
+#avatar-item {
+  list-style: none;
+  text-align: center;
+  margin-bottom: 10px;
+  
+}
+
+#logout-item {
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#logout-item:hover {
+  background-color: #ffe5e5;
+}
+
+
+
+/* Search bar styling */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: -100px; /* ya hata do agar bilkul chipkana hai logo se */
+
+}
+
+.search-input {
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  width: 300px;
+}
+
+.search-button {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
+}
+.cart-icon {
+  color: white;           /* White color */
+  
+}
+.moving-text {
+  color: white;
+  font-weight: 300;
+  font-size: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0 20px;
+  width: 350px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.cart-badge {
+  position: absolute;
+  top: 5px;
+  right: 0;
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+}
+.cart-icon {
+  position: relative;
+}
+
+.add-to-cart-btn:hover {
+  background: #8AE492;
+}
+.search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #ccc;
+      border-top: none;
+      max-height: 250px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+    }
+    .search-results div {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+    .search-results div:hover {
+      background-color: #f0f0f0;
+    }
+    .search-container {
+      position: relative;
+      width: 300px;
+    }
+        .cart-icon {
+      position: relative;
+      display: inline-block;
+    }
+    #cart-count {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
+    }
