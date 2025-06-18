@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Shopping Cart - StudentStack</title>
+  <link rel="stylesheet" href="/static/styles/cart.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+<nav>
+  <div class="logo">
+    <img src="/static/images/logo.jpg" class="logo-img" alt="Logo">
+    <span>StudentStack</span>
+  </div>
+
+
+  <!-- 🔍 Search Bar -->
+  <div class="search-container">
+    <input type="text" class="search-input" placeholder="Search services..." />
+    <button class="search-button"><i class="fas fa-search"></i></button>
+    <div class="search-results"></div>
+  </div>
+
+  <div class="moving-text">
+    <marquee behavior="scroll" direction="left" scrollamount="4">
+      Exchange Skills, Expand Possibilities. Trade Knowledge, not just tools.
+    </marquee>
+  </div>
+
+  <div class="nav-buttons">
+    <a href="/cart.html" class="cart-icon" title="View Cart">
+      🛒 <span id="cart-count" style="background: red; color: white; padding: 2px 6px; border-radius: 50%; font-size: 14px;">0</span>
+    </a>
+    <div class="menu-icon" style="color: white; font-size: 30px; cursor: pointer;">&#9776;</div>
+  </div>
+</nav>
+
+
+
+<!-- Drawer -->
+<div id="right-drawer" class="drawer">
+  <ul>
+    <li id="avatar-item" style="display:none;">
+      <div id="user-avatar" class="user-avatar">RS</div>
+    </li>
+    <li><i class="fas fa-user"></i><a href="profile.html">Profile</a></li>
+    <li><i class="fas fa-eye"></i><a href="view.html">View Services</a></li>
+    <li><i class="fas fa-plus-circle"></i><a href="createService.html">Create Service</a></li>
+    <li><i class="fas fa-briefcase"></i><a href="createdservices.html">My Services</a></li>
+    <li><i class="fas fa-book"></i><a href="bookedServices.html">My Bookings</a></li>
+    <li id="logout-item" style="color: red; font-weight: bold; display: none; cursor: pointer;">
+      <i class="fas fa-sign-out-alt"></i><span id="logout-link">Logout</span>
+    </li>
+  </ul>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" class="overlay"></div>
+
+
+
+<main class="cart-container">
+  <h1>Shopping Cart</h1>
+  <p class="item-count">Services in Cart</p>
+
+  <div class="cart-content"></div>
+
+  <h2>You might also like</h2>
+  <div class="recommendations">
+    <div class="rec-item">
+      <img src="/static/images/python-bootcamp.png" alt="Recommended">
+      <p>The Complete Python Bootcamp</p>
+    </div>
+    <div class="rec-item">
+      <img src="/static/images/python-master.png" alt="Recommended">
+      <p>Learn Python Programming</p>
+    </div>
+    <div class="rec-item">
+      <img src="/static/images/python-developer.png" alt="Recommended">
+      <p>The Complete Python Developer</p>
+    </div>
+  </div>
+</main>
+
+<!-- About Section -->
+<section class="about-section">
+  <div class="about-container">
+    <h2>About StudentStack</h2>
+    <p>
+      StudentStack is your one-stop platform to share skills, discover services, and connect with a vibrant student community.
+      Whether you want to showcase your talent or explore new opportunities — we’ve got you covered.
+    </p>
+    <div class="social-links">
+      <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+    </div>
+  </div>
+</section>
+
+<script>
+
+
+document.querySelector(".menu-icon").addEventListener("click", function () {
+  document.getElementById("right-drawer").classList.add("open");
+  document.getElementById("overlay").classList.add("show"); // was 'active'
+});
+
+document.getElementById("overlay").addEventListener("click", function () {
+  document.getElementById("right-drawer").classList.remove("open");
+  document.getElementById("overlay").classList.remove("show"); // was 'active'
+});
+
+
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch("http://localhost:5000/me", { credentials: "include" });
+      if (res.ok) {
+        const user = await res.json();
+        const username = user.username || "User";
+        localStorage.setItem('username', username);
+        localStorage.setItem('userId', user.userId);
+        const initials = username.trim().split(" ").map(word => word[0].toUpperCase()).join("");
+        document.getElementById('user-avatar').textContent = initials;
+        document.getElementById('avatar-item').style.display = 'block';
+        document.getElementById('logout-item').style.display = 'block';
+      }
+    } catch (err) {
+      console.error("Error checking login status:", err);
+    }
+
+    updateCartCount();
+  });
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const cartContent = document.querySelector('.cart-content');
+  const itemCount = document.querySelector('.item-count');
+  const cartCount = document.getElementById('cart-count');
+
+  function renderCart(cart) {
+    cartContent.innerHTML = '';
+    let total = 0;
+
+    cart.forEach(service => {
+      const price = parseFloat(service.price) || 0;
+      total += price;
+
+      const item = document.createElement('div');
+      item.className = 'cart-item';
+      item.innerHTML = `
+        <img src="${service.image || '/static/images/placeholder.png'}" alt="Service Image">
+        <div class="item-details">
+          <h2>${service.name || 'Unnamed Service'}</h2>
+          <p class="instructor">By ${service.instructor || 'Unknown'}</p>
+          <p class="level">${service.level || ''}</p>
+          <div class="item-actions">
+            <a href="#" class="remove-link" data-id="${service._id}">Remove</a> | 
+            <a href="#">Save for Later</a> | 
+            <a href="#">Move to Wishlist</a>
+          </div>
+        </div>
+        <div class="item-price">₹${price}</div>
+      `;
+      cartContent.appendChild(item);
+    });
+
+    const summary = document.createElement('div');
+    summary.className = 'cart-summary';
+    summary.innerHTML = `
+      <p class="total-label">Total:</p>
+      <p class="total-price">₹${total}</p>
+      <button class="checkout-btn">Proceed to Checkout</button>
+      <button class="coupon-btn">Apply Coupon</button>
+    `;
+    cartContent.appendChild(summary);
+
+    itemCount.textContent = `${cart.length} Service${cart.length !== 1 ? 's' : ''} in Cart`;
+    cartCount.textContent = cart.length;
+  }
+
+  function loadCart() {
+    fetch('/view-cart')
+      .then(response => response.json())
+      .then(cart => {
+        renderCart(cart);
+      })
+      .catch(() => {
+        alert('Failed to load cart');
+      });
+  }
+
+  cartContent.addEventListener('click', function(event) {
+    if (event.target.classList.contains('remove-link')) {
+      event.preventDefault();
+      const serviceId = event.target.getAttribute('data-id');
+
+      fetch('/remove-from-cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ service_id: serviceId })
+      })
+      .then(response => {
+        if (response.ok) {
+          loadCart();
+        } else {
+          alert('Failed to remove item');
+        }
+      })
+      .catch(() => {
+        alert('Failed to remove item');
+      });
+    }
+  });
+
+  loadCart();
+});
+
+
+  // Animated Search Placeholder
+  const phrases = ["Search services...", "Search skills...", "Search students..."];
+  let i = 0;
+  let charIndex = 0;
+  const input = document.querySelector(".search-input");
+
+  function typePlaceholder() {
+    if (!input) return;
+    if (charIndex <= phrases[i].length) {
+      input.setAttribute("placeholder", phrases[i].substring(0, charIndex++));
+    } else {
+      setTimeout(() => {
+        charIndex = 0;
+        i = (i + 1) % phrases.length;
+        typePlaceholder();
+      }, 1500);
+      return;
+    }
+    setTimeout(typePlaceholder, 100);
+  }
+
+  typePlaceholder();
+  
+  // 🔍 Real-time Search Dropdown
+  const searchInput = document.querySelector('.search-input');
+  const resultBox = document.querySelector('.search-results');
+
+  searchInput.addEventListener('input', async () => {
+    const query = searchInput.value.trim();
+    if (!query) {
+      resultBox.style.display = 'none';
+      return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:5000/search-services?q=${encodeURIComponent(query)}`);
+      const data = await res.json();
+
+      if (Array.isArray(data) && data.length > 0) {
+        resultBox.innerHTML = '';
+        data.forEach(service => {
+          const div = document.createElement('div');
+          div.innerHTML = `
+            <strong>${service.service_name}</strong><br>
+            <small>${service.category} - ${service.provider?.name || 'Unknown'}</small>
+          `;
+          div.onclick = () => {
+            localStorage.setItem('searchResult', JSON.stringify(service));
+            window.location.href = 'view.html';
+          };
+          resultBox.appendChild(div);
+        });
+        resultBox.style.display = 'block';
+      } else {
+        resultBox.style.display = 'none';
+      }
+    } catch (err) {
+      console.error("Search error:", err);
+      resultBox.style.display = 'none';
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-container')) {
+      resultBox.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>

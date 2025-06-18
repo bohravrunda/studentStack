@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Payment - StudentStack</title>
+  <link rel="stylesheet" href="/static/styles/payment.css" />
+  <style>
+  </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+<nav style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: #24292e; color: white;">
+  <!-- Left: Logo -->
+  <div class="logo" style="display: flex; align-items: center;">
+    <img src="/static/images/logo.jpg" class="logo-img" alt="Logo" style="height: 40px; margin-right: 10px;">
+    <span style="font-size: 1.2rem;">StudentStack</span>
+  </div>
+
+  <!-- Right: Cancel Button -->
+  <div>
+    <a href="/" style="color: white; text-decoration: none; font-size: 1.1rem;">Cancel</a>
+  </div>
+</nav>
+
+  <div class="payment-container">
+    <div class="left-section">
+      <h2>Confirm Your Booking</h2>
+      <div class="payment-details">
+        <p><strong>Service:</strong> <span id="service-name">Loading...</span></p>
+        <p><strong>Price:</strong> ₹<span id="service-price">Loading...</span></p>
+      </div>
+
+      <form class="payment-form">
+        <!-- Name and Email -->
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" placeholder="Enter your name" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required />
+
+        <!-- Country and State -->
+        <label for="country">Country</label>
+        <select id="country" required>
+          <option value="">Select Country</option>
+          <option value="India">India</option>
+          <option value="USA">USA</option>
+          <option value="UK">UK</option>
+        </select>
+
+        <label for="state">State / Union Territory</label>
+        <select id="state" required>
+          <option value="">Select State</option>
+          <option value="Maharashtra">Maharashtra</option>
+          <option value="Karnataka">Karnataka</option>
+          <option value="Delhi">Delhi</option>
+        </select>
+
+        <!-- Payment Method Icons -->
+        <label>Payment Method</label>
+        <div class="payment-options">
+          <label>
+            <input type="radio" name="payment-method" value="credit" checked onchange="togglePayment('credit')" />
+            <img src="/static/images/cards.png" alt="Credit Card" />
+          </label>
+          <label>
+            <input type="radio" name="payment-method" value="upi" onchange="togglePayment('upi')" />
+            <img src="/static/images/gpay.png" alt="GPay" />
+          </label>
+          <label>
+            <input type="radio" name="payment-method" value="bank" onchange="togglePayment('bank')" />
+            <img src="/static/images/bank.png" alt="Bank" />
+          </label>
+          <label>
+            <input type="radio" name="payment-method" value="cash" onchange="togglePayment('cash')" />
+            <img src="/static/images/cash.png" alt="Cash" />
+          </label>
+        </div>
+
+        <!-- Credit Card Fields -->
+        <div id="card-fields">
+          <label for="card">Card Number</label>
+          <input type="text" id="card" placeholder="1234 5678 9012 3456" maxlength="19" />
+
+          <div class="form-row">
+            <div>
+              <label for="expiry">Expiry</label>
+              <input type="text" id="expiry" placeholder="MM/YY" />
+            </div>
+            <div>
+              <label for="cvv">CVV</label>
+              <input type="text" id="cvv" placeholder="123" maxlength="3" />
+            </div>
+          </div>
+        </div>
+
+        <!-- UPI Fields -->
+        <div id="upi-fields">
+          <label for="upi-id">UPI ID</label>
+          <input type="text" id="upi-id" placeholder="example@upi" />
+        </div>
+
+        <!-- Bank Fields -->
+        <div id="bank-fields">
+          <label for="bank-name">Bank Name</label>
+          <input type="text" id="bank-name" placeholder="e.g. SBI, HDFC, ICICI..." />
+        </div>
+
+        <button type="submit" class="pay-btn">Pay Now</button>
+      </form>
+    </div>
+
+    <div class="right-summary">
+      <h3>Summary</h3>
+      <div class="summary-details">
+        <p><strong>Yearly access:</strong> ₹<span id="summary-price">Loading...</span>/year</p>
+        <p><strong>Total:</strong> ₹<span id="summary-total">Loading...</span>/year</p>
+      </div>
+      <p class="cancel-note">Cancel anytime. No refunds for partial billing.</p>
+      <button class="start-subscription">Start subscription</button>
+    </div>
+  </div>
+
+  <script>
+    const serviceId = new URLSearchParams(window.location.search).get('id');
+
+    async function loadService() {
+      try {
+        const res = await fetch(`http://localhost:5000/get-service?id=${serviceId}`);
+        const service = await res.json();
+        const price = service.cost?.price || 'N/A';
+        document.getElementById('service-name').innerText = service.service_name;
+        document.getElementById('service-price').innerText = price;
+        document.getElementById('summary-price').innerText = price;
+        document.getElementById('summary-total').innerText = price;
+      } catch (err) {
+        alert("Service details couldn't be loaded.");
+      }
+    }
+
+    function togglePayment(method) {
+      const cardFields = document.getElementById('card-fields');
+      const upiFields = document.getElementById('upi-fields');
+      const bankFields = document.getElementById('bank-fields');
+
+      cardFields.style.display = 'none';
+      upiFields.style.display = 'none';
+      bankFields.style.display = 'none';
+
+      document.getElementById('card').required = false;
+      document.getElementById('expiry').required = false;
+      document.getElementById('cvv').required = false;
+      document.getElementById('upi-id').required = false;
+      document.getElementById('bank-name').required = false;
+
+      if (method === 'credit') {
+        cardFields.style.display = 'block';
+        document.getElementById('card').required = true;
+        document.getElementById('expiry').required = true;
+        document.getElementById('cvv').required = true;
+      } else if (method === 'upi' || method === 'paytm') {
+        upiFields.style.display = 'block';
+        document.getElementById('upi-id').required = true;
+      } else if (method === 'bank') {
+        bankFields.style.display = 'block';
+        document.getElementById('bank-name').required = true;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadService();
+      togglePayment('credit');
+    });
+
+    document.querySelector('.payment-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      alert("Payment Successful! Your service has been booked.");
+      window.location.href = '/success.html';
+    });
+  </script>
+</body>
+</html>

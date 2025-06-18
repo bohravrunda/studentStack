@@ -6,7 +6,7 @@
   <title>StudentStack</title>
   <link rel="stylesheet" href="/static/styles/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-</head>
+  
 <body>
 
 <!-- Navbar -->
@@ -20,6 +20,7 @@
   <div class="search-container">
     <input type="text" class="search-input" placeholder="Search services..." />
     <button class="search-button"><i class="fas fa-search"></i></button>
+    <div class="search-results"></div>
   </div>
 
   <div class="moving-text">
@@ -29,7 +30,9 @@
   </div>
 
   <div class="nav-buttons">
-    <a href="cart.html" class="cart-icon"><i class="fas fa-shopping-cart"></i></a>
+    <a href="/cart.html" class="cart-icon" title="View Cart">
+      🛒<span id="cart-count">0</span>
+    </a>
     <button id="login-btn">Login</button>
     <button id="signup-btn" class="signup-btn">Sign Up</button>
     <div class="menu-icon" style="color: white; font-size: 30px; cursor: pointer;">&#9776;</div>
@@ -44,7 +47,7 @@
     </li>
     <li><i class="fas fa-user"></i><a href="profile.html">Profile</a></li>
     <li><i class="fas fa-eye"></i><a href="view.html">View Services</a></li>
-    <li><i class="fas fa-plus-circle"></i><a href="createService.html">Create Service</a></li>
+    <li><i class="fas fa-plus-circle"></i><a href="createservice.html">Create Service</a></li>
     <li><i class="fas fa-briefcase"></i><a href="createdservices.html">My Services</a></li>
     <li><i class="fas fa-book"></i><a href="bookedServices.html">My Bookings</a></li>
     <li id="logout-item" style="color: red; font-weight: bold; display: none; cursor: pointer;">
@@ -59,9 +62,9 @@
 <!-- Carousel Section -->
 <div class="carousel">
   <div class="carousel-images">
-<img src="/static/images/e5.png" class="carousel-img" alt="Slide 3" style="height: 660px; width: 100%; object-fit: cover;">
-<img src="/static/images/e13.png" class="carousel-img" alt="Slide 3" style="height: 580px; width: 100%; object-fit: cover;">
-<img src="/static/images/e12.jpg" class="carousel-img" alt="Slide 3" style="height: 550px; width: 100%; object-fit: cover;">
+    <img src="/static/images/e5.png" class="carousel-img" alt="Slide 1" style="height: 660px; width: 100%; object-fit: cover;">
+    <img src="/static/images/e13.png" class="carousel-img" alt="Slide 2" style="height: 580px; width: 100%; object-fit: cover;">
+    <img src="/static/images/e12.jpg" class="carousel-img" alt="Slide 3" style="height: 550px; width: 100%; object-fit: cover;">
   </div>
   <div class="carousel-controls">
     <span class="prev">&#10094;</span>
@@ -125,7 +128,7 @@
 
   document.getElementById('login-btn').onclick = () => window.location.href = 'login.html';
   document.getElementById('signup-btn').onclick = () => window.location.href = 'signup.html';
-  document.getElementById('create-service-btn').onclick = () => window.location.href = 'createService.html';
+document.getElementById('create-service-btn').onclick = () => window.location.href = 'createService.html'; // ✅ Correct
   document.getElementById('view-services-btn').onclick = () => window.location.href = 'view.html';
 
   window.addEventListener('DOMContentLoaded', async () => {
@@ -144,6 +147,8 @@
     } catch (err) {
       console.error("Error checking login status:", err);
     }
+
+    updateCartCount();
   });
 
   document.getElementById('logout-link').addEventListener('click', async () => {
@@ -159,7 +164,7 @@
     }
   });
 
-  // Carousel JS
+  // Carousel
   const slides = document.querySelectorAll('.carousel-img');
   const prev = document.querySelector('.prev');
   const next = document.querySelector('.next');
@@ -188,7 +193,7 @@
 
   showSlide(currentIndex);
 
-  // 🔄 Animated Search Placeholder
+  // Animated Search Placeholder
   const phrases = ["Search services...", "Search skills...", "Search students..."];
   let i = 0;
   let charIndex = 0;
@@ -210,6 +215,67 @@
   }
 
   typePlaceholder();
+
+  // Cart count updater
+  async function updateCartCount() {
+    try {
+      const res = await fetch('http://localhost:5000/cart-count', { credentials: 'include' });
+      if (res.ok) {
+        const data = await res.json();
+        document.getElementById('cart-count').innerText = data.count;
+      } else {
+        document.getElementById('cart-count').innerText = '0';
+      }
+    } catch (err) {
+      console.error('Error fetching cart count:', err);
+      document.getElementById('cart-count').innerText = '0';
+    }
+  }
+
+  // 🔍 Real-time Search Dropdown
+  const searchInput = document.querySelector('.search-input');
+  const resultBox = document.querySelector('.search-results');
+
+  searchInput.addEventListener('input', async () => {
+    const query = searchInput.value.trim();
+    if (!query) {
+      resultBox.style.display = 'none';
+      return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:5000/search-services?q=${encodeURIComponent(query)}`);
+      const data = await res.json();
+
+      if (Array.isArray(data) && data.length > 0) {
+        resultBox.innerHTML = '';
+        data.forEach(service => {
+          const div = document.createElement('div');
+          div.innerHTML = `
+            <strong>${service.service_name}</strong><br>
+            <small>${service.category} - ${service.provider?.name || 'Unknown'}</small>
+          `;
+          div.onclick = () => {
+            localStorage.setItem('searchResult', JSON.stringify(service));
+            window.location.href = 'view.html';
+          };
+          resultBox.appendChild(div);
+        });
+        resultBox.style.display = 'block';
+      } else {
+        resultBox.style.display = 'none';
+      }
+    } catch (err) {
+      console.error("Search error:", err);
+      resultBox.style.display = 'none';
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-container')) {
+      resultBox.style.display = 'none';
+    }
+  });
 </script>
 
 </body>
