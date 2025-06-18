@@ -1,10 +1,13 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+import cloudinary
+from flask import Flask, current_app, render_template, request, session, redirect, url_for
 from extensions import mail, bcrypt, cors, client
 from config import Config
 from flask_session import Session  # <-- ✅ ADD THIS LINE
 
 from routes.auth_routes import auth, google_bp
 from routes.service_routes import services
+from routes.service_routes import cart_bp  # Adjust the import path as needed
+
 from routes.profile_routes import profile
 import os
 
@@ -42,6 +45,8 @@ app.register_blueprint(auth)
 app.register_blueprint(google_bp, url_prefix="/login")
 app.register_blueprint(services)
 app.register_blueprint(profile)
+app.register_blueprint(cart_bp)
+
 
 # Routes allowed without login
 @app.before_request
@@ -91,10 +96,16 @@ def forgot_password():
 @app.route('/verify_otp.html')
 def verify_otp_page():
     return render_template('verify_otp.html')
-
 @app.route('/createService.html')
-def createservice_page():
+def create_service():
     return render_template('createService.html')
+
+
+
+@app.route('/edit_service.html')
+def edit_service_page():
+    return render_template('edit_service.html')
+
 
 @app.route('/createdservices.html')
 def created_service():
@@ -111,11 +122,17 @@ def service_detail():
 @app.route('/payment.html')
 def payment_detail():
     return render_template('payment.html')
-from flask import send_from_directory
 
-@app.route('/uploads/<path:filename>')
-def serve_upload(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+@app.route('/upload-thumbnail', methods=['POST'])
+def upload_thumbnail():
+    file = request.files['thumbnail']  # from your form
+
+    result = cloudinary.uploader.upload(file)
+    return {"url": result['secure_url']}, 200
+
+@app.route('/cart.html')
+def cart_page():
+    return render_template('cart.html')
 
 # Run the app
 if __name__ == '__main__':
