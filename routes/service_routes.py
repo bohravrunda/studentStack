@@ -85,6 +85,8 @@ def cart_count():
 
 services = Blueprint('services', __name__)
 services_collection = client['test'].services
+booked_services = client['test'].services
+
 
 @services.route('/create-service', methods=['POST'])
 def create_service():
@@ -322,3 +324,118 @@ def delete_service(service_id):
         return jsonify({'message': 'Service deleted'}), 200
     else:
         return jsonify({'error': 'Service not found'}), 404  # ✅ Fix this line
+    
+@services.route('/book-service', methods=['POST'])
+def book_service():
+    try:
+        data = request.json
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+
+        user_id = data.get('user_id')
+        if not user_id:
+            return jsonify({'error': 'userId is missing'}), 400
+
+        db = client['test']
+        booked_col = db['booked_services']
+        services_col = db['services']
+        notifications_col = db['notifications']
+        users_col = db['users']  # Assuming you store users in 'users' collection
+
+        # ✅ Get the user who is booking
+        user = users_col.find_one({'_id': ObjectId(user_id)})
+        username = user.get('username', 'Someone') if user else 'Someone'
+
+        # ✅ Book the service
+        booking = {
+            'user_id': user_id,
+            'service_id': data.get('service_id'),
+            'service_name': data.get('service_name'),
+            'price': data.get('price'),
+            'payment_method': data.get('payment_method'),
+            'booking_time': datetime.utcnow()
+        }
+        booked_col.insert_one(booking)
+
+        # ✅ Get service details
+        service = services_col.find_one({'_id': ObjectId(data.get('service_id'))})
+
+        # ✅ Send notification to service creator
+        if service and service.get('user_id'):
+            notification = {
+                'to_user_id': service['user_id'],
+                'message': f"📩 {username} booked your service: '{service['service_name']}'",
+                'service_id': str(service['_id']),
+                'timestamp': datetime.utcnow(),
+                'read': False
+            }
+            notifications_col.insert_one(notification)
+
+        return jsonify({'message': 'Service booked successfully!'}), 200
+
+    except Exception as e:
+        return jsonify({'error': 'Booking failed', 'message': str(e)}), 500
+
+@services.route('/booked-services', methods=['GET'])
+def get_booked_services():
+    try:
+        user_id = request.args.get('userId')
+        if not user_id:
+            return jsonify({'error': 'User ID is required'}), 400
+
+        db = client['test']
+        booked_services = db['booked_services']
+        services = db['services']
+
+        bookings = list(booked_services.find({'user_id': user_id}, {'_id': 0}))
+
+        # Attach thumbnail from services collection
+        for booking in bookings:
+            try:
+                service = services.find_one({'_id': ObjectId(booking['service_id'])})
+                booking['thumbnail'] = service.get('thumbnail') if service else None
+            except:
+                booking['thumbnail'] = None
+
+        return jsonify(bookings), 200
+
+    except Exception as e:
+        print("Error fetching booked services:", str(e))
+        return jsonify({'error': 'Unable to fetch booked services'}), 500
+
+@services.route('/notifications', methods=['GET'])
+def get_notifications():
+    try:
+        user_id = request.args.get('userId')
+        if not user_id:
+            return jsonify({'error': 'User ID required'}), 400
+
+        db = client['test']
+        notifications = db['notifications']
+
+        user_notifications = list(notifications.find({'to_user_id': user_id}).sort('timestamp', -1))
+        for n in user_notifications:
+            n['_id'] = str(n['_id'])  # convert ObjectId to string
+
+        return jsonify(user_notifications), 200
+
+    except Exception as e:
+        return jsonify({'error': 'Failed to fetch notifications', 'message': str(e)}), 500
+
+
+@services.route('/notifications/mark-read', methods=['POST'])
+def mark_notification_as_read():
+    try:
+        data = request.json
+        notification_id = data.get('notification_id')
+
+        db = client['test']
+        db['notifications'].update_one(
+            {'_id': ObjectId(notification_id)},
+            {'$set': {'read': True}}
+        )
+
+        return jsonify({'message': 'Notification marked as read'}), 200
+
+    except Exception as e:
+        return jsonify({'error': 'Unable to mark as read', 'message': str(e)}), 500
