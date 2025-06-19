@@ -7,6 +7,7 @@ from flask_session import Session  # <-- ✅ ADD THIS LINE
 from routes.auth_routes import auth, google_bp
 from routes.service_routes import services
 from routes.service_routes import cart_bp  # Adjust the import path as needed
+import psutil
 
 from routes.profile_routes import profile
 import os
@@ -51,20 +52,21 @@ app.register_blueprint(cart_bp)
 # Routes allowed without login
 @app.before_request
 def require_login():
-    if request.path.startswith('/static') or request.path.startswith('/login/google'):
+    exact_public_paths = [
+        '/', '/index.html', '/login.html', '/signup.html',
+        '/view.html', '/forgot-password', '/verify_otp.html',
+        '/service-detail.html', '/get-all-services', '/search-services',        '/get-service'   # ✅ ADD THIS LINE
+
+    ]
+
+    # These can be used with startswith
+    prefix_allowed_paths = ['/static', '/login/google']
+
+    if request.path in exact_public_paths or any(request.path.startswith(p) for p in prefix_allowed_paths):
         return
 
-    allowed_routes = [
-        'auth.login', 'auth.signup', 'auth.google_callback',
-        'auth.verify_email', 'auth.serve_verification_page',
-        'auth.request_otp', 'auth.reset_password_with_otp','forgot_password','verify_otp_page',
-        'login_page', 'signup_page',  # your HTML routes
-        'google.login',  # <- fixed
-        'home'           # <- now properly separated
-    ]
-    if 'user_id' not in session and request.endpoint not in allowed_routes:
+    if 'user_id' not in session:
         return redirect(url_for('login_page'))
-
 # Static HTML routes
 @app.route('/')
 def home():
@@ -133,6 +135,25 @@ def upload_thumbnail():
 @app.route('/cart.html')
 def cart_page():
     return render_template('cart.html')
+
+@app.route('/bookedServices.html')
+def my_booking_page():
+    return render_template('bookedServices.html')
+
+@app.route('/notification.html')
+def my_notification():
+    return render_template('notification.html')
+
+
+
+
+
+@app.route('/memory')
+def memory_usage():
+    process = psutil.Process(os.getpid())
+    mem_in_mb = process.memory_info().rss / 1024 / 1024  # RSS = Resident Set Size
+    return f"Memory used: {mem_in_mb:.2f} MB"
+
 
 # Run the app
 if __name__ == '__main__':
