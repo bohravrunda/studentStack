@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Booked Services - StudentStack</title>
+  <link rel="stylesheet" href="/static/styles/view.css">
+  <link rel="stylesheet" href="/static/styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <img src="/static/images/logo.jpg" class="logo-img" alt="Logo">
+    <span>StudentStack</span>
+  </div>
+
+  <div class="search-container">
+    <input type="text" class="search-input" placeholder="Search booked services...">
+  </div>
+
+  <div class="moving-text">
+    <marquee behavior="scroll" direction="left" scrollamount="4">
+      Exchange Skills, Expand Possibilities. Trade Knowledge, not just tools.
+    </marquee>
+  </div>
+
+  <div class="nav-buttons">
+    <a href="/cart.html" class="cart-icon" title="View Cart">
+      🛒 <span id="cart-count">0</span>
+    </a>
+    <div class="menu-icon" style="color: white; font-size: 30px; cursor: pointer;">☰</div>
+  </div>
+</nav>
+
+<div id="right-drawer" class="drawer">
+  <ul>
+    <li><i class="fas fa-user"></i><a href="profile.html">Profile</a></li>
+    <li><i class="fas fa-eye"></i><a href="view.html">View Services</a></li>
+    <li><i class="fas fa-plus-circle"></i><a href="createService.html">Create Service</a></li>
+    <li><i class="fas fa-briefcase"></i><a href="createdservices.html">My Services</a></li>
+    <li><i class="fas fa-book"></i><a href="bookedServices.html">My Bookings</a></li>
+  </ul>
+</div>
+
+<div id="overlay" class="overlay"></div>
+
+<section class="hero-section">
+  <h1>💼 Your Booked Services</h1>
+  <p>See all the services you have successfully booked.</p>
+</section>
+
+<section>
+  <h2 class="section-heading">🚀 Services You Have Booked</h2>
+  <div id="booked-services-list" class="services-grid"></div>
+</section>
+
+<script>
+  window.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch("http://localhost:5000/me", { credentials: "include" });
+      if (res.ok) {
+        const user = await res.json();
+        localStorage.setItem('username', user.username);
+        localStorage.setItem('userId', user.userId);
+        await fetchBookedServices(user.userId);
+      } else {
+        throw new Error("User not authenticated");
+      }
+    } catch (err) {
+      console.error("User not logged in:", err);
+      window.location.href = "login.html";
+    }
+
+    await updateCartCount();
+  });
+
+  async function fetchBookedServices(userId) {
+    if (!userId) return;
+
+    try {
+      const response = await fetch(`http://localhost:5000/booked-services?userId=${userId}`, {
+        credentials: "include"
+      });
+      const data = await response.json();
+      renderBookedServices(data);
+    } catch (err) {
+      console.error("Failed to load booked services:", err);
+      document.getElementById('booked-services-list').innerHTML =
+        '<p style="color:red;">Failed to load bookings.</p>';
+    }
+  }
+
+  function renderBookedServices(services) {
+    const container = document.getElementById('booked-services-list');
+    container.innerHTML = '';
+
+    if (!services.length) {
+      container.innerHTML =
+        '<p style="text-align:center; color:#777;">You have not booked any services yet.</p>';
+      return;
+    }
+
+    services.forEach(service => {
+      const card = document.createElement('div');
+      card.className = 'service-card';
+      card.innerHTML = `
+        <img src="${service.thumbnail || '/static/images/default-thumbnail.jpg'}" class="service-thumbnail" />
+        <h3>${service.service_name}</h3>
+        <p><strong>Price:</strong> ₹${service.price || 'N/A'}</p>
+        <p><strong>Payment Method:</strong> ${service.payment_method || 'N/A'}</p>
+        <p><strong>Booked On:</strong> ${formatDate(service.booking_time)}</p>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function formatDate(isoString) {
+    if (!isoString) return 'N/A';
+    const date = new Date(isoString);
+    return date.toLocaleString();
+  }
+
+  async function updateCartCount() {
+    try {
+      const res = await fetch('http://localhost:5000/cart-count', { credentials: 'include' });
+      if (res.ok) {
+        const data = await res.json();
+        document.getElementById('cart-count').innerText = data.count ?? '0';
+      } else {
+        document.getElementById('cart-count').innerText = '0';
+      }
+    } catch (err) {
+      console.error('Error updating cart count:', err);
+      document.getElementById('cart-count').innerText = '0';
+    }
+  }
+</script>
+</body>
+</html>

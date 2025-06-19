@@ -6,8 +6,9 @@
   <title>StudentStack</title>
   <link rel="stylesheet" href="/static/styles/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
+</head>
 <body>
+<audio id="notif-sound" src="/static/sounds/ringtone.mp3" preload="auto"></audio>
 
 <!-- Navbar -->
 <nav>
@@ -16,7 +17,6 @@
     <span>StudentStack</span>
   </div>
 
-  <!-- 🔍 Search Bar -->
   <div class="search-container">
     <input type="text" class="search-input" placeholder="Search services..." />
     <button class="search-button"><i class="fas fa-search"></i></button>
@@ -25,14 +25,12 @@
 
   <div class="moving-text">
     <marquee behavior="scroll" direction="left" scrollamount="4">
-      Exchange Skills, Expand Possibilities. Trade Knowledge ,not just tools.
+      Exchange Skills, Expand Possibilities. Trade Knowledge, not just tools.
     </marquee>
   </div>
 
   <div class="nav-buttons">
-    <a href="/cart.html" class="cart-icon" title="View Cart">
-      🛒<span id="cart-count">0</span>
-    </a>
+    <a href="/cart.html" class="cart-icon" title="View Cart">🛒<span id="cart-count">0</span></a>
     <button id="login-btn">Login</button>
     <button id="signup-btn" class="signup-btn">Sign Up</button>
     <div class="menu-icon" style="color: white; font-size: 30px; cursor: pointer;">&#9776;</div>
@@ -50,6 +48,18 @@
     <li><i class="fas fa-plus-circle"></i><a href="createservice.html">Create Service</a></li>
     <li><i class="fas fa-briefcase"></i><a href="createdservices.html">My Services</a></li>
     <li><i class="fas fa-book"></i><a href="bookedServices.html">My Bookings</a></li>
+    <li>
+      <a href="notification.html" style="display: flex; align-items: center; gap: 10px;">
+        <div class="notif-icon" style="position: relative;">
+          <i class="fas fa-bell"></i>
+          <span id="notif-count" class="badge" style="
+            position: absolute; top: -5px; right: -10px;
+            background-color: red; color: white; font-size: 10px;
+            padding: 2px 5px; border-radius: 10px;">0</span>
+        </div>
+        <span>Notifications</span>
+      </a>
+    </li>
     <li id="logout-item" style="color: red; font-weight: bold; display: none; cursor: pointer;">
       <i class="fas fa-sign-out-alt"></i><span id="logout-link">Logout</span>
     </li>
@@ -59,12 +69,12 @@
 <!-- Overlay -->
 <div id="overlay" class="overlay"></div>
 
-<!-- Carousel Section -->
+<!-- Carousel -->
 <div class="carousel">
   <div class="carousel-images">
-    <img src="/static/images/e5.png" class="carousel-img" alt="Slide 1" style="height: 660px; width: 100%; object-fit: cover;">
-    <img src="/static/images/e13.png" class="carousel-img" alt="Slide 2" style="height: 580px; width: 100%; object-fit: cover;">
-    <img src="/static/images/e12.jpg" class="carousel-img" alt="Slide 3" style="height: 550px; width: 100%; object-fit: cover;">
+    <img src="/static/images/e5.png" class="carousel-img" style="height: 660px; width: 100%; object-fit: cover;">
+    <img src="/static/images/e13.png" class="carousel-img" style="height: 580px; width: 100%; object-fit: cover;">
+    <img src="/static/images/e12.jpg" class="carousel-img" style="height: 550px; width: 100%; object-fit: cover;">
   </div>
   <div class="carousel-controls">
     <span class="prev">&#10094;</span>
@@ -91,8 +101,7 @@
   <div class="about-container">
     <h2>About StudentStack</h2>
     <p>
-      StudentStack is your one-stop platform to share skills, discover services, and connect with a vibrant student community. 
-      Whether you want to showcase your talent or explore new opportunities — we’ve got you covered.
+      StudentStack is your one-stop platform to share skills, discover services, and connect with a vibrant student community.
     </p>
     <div class="social-links">
       <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -102,13 +111,14 @@
   </div>
 </section>
 
-<!-- JavaScript -->
+<!-- 🔊 Notification Sound -->
+
 <script>
   const menuIcon = document.querySelector('.menu-icon');
   const drawer = document.getElementById('right-drawer');
   const overlay = document.getElementById('overlay');
 
-  menuIcon.addEventListener('click', (e) => {
+  menuIcon.addEventListener('click', e => {
     drawer.classList.add('open');
     overlay.classList.add('show');
     e.stopPropagation();
@@ -128,8 +138,14 @@
 
   document.getElementById('login-btn').onclick = () => window.location.href = 'login.html';
   document.getElementById('signup-btn').onclick = () => window.location.href = 'signup.html';
-document.getElementById('create-service-btn').onclick = () => window.location.href = 'createService.html'; // ✅ Correct
+  document.getElementById('create-service-btn').onclick = () => window.location.href = 'createService.html';
   document.getElementById('view-services-btn').onclick = () => window.location.href = 'view.html';
+
+  document.getElementById('logout-link').onclick = async () => {
+    await fetch('http://localhost:5000/logout', { method: 'POST', credentials: 'include' });
+    localStorage.clear();
+    window.location.href = 'login.html';
+  };
 
   window.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -139,122 +155,59 @@ document.getElementById('create-service-btn').onclick = () => window.location.hr
         const username = user.username || "User";
         localStorage.setItem('username', username);
         localStorage.setItem('userId', user.userId);
-        const initials = username.trim().split(" ").map(word => word[0].toUpperCase()).join("");
+        const initials = username.trim().split(" ").map(word => word[0]).join("").toUpperCase();
         document.getElementById('user-avatar').textContent = initials;
         document.getElementById('avatar-item').style.display = 'block';
         document.getElementById('logout-item').style.display = 'block';
       }
     } catch (err) {
-      console.error("Error checking login status:", err);
+      console.error("Login check error:", err);
     }
 
     updateCartCount();
   });
 
-  document.getElementById('logout-link').addEventListener('click', async () => {
-    try {
-      await fetch('http://localhost:5000/logout', {
-        method: 'POST',
-        credentials: 'include'
-      });
-      localStorage.clear();
-      window.location.href = 'login.html';
-    } catch (err) {
-      console.error('Logout failed:', err);
-    }
-  });
-
-  // Carousel
+  // 🔄 Carousel
   const slides = document.querySelectorAll('.carousel-img');
   const prev = document.querySelector('.prev');
   const next = document.querySelector('.next');
   let currentIndex = 0;
 
   function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.toggle('active', i === index);
-    });
+    slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
   }
 
-  prev.addEventListener('click', () => {
-    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-    showSlide(currentIndex);
-  });
-
-  next.addEventListener('click', () => {
-    currentIndex = (currentIndex + 1) % slides.length;
-    showSlide(currentIndex);
-  });
-
-  setInterval(() => {
-    currentIndex = (currentIndex + 1) % slides.length;
-    showSlide(currentIndex);
-  }, 5000);
-
+  prev.onclick = () => showSlide((currentIndex = (currentIndex - 1 + slides.length) % slides.length));
+  next.onclick = () => showSlide((currentIndex = (currentIndex + 1) % slides.length));
+  setInterval(() => showSlide((currentIndex = (currentIndex + 1) % slides.length)), 5000);
   showSlide(currentIndex);
 
-  // Animated Search Placeholder
-  const phrases = ["Search services...", "Search skills...", "Search students..."];
-  let i = 0;
-  let charIndex = 0;
-  const input = document.querySelector(".search-input");
-
-  function typePlaceholder() {
-    if (!input) return;
-    if (charIndex <= phrases[i].length) {
-      input.setAttribute("placeholder", phrases[i].substring(0, charIndex++));
-    } else {
-      setTimeout(() => {
-        charIndex = 0;
-        i = (i + 1) % phrases.length;
-        typePlaceholder();
-      }, 1500);
-      return;
-    }
-    setTimeout(typePlaceholder, 100);
-  }
-
-  typePlaceholder();
-
-  // Cart count updater
+  // 🛒 Cart Count
   async function updateCartCount() {
     try {
       const res = await fetch('http://localhost:5000/cart-count', { credentials: 'include' });
-      if (res.ok) {
-        const data = await res.json();
-        document.getElementById('cart-count').innerText = data.count;
-      } else {
-        document.getElementById('cart-count').innerText = '0';
-      }
-    } catch (err) {
-      console.error('Error fetching cart count:', err);
+      const data = await res.ok ? await res.json() : { count: 0 };
+      document.getElementById('cart-count').innerText = data.count;
+    } catch {
       document.getElementById('cart-count').innerText = '0';
     }
   }
 
-  // 🔍 Real-time Search Dropdown
+  // 🔍 Search
   const searchInput = document.querySelector('.search-input');
   const resultBox = document.querySelector('.search-results');
-
   searchInput.addEventListener('input', async () => {
     const query = searchInput.value.trim();
-    if (!query) {
-      resultBox.style.display = 'none';
-      return;
-    }
+    if (!query) return (resultBox.style.display = 'none');
 
     try {
       const res = await fetch(`http://localhost:5000/search-services?q=${encodeURIComponent(query)}`);
       const data = await res.json();
-
-      if (Array.isArray(data) && data.length > 0) {
+      if (Array.isArray(data) && data.length) {
         resultBox.innerHTML = '';
         data.forEach(service => {
           const div = document.createElement('div');
-          div.innerHTML = `
-            <strong>${service.service_name}</strong><br>
-            <small>${service.category} - ${service.provider?.name || 'Unknown'}</small>
-          `;
+          div.innerHTML = `<strong>${service.service_name}</strong><br><small>${service.category} - ${service.provider?.name || 'Unknown'}</small>`;
           div.onclick = () => {
             localStorage.setItem('searchResult', JSON.stringify(service));
             window.location.href = 'view.html';
@@ -265,17 +218,56 @@ document.getElementById('create-service-btn').onclick = () => window.location.hr
       } else {
         resultBox.style.display = 'none';
       }
-    } catch (err) {
-      console.error("Search error:", err);
+    } catch {
       resultBox.style.display = 'none';
     }
   });
 
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.search-container')) {
-      resultBox.style.display = 'none';
-    }
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.search-container')) resultBox.style.display = 'none';
   });
+
+  // 🔔 Notification Sound on New Notification
+  let previousUnreadCount = 0;
+
+  const playNotificationSound = () => {
+    const audio = document.getElementById("notif-sound");
+    if (audio) {
+      audio.play().catch(err => console.warn("Autoplay blocked:", err));
+    }
+  };
+
+  const fetchNotificationsPeriodically = async () => {
+    const userId = localStorage.getItem('userId');
+    if (!userId) return;
+    try {
+      const res = await fetch(`http://localhost:5000/notifications?userId=${userId}`);
+      const notifications = await res.json();
+      const unreadCount = notifications.filter(n => !n.read).length;
+
+      document.getElementById('notif-count').innerText = unreadCount;
+
+      if (unreadCount > previousUnreadCount) playNotificationSound();
+      previousUnreadCount = unreadCount;
+    } catch (err) {
+      console.error("Notification fetch error:", err);
+    }
+  };
+
+  // 🔁 Poll every 10s
+  setInterval(fetchNotificationsPeriodically, 10000);
+  fetchNotificationsPeriodically();
+
+  // 🔓 Allow sound playback after first user click
+  document.body.addEventListener('click', () => {
+    const audio = document.getElementById('notif-sound');
+    if (audio) {
+      audio.play().then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+      });
+    }
+  }, { once: true });
 </script>
 
 </body>

@@ -137,8 +137,7 @@ function renderServices(services) {
       <a href="service-detail.html?id=${service._id}" style="text-decoration: none; color: inherit;">
         <img src="${service.thumbnail || '/static/images/default-thumbnail.jpg'}"
              alt="${service.service_name}"
-             class="service-thumbnail"
-             style="width: 100%; height: 160px; object-fit: cover; border-radius: 10px;"/>
+             class="service-thumbnail" />
         <h3>${service.service_name}</h3>
         <p>${service.additional_note || 'No description available'}</p>
         <p><span class="price">₹${service.cost?.price || 'N/A'}</span>
@@ -150,7 +149,6 @@ function renderServices(services) {
     servicesContainer.appendChild(serviceCard);
   });
 }
-
 servicesContainer.addEventListener('click', async (e) => {
   if (e.target.classList.contains('add-to-cart-btn')) {
     const serviceId = e.target.getAttribute('data-id');
