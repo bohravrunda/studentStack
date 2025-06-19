@@ -3,15 +3,21 @@ body {
     font-family: Arial, sans-serif;
     background: #f2f2f2;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
-    overflow: hidden;
+    justify-content: flex-start;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
+.page-wrapper {
+    width: 100%;
+}
+
+/* Logo and branding */
 .logo-container {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .logo-img {
@@ -29,11 +35,14 @@ body {
     font-family: cursive;
 }
 
+/* Login container */
 .login-container {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
+    margin-top: 40px;
+    margin-bottom: 50px;
 }
 
 .login-box {
@@ -51,6 +60,7 @@ h1 {
     color: #05407a;
 }
 
+/* Input fields */
 .input-group {
     margin-bottom: 20px;
     display: flex;
@@ -69,41 +79,59 @@ h1 {
     font-size: 1rem;
 }
 
-.btn-common {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    font-weight: normal;
-    border: 1px solid #1e0202;
-    border-radius: 8px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background-color: #84AE92;
-    color: white;
-    transition: background-color 0.3s ease;
-    box-sizing: border-box;
-    
+/* Password input and eye icon */
+.password-container {
+    position: relative;
 }
 
-.btn-common:hover {
+.password-container input {
+    width: 100%;
+    max-width: 350px;
+    padding: 10px;
+    padding-right: 35px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.password-container i {
+    position: absolute;
+    top: 65%;
+    right: 20px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #05407a;
+    font-size: 0.9rem;
+}
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear,
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-contacts-auto-fill-button {
+    display: none !important;
+}
+
+/* Login button */
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #84AE92;
+    border: 1px solid #1e0202;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
     background-color: #5A827E;
 }
 
-.btn-common img {
-    height: 20px;
-    width: 20px;
-    object-fit: cover;
-    border-radius: 50%;
-    background-color: white;
-}
-
+/* Signup link */
 .signup-redirect {
     text-align: center;
     margin-top: 15px;
-    margin-bottom: 15px;
     font-size: 14px;
     color: #05407a;
 }
@@ -117,35 +145,30 @@ h1 {
     text-decoration: underline;
 }
 
-.google-button-container {
-    text-align: center;
-    margin-top: 0px;
-}
-
-.password-container {
-    position: relative;
-}
-
-.password-container input {
-    width: 100%;
-    max-width: 350px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-    padding-right: 35px;
-}
-
-.password-container i {
-    position: absolute;
-    top: 65%;
-    right: 20px;
-    transform: translateY(-50%);
+/* Google Sign In Button */
+#google-signup-btn {
+    background-color: #84AE92;
+    color: white;
+    border: 1px solid #1e0202;
+    padding: 10px 20px;
+    border-radius: 4px;
     cursor: pointer;
-    color: #05407a;
-    font-size: 0.9rem;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    width: 100%;
 }
 
+#google-signup-btn img {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: white;
+}
 .forgot-password {
     text-align: right;
     margin: 5px 0 15px;
@@ -189,7 +212,6 @@ h1 {
 #snackbar.error {
     background-color: #f44336;
 }
-
 @keyframes fadein {
     from { bottom: 0; opacity: 0; }
     to { bottom: 30px; opacity: 1; }
@@ -200,14 +222,40 @@ h1 {
     to { bottom: 0; opacity: 0; }
 }
 
-input[type="password"]::-ms-reveal,
-input[type="password"]::-ms-clear {
-    display: none;
+/* About Section */
+.about-section {
+    background-color: #24292e;
+    color: #fff;
+    padding: 60px 20px;
+    text-align: center;
 }
 
-input[type="password"]::-webkit-credentials-auto-fill-button,
-input[type="password"]::-webkit-contacts-auto-fill-button {
-    display: none !important;
+.about-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.about-section h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.about-section p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.social-links a {
+    display: inline-block;
+    margin: 0 10px;
+    font-size: 1.8em;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #1da1f2;
 }
 
 /* Responsive */
@@ -217,13 +265,9 @@ input[type="password"]::-webkit-contacts-auto-fill-button {
         max-width: 90%;
     }
 
-    .input-group input {
+    .input-group input,
+    .login-btn {
         font-size: 0.9rem;
-    }
-
-    .btn-common {
-        font-size: 0.9rem;
-        padding: 10px;
     }
 }
 
@@ -233,11 +277,8 @@ input[type="password"]::-webkit-contacts-auto-fill-button {
         max-width: 90%;
     }
 
-    .input-group input {
-        font-size: 0.8rem;
-    }
-
-    .btn-common {
+    .input-group input,
+    .login-btn {
         font-size: 0.8rem;
         padding: 8px;
     }
@@ -248,5 +289,9 @@ input[type="password"]::-webkit-contacts-auto-fill-button {
 
     .signup-redirect {
         font-size: 12px;
+    }
+
+    .about-section {
+        padding: 40px 10px;
     }
 }

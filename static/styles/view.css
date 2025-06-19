@@ -310,3 +310,18 @@
   bottom: 50px;
   opacity: 1;
 }
+.service-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain; /* or 'cover' if you want to fill without distortion */
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.service-thumbnail {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;  /* 🧠 'contain' ensures no distortion */
+  border-radius: 10px;
+  background-color: #fff; /* Optional: adds white padding for non-square images */
+  padding: 6px;           /* Optional: for more consistent sizing */
+}
